@@ -1,40 +1,39 @@
 # 共时海小程序 · 前端工程
 
-本目录是「共时海」微信小程序的**前端工程与文档**。后端已在 `../backend` 就绪（Koa + SQLite + JWT，接口清单见 `../backend/搭建步骤.md`）。
+「共时海」微信小程序的**前端工程**。后端见 `../backend`（Koa + SQLite + JWT）。
 
 ## 目录结构
 
 ```
 frontend/
 ├── README.md                 ← 本文件
-├── 前端搭建步骤.md            ← 从 0 到上线的完整搭建流程（先看这个）
-├── 页面-接口映射.md           ← 33 个页面 ↔ 后端接口 ↔ 返回字段（开发必读）
-├── 设计交付规范.md            ← 前端需要设计侧交付哪些物料（组件/token/原型/素材）
-└── miniprogram/              ← 可直接用「微信开发者工具」打开的真实脚手架骨架
+└── miniprogram/              ← 用「微信开发者工具」打开的小程序工程
     ├── project.config.json   微信项目配置
-    ├── app.json              全局配置（4 Tab + 窗口 + 页面注册）
-    ├── app.js                启动逻辑（登录、全局数据）
-    ├── app.wxss              设计 token（色彩/圆角/字号，由 common.css 转换）
-    ├── sitemap.json
-    ├── utils/
-    │   ├── request.js        统一请求封装（对接后端 {code,data,message}）
-    │   └── api.js            所有接口路径集中管理
-    └── pages/greet/          示例页：把 P01 原型转成真实小程序页的范式
+    ├── app.json              全局配置（4 Tab + 窗口 + 页面注册 + 分包）
+    ├── app.js / app.wxss     启动逻辑 + 设计 token
+    ├── config.js             环境配置（dev = 本地联调地址）
+    ├── utils/                request / api / auth / util
+    ├── components/           tide-ring / content-card / player-bar / bottom-sheet
+    ├── custom-tab-bar/       自定义底部 Tab（潮汐波浪动画）
+    ├── pages/                主包 9 页
+    ├── subpackages/          shore / island / phase3 分包（24 页）
+    └── assets/               图标资源
 ```
 
 ## 怎么开始
 
 1. 装「微信开发者工具」（稳定版，选「小程序」）
-2. 开发者工具里「导入项目」→ 目录选 `frontend/miniprogram`
-3. AppID 先用「测试号」即可；正式发布时换成你们的小程序 AppID
-4. 后端先跑起来：`cd ../backend && npm install && npm run seed && npm start`（默认 `http://localhost:3000`）
-5. 开发者工具勾选「不校验合法域名」，即可本地联调
-6. 按 `前端搭建步骤.md` 的「页面开发工作流」把 33 页原型逐页转成小程序页
+2. 「导入项目」→ 目录选 `frontend/miniprogram`
+3. AppID 用已注册的小程序 AppID；**未认证也能本地开发**
+4. 后端先跑起来：`cd ../backend && npm install && npm run init-db && npm start`（默认 `http://localhost:3300`）
+5. 开发者工具「详情 → 本地设置」勾选 **「不校验合法域名、TLS、HTTPS 证书」** —— 免认证联调的关键
+6. 编译运行，小程序请求 `localhost:3300`
 
 ## 关键认知
 
-> 仓库里的 `../prototypes/html/p01~p33` 是**带手机外壳的可视化预览**，不是小程序源码。
+> `../prototypes/html/p01~p33` 是**带手机外壳的可视化预览**，不是小程序源码。
 > 真实小程序不需要那个黑色手机框和状态栏——它们由微信系统提供。
-> 转换时**只取原型里 `.p-xxx` 容器内的内容**，并把顶栏交给 `app.json` 的 `navigationBar`、底部 4 Tab 交给 `tabBar`。
+> 转换时**只取原型里 `.p-xxx` 容器内的内容**，顶栏交给 `navigationBar`、底部 4 Tab 交给 `tabBar`。
+> `config.js` 的 dev baseUrl 已写死 `localhost:3300`，与后端端口对齐。
 
-详见 `前端搭建步骤.md`。
+> 页面-接口映射、设计交付规范、完整搭建流程：见知识库 `GSH/04-开发参考/` 与 `GSH/03-搭建指南/前端搭建步骤.md`。
