@@ -1,4 +1,4 @@
-<!-- P01 启动问候页 · 由 ../页面原型/html/p01-greet.html 转换 -->
+<!-- P01 启动问候页 · 由 ../prototypes/html/p01-greet.html 转换 -->
 <view class="greet">
   <view class="brand">共时海</view>
   <view class="slogan">潮起潮落 · 你都在</view>

@@ -5,7 +5,7 @@
 ## 快速开始
 
 ```bash
-cd 后端
+cd backend
 npm install
 cp .env.example .env      # 本地可直接留空，进入开发模式
 npm run seed              # 建表 + 写入种子数据（危机热线/节气/疗愈师/内容/活动...）
@@ -28,7 +28,7 @@ curl -X POST http://localhost:3000/api/auth/login -H "Content-Type: application/
 ## 目录
 
 ```
-后端/
+backend/
 ├── src/app.js          入口
 ├── src/db/             schema.sql（建表）+ seed.js（种子）
 ├── src/routes/         各业务模块路由
