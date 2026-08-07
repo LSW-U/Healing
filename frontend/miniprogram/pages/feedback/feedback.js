@@ -11,7 +11,8 @@ Page({
   },
 
   onLoad (options) {
-    const s = parseInt(options.s || '0')
+    const s = parseInt(options.s || '0') || 0  // 防止 NaN 显示 "NaN 分 NaN 秒"
+    this._cid = options.cid || ''  // 练习内容 id（breathing 传入；缺省兜底 1）
     this.setData({ duration: Math.floor(s / 60) + ' 分 ' + (s % 60) + ' 秒' })
   },
 
@@ -26,21 +27,22 @@ Page({
   onInputFocus () {},
 
   onAgain () {
-    wx.redirectTo({ url: '/pages/breathing/breathing' })
+    // 返回 breathing（breathing 用 navigateTo 进来），不再 redirectTo 清栈
+    wx.navigateBack()
   },
 
   onDone () {
     const { moodIndex, moods, note } = this.data
-    // 提交打卡
+    const cid = parseInt(this._cid) || 1
     request(api.checkins, {
       method: 'POST',
-      data: { content_id: 1, mood: moods[moodIndex], note }
+      data: { content_id: cid, mood: moods[moodIndex], note }
     }).then(() => {
       wx.showToast({ title: '已记下', icon: 'none' })
       setTimeout(() => { wx.switchTab({ url: '/pages/discover/discover' }) }, 800)
-    }).catch(() => {
-      wx.showToast({ title: '已记下（离线）', icon: 'none' })
-      setTimeout(() => { wx.switchTab({ url: '/pages/discover/discover' }) }, 800)
+    }).catch((err) => {
+      // 失败停留 + 提示，不再假装成功跳走
+      wx.showToast({ title: (err && err.message) || '提交失败，请重试', icon: 'none' })
     })
   }
 })

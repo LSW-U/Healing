@@ -12,8 +12,45 @@ Page({
   },
 
   onLoad (options) {
-    const id = options.id || 1
+    const id = options.id
+    if (!id) {
+      wx.showToast({ title: '内容不存在', icon: 'none' })
+      setTimeout(() => wx.navigateBack(), 600)
+      return
+    }
+    this._contentId = id
+    this._bg = wx.getBackgroundAudioManager()
+    this._bindAudio()
     this.loadAudio(id)
+  },
+
+  // 监听一次性注册（避免累积），状态同步走 onPlay/onPause 回调而非本地推算
+  _bindAudio () {
+    const bg = this._bg
+    const app = getApp()
+    const sync = (playing) => {
+      this.setData({ playing })
+      app.globalData.player.playing = playing
+      app.notifyPlayer()
+    }
+    this._onPlay = () => sync(true)
+    this._onPause = () => sync(false)
+    this._onEnded = () => { this.setData({ progress: 100 }); sync(false) }
+    this._lastUpdate = 0
+    this._onTimeUpdate = () => {
+      const now = Date.now()
+      if (now - this._lastUpdate < 1000) return  // 节流到 1s，避免 setData 风暴
+      this._lastUpdate = now
+      const pct = bg.duration > 0 ? (bg.currentTime / bg.duration * 100) : 0
+      this.setData({
+        progress: pct,
+        currentText: formatTime(Math.floor(bg.currentTime))
+      })
+    }
+    bg.onPlay(this._onPlay)
+    bg.onPause(this._onPause)
+    bg.onEnded(this._onEnded)
+    bg.onTimeUpdate(this._onTimeUpdate)
   },
 
   loadAudio (id) {
@@ -28,34 +65,26 @@ Page({
       })
       if (data.audio_url) this.playAudio(data.audio_url, data.title)
     }).catch(() => {
-      this.setData({
-        durationText: '08:00',
-        duration: 480
-      })
+      this.setData({ durationText: '08:00', duration: 480 })
     })
   },
 
   playAudio (url, title) {
-    const bg = wx.getBackgroundAudioManager()
-    bg.title = title || '共时海'
+    const bg = this._bg
+    const t = title || '共时海'
+    // title 必须先于 src 赋值，否则 iOS 报 "title is required" 并停止播放
+    bg.title = t
     bg.src = url
-    bg.onTimeUpdate(() => {
-      const pct = bg.duration > 0 ? (bg.currentTime / bg.duration * 100) : 0
-      this.setData({
-        progress: pct,
-        currentText: formatTime(Math.floor(bg.currentTime)),
-        playing: !bg.paused
-      })
-    })
-    bg.onEnded(() => {
-      this.setData({ progress: 100, playing: false })
-    })
+    // 同步全局播放浮窗
+    const app = getApp()
+    app.globalData.player = { show: true, title: t, playing: true, contentId: this._contentId }
+    app.notifyPlayer()
   },
 
   onToggle () {
-    const bg = wx.getBackgroundAudioManager()
-    if (this.data.playing) { bg.pause() } else { bg.play() }
-    this.setData({ playing: !this.data.playing })
+    const bg = this._bg
+    // 不本地推算，等 onPlay/onPause 回调同步，避免竞态
+    if (bg.paused) bg.play(); else bg.pause()
   },
 
   onBack () { wx.navigateBack() },
@@ -72,7 +101,21 @@ Page({
   onProgressEnd () {},
 
   onShareAppMessage () {
-    return { title: '共时海 · ' + (this.data.content.title || '') }
+    return {
+      title: '共时海 · ' + (this.data.content.title || ''),
+      path: '/pages/player/player?id=' + this._contentId
+    }
+  },
+
+  onUnload () {
+    // off 监听避免累积；不 stop()——保留后台播放（锁屏续播）
+    const bg = this._bg
+    if (bg) {
+      bg.offPlay && bg.offPlay(this._onPlay)
+      bg.offPause && bg.offPause(this._onPause)
+      bg.offEnded && bg.offEnded(this._onEnded)
+      bg.offTimeUpdate && bg.offTimeUpdate(this._onTimeUpdate)
+    }
   }
 })
 

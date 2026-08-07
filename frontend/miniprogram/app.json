@@ -1,4 +1,7 @@
 {
+  "usingComponents": {
+    "player-bar": "components/player-bar/player-bar"
+  },
   "pages": [
     "pages/greet/greet",
     "pages/discover/discover",

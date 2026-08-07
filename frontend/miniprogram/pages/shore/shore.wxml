@@ -40,3 +40,5 @@
     <view class="sh-r">›</view>
   </view>
 </view>
+
+<player-bar />

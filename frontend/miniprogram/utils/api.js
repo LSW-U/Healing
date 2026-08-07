@@ -30,6 +30,8 @@ const api = {
   // 用户
   userStats: '/api/users/stats',
   userProfile: '/api/users/profile',
+  userExport: '/api/users/export-data',   // 隐私：导出我的数据
+  userDelete: '/api/users/account',       // 隐私：注销/删除账户
 
   // 共修圈
   circles: '/api/circles',
@@ -40,8 +42,12 @@ const api = {
 
   // 收藏 / 消息 / 提醒
   favorites: '/api/favorites',
+  favoriteDelete: (id) => `/api/favorites/${id}`,
   messages: '/api/messages',
+  messagesUnread: '/api/messages/unread-count',
+  messageRead: (id) => `/api/messages/${id}/read`,
   reminders: '/api/reminders',
+  reminderItem: (id) => `/api/reminders/${id}`,
 
   // 其他（misc 路由）
   crisis: '/api/crisis',
