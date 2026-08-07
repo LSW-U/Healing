@@ -2,7 +2,7 @@
   <view class="hl-cats">
     <view class="hl-cat {{catIdx === idx ? 'active' : ''}}" wx:for="{{cats}}" wx:key="*this" wx:for-index="idx" data-idx="{{idx}}" bindtap="onCat">{{item}}</view>
   </view>
-  <view class="hl-card" wx:for="{{healers}}" wx:key="id" bindtap="onHealer" data-id="{{item.id}}">
+  <view class="hl-card" wx:for="{{filtered}}" wx:key="id" bindtap="onHealer" data-id="{{item.id}}">
     <view class="hl-avatar" style="background:{{item.bg}}"></view>
     <view class="hl-info">
       <view class="hl-name">{{item.name}}</view>

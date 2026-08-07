@@ -5,5 +5,10 @@
     <view class="cg-practice">{{practice}}</view>
     <view class="cg-brand">共 时 海</view>
   </view>
+
+  <!-- 用于绘制 + 导出分享图的 canvas（定位到屏幕外，节点存在即可绘制） -->
+  <canvas type="2d" id="cardCanvas" style="position:fixed;left:-9999px;top:0;width:300px;height:450px"></canvas>
+
   <button class="cg-btn" bindtap="onShare">分 享 给 朋 友</button>
+  <button class="cg-btn cg-btn-ghost" bindtap="onSave">保 存 图 片</button>
 </view>
