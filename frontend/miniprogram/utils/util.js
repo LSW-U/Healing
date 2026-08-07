@@ -40,18 +40,21 @@ function getGreetingByTime () {
   return '晚安，让海浪替你守着长夜'
 }
 
-// 潮位格式化（0~7）
+// 潮位格式化（0~7 共 8 档，与后端 checkin streak 0~7 对齐）
 function formatTideLevel (level) {
-  const tides = ['退潮', '微澜', '涨潮中', '半潮', '潮起', '满潮前夕', '满潮']
+  const tides = ['退潮', '微澜', '涨潮中', '半潮', '潮起', '满潮前夕', '满月之潮', '深海静谧']
   return tides[level] || '静海'
 }
 
-// 简单月相（按日估算）
+// 月相：用参考新月 + 朔望月周期算月龄（比 day%29.5 准确）
 function getMoonPhase (dateObj) {
   const d = dateObj || new Date()
+  const newMoonRef = new Date('2026-01-20T00:00:00Z')  // 2026 朔月参考点
+  const cycle = 29.530588
+  const days = (d - newMoonRef) / 86400000
+  const age = ((days % cycle) + cycle) % cycle  // 月龄 0~cycle
   const names = ['新月', '峨眉月', '上弦月', '盈凸月', '满月', '亏凸月', '下弦月', '残月']
-  const day = d.getDate()
-  return names[Math.floor((day % 29.5) / 29.5 * 8) % 8]
+  return names[Math.floor(age / cycle * 8) % 8]
 }
 
 // 格式化时长（秒 → 分'秒"）
@@ -61,10 +64,17 @@ function formatDuration (seconds) {
   return s > 0 ? `${m}分${s}秒` : `${m}分钟`
 }
 
+// 格式化播放时间（秒 → MM:SS）
+function formatTime (seconds) {
+  const m = Math.floor(seconds / 60)
+  const s = Math.floor(seconds % 60)
+  return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0')
+}
+
 // 格式化日期 (YYYY-MM-DD)
 function formatDate (str) {
   if (!str) return ''
   return str.slice(0, 10)
 }
 
-module.exports = { getSolarTerm, getGreetingTime, getGreetingByTime, formatTideLevel, getMoonPhase, formatDuration, formatDate }
+module.exports = { getSolarTerm, getGreetingTime, getGreetingByTime, formatTideLevel, getMoonPhase, formatDuration, formatTime, formatDate }

@@ -1,5 +1,6 @@
 const { request } = require('../../utils/request')
 const { api } = require('../../utils/api')
+const util = require('../../utils/util')
 
 Page({
   data: {
@@ -44,7 +45,7 @@ Page({
       const pct = bg.duration > 0 ? (bg.currentTime / bg.duration * 100) : 0
       this.setData({
         progress: pct,
-        currentText: formatTime(Math.floor(bg.currentTime))
+        currentText: util.formatTime(Math.floor(bg.currentTime))
       })
     }
     bg.onPlay(this._onPlay)
@@ -61,7 +62,7 @@ Page({
           subtitle: (data.subtitle || '颂钵引导') + ' · ' + (data.duration ? Math.floor(data.duration / 60) + ' 分钟' : '8 分钟')
         },
         duration: data.duration || 480,
-        durationText: formatTime(data.duration || 480)
+        durationText: util.formatTime(data.duration || 480)
       })
       if (data.audio_url) this.playAudio(data.audio_url, data.title)
     }).catch(() => {
@@ -118,9 +119,3 @@ Page({
     }
   }
 })
-
-function formatTime (s) {
-  const m = Math.floor(s / 60)
-  const sec = s % 60
-  return String(m).padStart(2, '0') + ':' + String(sec).padStart(2, '0')
-}
