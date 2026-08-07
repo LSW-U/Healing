@@ -5,7 +5,7 @@ const jwt = require('../utils/jwt');
 const auth = require('../middleware/auth');
 const { ok } = require('../utils/response');
 
-const router = new Router({ prefix: '/api/auth' });
+const router = new Router();
 
 // 微信登录：前端用 wx.login 拿 code 调此接口，换取 token
 // 开发模式（未配 appid）：code 任意，如 "dev"

@@ -1,6 +1,8 @@
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
 const cors = require('@koa/cors');
+const serve = require('koa-static');
+const path = require('path');
 const config = require('./config');
 const errorHandler = require('./middleware/error');
 
@@ -23,6 +25,9 @@ app.use(errorHandler);
 app.use(cors());      // 允许跨域：admin 页面 / 小程序均可访问
 app.use(bodyParser());
 
+// 静态资源：后台管理页面
+app.use(serve(path.join(__dirname, '../admin')));
+
 const routers = [
   authRoutes, userRoutes, contentRoutes, healerRoutes, eventRoutes,
   checkinRoutes, feelingRoutes, circleRoutes, favoriteRoutes,
@@ -32,6 +37,7 @@ routers.forEach((r) => app.use(r.routes()).use(r.allowedMethods()));
 
 app.listen(config.port, () => {
   console.log(`[共时海] 后端已启动: http://localhost:${config.port}`);
+  console.log(`[管理后台] http://localhost:${config.port}/index.html`);
   if (config.devMode) {
     console.log('[开发模式] 未配置 WX_APPID，可使用任意 code 登录');
     console.log('          配置 .env 中的 WX_APPID / WX_SECRET 后即切换为真实微信登录');

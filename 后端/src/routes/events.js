@@ -61,7 +61,7 @@ router.post('/api/events/:id/signup', auth, async (ctx) => {
   ok(ctx, { signupId: info.lastInsertRowid, status: 'paid', amount });
 });
 
-// 我的报名 / 订单（可按状态筛选：?status=paid）
+// 我的报名 / 订单
 router.get('/api/signups', auth, async (ctx) => {
   const { status } = ctx.query;
   const where = ['s.user_id = ?'];
@@ -75,6 +75,41 @@ router.get('/api/signups', auth, async (ctx) => {
     )
     .all(...params);
   ok(ctx, rows);
+});
+
+// ---- 活动 CRUD（需登录） ----
+
+router.post('/api/events', auth, async (ctx) => {
+  const { title, start_time, end_time, location, total_slots, remaining_slots, fee, status, description } = ctx.request.body;
+  if (!title) ctx.throw(400, '标题不能为空');
+  const r = db.prepare(
+    `INSERT INTO events (title, start_time, end_time, location, total_slots, remaining_slots, fee, status, description)
+     VALUES (?,?,?,?,?,?,?,?,?)`
+  ).run(title, start_time || null, end_time || null, location || '', total_slots || 0, remaining_slots !== undefined ? remaining_slots : (total_slots || 0), fee || 0, status || 'open', description || '');
+  ok(ctx, db.prepare('SELECT * FROM events WHERE id = ?').get(r.lastInsertRowid));
+});
+
+router.put('/api/events/:id', auth, async (ctx) => {
+  const e = db.prepare('SELECT * FROM events WHERE id = ?').get(ctx.params.id);
+  if (!e) ctx.throw(404, '活动不存在');
+  const b = ctx.request.body;
+  const fields = ['title','start_time','end_time','location','total_slots','remaining_slots','fee','status','description'];
+  const sets = fields.filter(f => b[f] !== undefined).map(f => `${f}=?`).join(',');
+  const vals = fields.filter(f => b[f] !== undefined).map(f => b[f]);
+  if (sets) db.prepare(`UPDATE events SET ${sets} WHERE id=?`).run(...vals, e.id);
+  ok(ctx, db.prepare('SELECT * FROM events WHERE id = ?').get(e.id));
+});
+
+router.delete('/api/events/:id', auth, async (ctx) => {
+  const e = db.prepare('SELECT * FROM events WHERE id = ?').get(ctx.params.id);
+  if (!e) ctx.throw(404, '活动不存在');
+  db.prepare('DELETE FROM events WHERE id = ?').run(e.id);
+  ok(ctx, { deleted: true });
+});
+
+// 管理端全部报名列表
+router.get('/api/signups/all', auth, async (ctx) => {
+  ok(ctx, db.prepare('SELECT s.*, e.title AS event_title FROM signups s LEFT JOIN events e ON s.event_id = e.id ORDER BY s.created_at DESC').all());
 });
 
 module.exports = router;
