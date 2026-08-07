@@ -1,0 +1,16 @@
+/* 海·练习页（P03） */
+.page{padding:0 36rpx 140rpx;min-height:100vh;box-sizing:border-box}
+.greet-line{font-family:"Songti SC",serif;font-size:26rpx;color:var(--smoke);letter-spacing:2rpx;padding:0 8rpx 28rpx}
+.greet-line text{color:var(--ink);font-weight:500}
+.practice-grid{display:grid;grid-template-columns:1fr 1fr;gap:24rpx;margin-top:12rpx}
+.practice-card{border-radius:32rpx;padding:40rpx 36rpx;height:236rpx;display:flex;flex-direction:column;justify-content:space-between}
+.pc-name{font-family:"Songti SC",serif;font-size:32rpx;font-weight:500;letter-spacing:4rpx}
+.pc-desc{font-size:20rpx;letter-spacing:2rpx;opacity:.85}
+.pc-foot{font-size:18rpx;opacity:.7;letter-spacing:2rpx}
+.pc-breath{background:linear-gradient(150deg,#C4CFD2 0%,#9FB3B8 100%);color:#3a4a4f}
+.pc-meditate{background:linear-gradient(150deg,#E4D9C9 0%,#C9B59A 100%);color:#5a4a36}
+.pc-sound{background:linear-gradient(150deg,#D9E2E4 0%,var(--tidal) 100%);color:var(--moonwhite)}
+.pc-sleep{background:linear-gradient(150deg,#2B3A42 0%,#1a2530 100%);color:#C9B59A}
+.breath-demo{background:#fff;border-radius:32rpx;padding:36rpx 40rpx;display:flex;align-items:center;gap:32rpx;margin-top:28rpx;border:2rpx solid var(--mist)}
+.breath-info{font-size:22rpx;color:var(--smoke);line-height:1.5;flex:1}
+.breath-info .bd-title{display:block;font-family:"Songti SC",serif;font-size:28rpx;color:var(--ink);font-weight:500;margin-bottom:6rpx}

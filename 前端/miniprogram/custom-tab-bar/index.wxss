@@ -1,0 +1,48 @@
+.tabbar-wrap{
+  position:fixed;bottom:0;left:0;right:0;z-index:100;
+  background:rgba(245,243,239,.96);
+  backdrop-filter:blur(20rpx);
+  -webkit-backdrop-filter:blur(20rpx);
+  box-shadow:0 -4rpx 24rpx rgba(74,107,122,.06);
+}
+/* 潮汐波浪装饰线 */
+.tide-line{position:relative;height:12rpx;overflow:hidden}
+.tide-wave{position:absolute;top:0;left:0;width:200%;height:100%;
+  background:linear-gradient(90deg,
+    transparent 0%,transparent 10%,rgba(91,123,138,.08) 15%,rgba(74,107,122,.12) 25%,rgba(91,123,138,.08) 35%,
+    transparent 50%,transparent 60%,rgba(91,123,138,.08) 65%,rgba(74,107,122,.12) 75%,rgba(91,123,138,.08) 85%,
+    transparent 100%
+  );
+  animation:tide-drift 12s linear infinite;
+}
+.tw2{
+  top:3rpx;
+  background:linear-gradient(90deg,
+    transparent 0%,rgba(201,181,154,.1) 30%,transparent 45%,transparent 70%,rgba(201,181,154,.08) 85%,transparent 100%
+  );
+  animation:tide-drift 16s linear infinite reverse;
+}
+@keyframes tide-drift{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+.tabbar-inner{
+  display:flex;justify-content:space-around;align-items:flex-start;
+  padding:10rpx 0 16rpx;
+  padding-bottom:calc(16rpx + env(safe-area-inset-bottom));
+}
+.tab-item{
+  display:flex;flex-direction:column;align-items:center;gap:4rpx;
+  position:relative;padding:4rpx 0;
+  color:var(--smoke);
+  transition:color .2s;
+}
+.tab-item.active{color:var(--tidal-deep)}
+.tab-icon{font-family:"Songti SC",serif;font-size:34rpx;line-height:1;opacity:.8}
+.tab-item.active .tab-icon{opacity:1}
+.tab-text{font-size:24rpx;letter-spacing:3rpx}
+.tab-dot{
+  position:absolute;bottom:-10rpx;
+  width:8rpx;height:8rpx;border-radius:50%;
+  background:var(--tidal);
+  animation:dot-in .2s ease-out;
+}
+@keyframes dot-in{from{transform:scale(0)}to{transform:scale(1)}}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P22 我的收藏 · 共时海</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.p-fav{padding:0 18px 62px;height:100%;display:flex;flex-direction:column;overflow:hidden}
+.fv-cats{display:flex;gap:6px;padding:0 2px 14px}
+.fv-cat{font-size:9px;padding:4px 11px;border-radius:12px;white-space:nowrap;letter-spacing:1px;flex-shrink:0;cursor:pointer}
+.fv-cat.active{background:var(--tidal);color:#fff}
+.fv-cat:not(.active){background:var(--mist);color:var(--smoke)}
+.fv-list{flex:1;overflow-y:auto}
+.fv-item{display:flex;gap:12px;padding:13px 4px;border-bottom:1px solid var(--mist);text-decoration:none;cursor:pointer}
+.fv-item:last-child{border-bottom:none}
+.fv-item .thumb{width:52px;height:52px;border-radius:10px;flex-shrink:0}
+.fv-item .info{flex:1;display:flex;flex-direction:column;justify-content:center}
+.fv-item .info .t{font-size:13px;color:var(--ink);font-weight:500;line-height:1.4;font-family:var(--serif);letter-spacing:1px}
+.fv-item .info .m{font-size:10px;color:var(--smoke);margin-top:4px;letter-spacing:.5px}
+.fv-group{font-family:var(--serif);font-size:11px;color:var(--smoke);letter-spacing:2px;margin:16px 2px 8px}
+</style>
+</head>
+<body>
+<div class="phone"><div class="screen">
+  <div class="p-fav">
+    <div class="statusbar"><span>9:30</span><span class="right"><span class="dot"></span><span class="dot"></span></span></div>
+    <div class="nav"><a href="p06-me.html" class="back" style="text-decoration:none">‹</a><span class="title">我 的 收 藏</span><span class="ic"></span></div>
+    <div class="fv-cats">
+      <span class="fv-cat active">内 容</span>
+      <span class="fv-cat">疗 愈 师</span>
+      <span class="fv-cat">课 程</span>
+    </div>
+    <div class="fv-list">
+      <div class="fv-group">睡 前</div>
+      <a class="fv-item" href="p12-content-detail.html"><div class="thumb" style="background:linear-gradient(135deg,#5B7B8A,#3F5E5A)"></div><div class="info"><div class="t">海 的 呼 吸</div><div class="m">颂钵引导 · 8 分钟</div></div></a>
+      <a class="fv-item" href="p12-content-detail.html"><div class="thumb" style="background:linear-gradient(135deg,#3F5E5A,#2B3A42)"></div><div class="info"><div class="t">深夜电台 · 第 12 期</div><div class="m">人声引导 · 12 分钟</div></div></a>
+      <div class="fv-group">通 勤</div>
+      <a class="fv-item" href="p12-content-detail.html"><div class="thumb" style="background:linear-gradient(135deg,#C9B59A,#8a7558)"></div><div class="info"><div class="t">雨声 · 檐下的午后</div><div class="m">自然声 · 30 分钟</div></div></a>
+    </div>
+  </div>
+  <div class="tabbar">
+    <a class="tab" href="p02-discover.html"><span class="ti">潮</span><span>发现</span></a>
+    <a class="tab" href="p03-practice.html"><span class="ti">海</span><span>练习</span></a>
+    <a class="tab" href="p10-shore.html"><span class="ti">岸</span><span>连接</span></a>
+    <a class="tab active" href="p06-me.html"><span class="ti">岛</span><span>我的</span></a>
+  </div>
+</div></div>
+</body>
+</html>

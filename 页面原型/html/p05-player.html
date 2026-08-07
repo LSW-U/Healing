@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P05 音频播放器 · 共时海</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.p-player{height:100%;display:flex;flex-direction:column;padding:0 22px;background:linear-gradient(180deg,#EFE9DF 0%,#F5F3EF 40%)}
+.player-top{position:relative;display:flex;justify-content:space-between;align-items:center;padding:12px 0;color:var(--smoke);font-size:13px}
+.player-top span{cursor:pointer}
+.player-top .center-title{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:12px;letter-spacing:3px}
+.player-mid{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.cover{width:160px;height:160px;border-radius:20px;background:linear-gradient(150deg,#5B7B8A 0%,#3F5E5A 60%,#2B3A42 100%);box-shadow:0 12px 30px rgba(91,123,138,.25);display:flex;align-items:center;justify-content:center;margin-bottom:24px}
+.cover .symbol{font-family:var(--serif);font-size:40px;color:rgba(245,243,239,.85);letter-spacing:4px}
+.player-title{font-family:var(--serif);font-size:18px;text-align:center;font-weight:500;letter-spacing:1px;color:var(--ink)}
+.player-sub{font-size:11px;color:var(--smoke);text-align:center;margin-top:6px;letter-spacing:1px}
+.player-bottom-controls{margin-top:auto;padding-bottom:8px}
+.progress{height:2px;background:var(--mist-deep);border-radius:2px;position:relative;cursor:pointer;margin-bottom:8px}
+.progress .fill{position:absolute;left:0;top:0;height:100%;width:38%;background:var(--tidal);border-radius:2px}
+.progress .knob{position:absolute;left:38%;top:50%;width:10px;height:10px;background:#fff;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.time{display:flex;justify-content:space-between;font-size:10px;color:var(--smoke);font-family:monospace;margin-bottom:24px}
+.controls{display:flex;align-items:center;justify-content:center;gap:28px}
+.ctrl{color:var(--smoke);font-size:16px;cursor:pointer}
+.play-big{width:58px;height:58px;border-radius:50%;background:var(--tidal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 6px 16px rgba(91,123,138,.3);cursor:pointer}
+.play-big:active{transform:scale(.96)}
+.player-bottom{display:flex;justify-content:center;gap:18px;font-size:11px;color:var(--smoke);padding-bottom:16px}
+.player-bottom span{display:flex;align-items:center;gap:4px;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="phone"><div class="screen">
+  <div class="p-player">
+    <div class="player-top"><a href="p03-practice.html" style="color:inherit;text-decoration:none"><span>‹ 返回</span></a><span class="center-title">正 在 播 放</span><span>⋯</span></div>
+    <div class="player-mid">
+      <div class="cover"><div class="symbol">海</div></div>
+      <div class="player-title">海 的 呼 吸</div>
+      <div class="player-sub">颂钵引导 · 8 分钟 · 助眠</div>
+    </div>
+    <div class="player-bottom-controls">
+      <div class="progress"><div class="fill"></div><div class="knob"></div></div>
+      <div class="time"><span>03:02</span><span>08:00</span></div>
+      <div class="controls">
+        <span class="ctrl">⟲</span>
+        <span class="ctrl">◁</span>
+        <div class="play-big">▷</div>
+        <span class="ctrl">▷</span>
+        <span class="ctrl">◎</span>
+      </div>
+    </div>
+    <div class="player-bottom">
+      <span>⏱ 30分钟</span><span>♡ 收藏</span><span>⇄ 分段</span>
+    </div>
+  </div>
+</div></div>
+</body>
+</html>

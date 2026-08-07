@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P19 活动详情页 · 共时海</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.p-event-detail{height:100%;display:flex;flex-direction:column;overflow:hidden;position:relative}
+.ed-scroll{flex:1;overflow-y:auto}
+.ed-cover{height:190px;background:linear-gradient(135deg,#C9B59A 0%,#5B7B8A 100%);position:relative;display:flex;align-items:flex-end;padding:0 22px 18px}
+.ed-cover .back{position:absolute;top:14px;left:16px;color:#fff;font-size:18px;opacity:.9;cursor:pointer;text-decoration:none}
+.ed-cover .more{position:absolute;top:14px;right:16px;color:#fff;font-size:18px;opacity:.9;cursor:pointer}
+.ed-cover .tag{position:absolute;top:16px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.22);color:#fff;font-size:10px;padding:3px 12px;border-radius:12px;letter-spacing:2px}
+.ed-body{padding:20px 22px 90px}
+.ed-title{font-family:var(--serif);font-size:21px;font-weight:500;letter-spacing:1px;color:var(--ink);line-height:1.4}
+.ed-sub{font-family:var(--serif);font-size:12px;color:var(--smoke);margin-top:8px;letter-spacing:1px;line-height:1.7}
+.ed-info{margin-top:18px;background:#fff;border-radius:14px;border:1px solid var(--mist);padding:6px 18px}
+.ed-info .row{display:flex;justify-content:space-between;align-items:center;padding:13px 0;font-size:12px}
+.ed-info .row .l{color:var(--smoke);font-family:var(--serif);letter-spacing:1px}
+.ed-info .row .r{color:var(--ink);font-weight:500;text-align:right;display:flex;align-items:center;gap:8px}
+.ed-info .row .nav-btn{color:var(--tidal);font-size:10px;border:1px solid var(--tidal);padding:2px 9px;border-radius:10px;cursor:pointer;text-decoration:none}
+.ed-info .row+.row{border-top:1px solid var(--mist)}
+.ed-quota{margin-top:14px;display:flex;align-items:center;gap:10px}
+.ed-quota .track{flex:1;height:3px;background:var(--mist);border-radius:3px;position:relative}
+.ed-quota .fill{position:absolute;left:0;top:0;height:100%;width:85%;background:var(--tidal);border-radius:3px}
+.ed-quota .tx{font-size:11px;color:var(--wood);font-family:var(--serif);letter-spacing:1px}
+.ed-sec{margin-top:22px}
+.ed-sec .lab{font-family:var(--serif);font-size:12px;color:var(--smoke);letter-spacing:2px;margin-bottom:10px}
+.ed-sec .txt{font-size:13px;color:var(--ink);line-height:1.8;letter-spacing:.5px}
+.ed-suit{display:flex;flex-wrap:wrap;gap:8px}
+.ed-suit span{font-size:10px;padding:4px 11px;border-radius:12px;letter-spacing:1px;background:rgba(201,181,154,.18);color:#8a7558}
+.ed-actions{position:absolute;bottom:0;left:0;right:0;background:rgba(245,243,239,.96);border-top:1px solid var(--mist);padding:12px 22px;display:flex;align-items:center;gap:14px}
+.ed-actions .ico-btn{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9px;color:var(--smoke);cursor:pointer;min-width:36px}
+.ed-actions .btn{flex:1;background:var(--tidal);color:#fff;border:none;padding:14px;border-radius:24px;font-size:13px;letter-spacing:2px;font-family:var(--sans);cursor:pointer;text-align:center;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="phone"><div class="screen">
+  <div class="p-event-detail">
+    <div class="ed-scroll">
+      <div class="ed-cover">
+        <a href="p11-stream.html" class="back">‹</a>
+        <span class="tag">节 气 茶 会</span>
+        <span class="more">⋯</span>
+      </div>
+      <div class="ed-body">
+        <div class="ed-title">立 秋 · 凉 风 至 茶 会</div>
+        <div class="ed-sub">立秋第一候，凉风至。<br>以一盏茶，接住夏末秋初的这缕风。</div>
+        <div class="ed-info">
+          <div class="row"><span class="l">时 间</span><span class="r">8.7 周五 19:30</span></div>
+          <div class="row"><span class="l">地 点</span><span class="r">共时海工作室 <a class="nav-btn">导 航</a></span></div>
+          <div class="row"><span class="l">名 额</span><span class="r">14 / 16</span></div>
+          <div class="row"><span class="l">费 用</span><span class="r">¥ 128</span></div>
+        </div>
+        <div class="ed-quota"><span class="track"><span class="fill"></span></span><span class="tx">潮 将 满 · 余 2 席</span></div>
+        <div class="ed-sec">
+          <div class="lab">关 于 这 场 茶 会</div>
+          <div class="txt">立秋茶会以"凉风至"为题，选三款应季茶，配静心引导。从一盏茶的温热里，慢慢接住季节的更替。无需茶艺基础，带着自己来就好。</div>
+        </div>
+        <div class="ed-sec">
+          <div class="lab">适 合 人 群</div>
+          <div class="ed-suit"><span>无需基础</span><span>压力人群</span><span>想慢下来</span><span>喜欢茶</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="ed-actions">
+      <div class="ico-btn"><span>♡</span><span>收藏</span></div>
+      <a class="btn" href="p14-signup-success.html">立 即 报 名</a>
+    </div>
+  </div>
+</div></div>
+</body>
+</html>

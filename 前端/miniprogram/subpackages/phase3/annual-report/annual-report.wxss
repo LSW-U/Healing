@@ -1,0 +1,11 @@
+.an-page{padding:80rpx 48rpx;min-height:100vh;background:linear-gradient(180deg,#2B3A42,#3F5E5A 50%,#1a2530);color:var(--moonwhite);text-align:center}
+.an-header{margin-bottom:60rpx}
+.an-year{font-family:"Songti SC",serif;font-size:80rpx;letter-spacing:12rpx;opacity:.9}
+.an-sub{font-size:24rpx;letter-spacing:4rpx;opacity:.6;margin-top:12rpx}
+.an-stats{display:flex;justify-content:center;gap:40rpx;margin-bottom:56rpx}
+.an-num{font-family:"Songti SC",serif;font-size:48rpx;font-weight:500}
+.an-lab{font-size:22rpx;opacity:.6;margin-top:8rpx}
+.an-sec{margin-bottom:40rpx}
+.an-lab{font-family:"Songti SC",serif;font-size:20rpx;letter-spacing:4rpx;opacity:.5;margin-bottom:12rpx}
+.an-txt{font-size:26rpx;letter-spacing:2rpx}
+.an-footer{font-family:"Songti SC",serif;font-size:24rpx;opacity:.5;margin-top:80rpx;letter-spacing:4rpx}

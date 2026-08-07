@@ -1,0 +1,19 @@
+<view class="st-page">
+  <view class="st-group">
+    <view class="st-item" bindtap="onProfile"><view class="st-label">个人资料</view><view class="st-arrow">›</view></view>
+    <view class="st-item" bindtap="onReminders"><view class="st-label">定时提醒</view><view class="st-arrow">›</view></view>
+    <view class="st-item" bindtap="onPrivacy"><view class="st-label">隐私与通知</view><view class="st-arrow">›</view></view>
+  </view>
+  <view class="st-group">
+    <view class="st-item" bindtap="onExport"><view class="st-label">导出我的数据</view><view class="st-arrow">›</view></view>
+    <view class="st-item" bindtap="onDelete"><view class="st-label" style="color:var(--dusk)">删除账号与数据</view><view class="st-arrow">›</view></view>
+  </view>
+  <view class="st-group">
+    <view class="st-item" bindtap="onCrisis"><view class="st-label">我需要帮助（危机援助）</view><view class="st-arrow">›</view></view>
+  </view>
+  <view class="st-group">
+    <view class="st-item" bindtap="onAbout"><view class="st-label">关于共时海</view><view class="st-arrow">›</view></view>
+    <view class="st-item"><view class="st-label">版本</view><view class="st-val">v1.0.0</view></view>
+  </view>
+  <view class="st-notice">本产品提供身心放松内容，不替代专业医疗诊断与治疗。你的日记与感受数据默认加密保存，仅你可见。</view>
+</view>

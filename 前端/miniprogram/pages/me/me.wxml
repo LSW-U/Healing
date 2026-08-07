@@ -1,0 +1,40 @@
+<!-- 岛·我的页 P06 -->
+<view class="page">
+  <view class="me-head">
+    <view class="nm">潮 ·</view>
+    <view class="sg">"今夜，让海浪替你守着时间"</view>
+  </view>
+
+  <view class="me-stat" bindtap="onStats">
+    <view><view class="num">12</view><view class="lab">累计小时</view></view>
+    <view><view class="num">7</view><view class="lab">连续天数</view></view>
+    <view><view class="num">38</view><view class="lab">练习次数</view></view>
+  </view>
+
+  <view class="me-nav">
+    <view class="me-nav-item" bindtap="onJournal">
+      <view class="me-nav-l"><text class="ico">✎</text>疗愈日记</view>
+      <view class="me-nav-r">今日已记 ›</view>
+    </view>
+    <view class="me-nav-item" bindtap="onFavorites">
+      <view class="me-nav-l"><text class="ico">♡</text>我的收藏</view>
+      <view class="me-nav-r">3 组 ›</view>
+    </view>
+    <view class="me-nav-item" bindtap="onReminders">
+      <view class="me-nav-l"><text class="ico">◷</text>定时提醒</view>
+      <view class="me-nav-r">睡前 22:30 ›</view>
+    </view>
+    <view class="me-nav-item" bindtap="onOrders">
+      <view class="me-nav-l"><text class="ico">▤</text>课程与报名</view>
+      <view class="me-nav-r"><view class="badge">1</view>›</view>
+    </view>
+    <view class="me-nav-item" bindtap="onSettings">
+      <view class="me-nav-l"><text class="ico">⚙</text>设置</view>
+      <view class="me-nav-r">›</view>
+    </view>
+    <view class="me-nav-item" bindtap="onAbout">
+      <view class="me-nav-l"><text class="ico">◎</text>关于共时海</view>
+      <view class="me-nav-r">›</view>
+    </view>
+  </view>
+</view>

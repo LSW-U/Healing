@@ -1,0 +1,9 @@
+Page({
+  onProfile(){wx.showToast({title:'个人资料',icon:'none'})},
+  onReminders(){wx.navigateTo({url:'/subpackages/island/reminders/reminders'})},
+  onPrivacy(){wx.showToast({title:'隐私与通知',icon:'none'})},
+  onExport(){wx.showToast({title:'导出数据（已请求）',icon:'none'})},
+  onDelete(){wx.showToast({title:'删除账号（需二次确认）',icon:'none'})},
+  onCrisis(){wx.showModal({title:'心理援助热线',content:'北京心理危机研究与干预中心\n010-82951332\n\n全国心理援助热线\n12356',showCancel:false,confirmText:'我知道了'})},
+  onAbout(){wx.navigateTo({url:'/subpackages/island/about/about'})}
+})

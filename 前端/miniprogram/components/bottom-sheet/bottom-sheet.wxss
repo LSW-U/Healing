@@ -1,0 +1,4 @@
+.sheet-mask{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:200;animation:fadeIn .25s}
+.sheet-panel{position:fixed;left:0;right:0;bottom:0;background:var(--moonwhite);border-radius:32rpx 32rpx 0 0;padding:32rpx;z-index:201;transform:translateY(100%);transition:transform .25s}
+.sheet-show{transform:translateY(0)}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}

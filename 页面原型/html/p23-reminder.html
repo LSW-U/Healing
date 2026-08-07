@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P23 定时提醒设置 · 共时海</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.p-reminder{padding:0 18px 62px;height:100%;display:flex;flex-direction:column;overflow:hidden}
+.rm-list{flex:1;overflow-y:auto}
+.rm-sec{font-family:var(--serif);font-size:11px;color:var(--smoke);letter-spacing:2px;margin:20px 2px 10px}
+.rm-sec:first-child{margin-top:0}
+.rm-item{display:flex;justify-content:space-between;align-items:center;padding:16px 4px;border-bottom:1px solid var(--mist)}
+.rm-item:last-child{border-bottom:none}
+.rm-item .l .t{font-family:var(--serif);font-size:14px;color:var(--ink);letter-spacing:1px}
+.rm-item .l .d{font-size:10px;color:var(--smoke);margin-top:4px;letter-spacing:1px;font-family:var(--serif)}
+.rm-switch{width:38px;height:22px;border-radius:11px;background:var(--mist-deep);position:relative;cursor:pointer;flex-shrink:0}
+.rm-switch.on{background:var(--tidal)}
+.rm-switch .knob{position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .2s}
+.rm-switch.on .knob{left:18px}
+.rm-dnd{background:#fff;border-radius:12px;border:1px solid var(--mist);padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
+.rm-dnd .l .t{font-family:var(--serif);font-size:14px;color:var(--ink);letter-spacing:1px}
+.rm-dnd .l .d{font-size:10px;color:var(--smoke);margin-top:4px;letter-spacing:1px}
+.rm-dnd .r{font-family:var(--serif);color:var(--tidal-deep);font-size:13px}
+.rm-tip{margin-top:18px;padding:12px 14px;background:rgba(91,123,138,.08);border-radius:8px;font-size:11px;color:var(--smoke);line-height:1.7;font-family:var(--serif);letter-spacing:1px}
+</style>
+</head>
+<body>
+<div class="phone"><div class="screen">
+  <div class="p-reminder">
+    <div class="statusbar"><span>22:00</span><span class="right"><span class="dot"></span><span class="dot"></span></span></div>
+    <div class="nav"><a href="p06-me.html" class="back" style="text-decoration:none">‹</a><span class="title">定 时 提 醒</span><span class="ic"></span></div>
+    <div class="rm-list">
+      <div class="rm-sec">每 日 提 醒</div>
+      <div class="rm-item"><div class="l"><div class="t">晨 起 练 习</div><div class="d">6:30 · 潮汐将至，留 5 分钟给自己</div></div><div class="rm-switch on"><div class="knob"></div></div></div>
+      <div class="rm-item"><div class="l"><div class="t">午 间 放 松</div><div class="d">12:30 · 关闭</div></div><div class="rm-switch"><div class="knob"></div></div></div>
+      <div class="rm-item"><div class="l"><div class="t">睡 前 助 眠</div><div class="d">22:30 · 今夜，让海浪替你守着时间</div></div><div class="rm-switch on"><div class="knob"></div></div></div>
+      <div class="rm-sec">勿 扰 时 段</div>
+      <div class="rm-dnd"><div class="l"><div class="t">勿 扰</div><div class="d">提醒将静默</div></div><div class="r">23:00 — 7:00 ›</div></div>
+      <div class="rm-tip">提醒通过微信订阅消息发送，不会打扰你的微信聊天。可随时关闭。</div>
+    </div>
+  </div>
+  <div class="tabbar">
+    <a class="tab" href="p02-discover.html"><span class="ti">潮</span><span>发现</span></a>
+    <a class="tab" href="p03-practice.html"><span class="ti">海</span><span>练习</span></a>
+    <a class="tab" href="p10-shore.html"><span class="ti">岸</span><span>连接</span></a>
+    <a class="tab active" href="p06-me.html"><span class="ti">岛</span><span>我的</span></a>
+  </div>
+</div></div>
+</body>
+</html>

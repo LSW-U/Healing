@@ -1,0 +1,20 @@
+.page{padding:0 28rpx 140rpx}
+.es-cats{display:flex;gap:12rpx;padding:0 8rpx 24rpx;overflow-x:auto;white-space:nowrap}
+.es-cat{font-size:22rpx;padding:8rpx 20rpx;border-radius:24rpx;flex-shrink:0;letter-spacing:2rpx}
+.es-cat.active{background:var(--tidal);color:#fff}
+.es-cat:not(.active){background:var(--mist);color:var(--smoke)}
+.es-water{display:flex;gap:16rpx}
+.es-col{flex:1;display:flex;flex-direction:column;gap:16rpx}
+.es-card{background:#fff;border-radius:24rpx;overflow:hidden;border:2rpx solid var(--mist)}
+.es-poster{height:160rpx;display:flex;align-items:center;justify-content:center}
+.es-noban-text{font-family:"Songti SC",serif;font-size:28rpx;letter-spacing:6rpx;font-weight:500;color:var(--moonwhite)}
+.es-body{padding:20rpx 22rpx 22rpx}
+.es-tag{font-size:18rpx;color:var(--wood);font-family:"Songti SC",serif;letter-spacing:2rpx;margin-bottom:6rpx}
+.es-name{font-family:"Songti SC",serif;font-size:26rpx;color:var(--ink);font-weight:500;line-height:1.4;margin-bottom:12rpx;letter-spacing:1rpx}
+.es-meta{font-size:20rpx;color:var(--smoke);line-height:1.6;font-family:"Songti SC",serif;letter-spacing:1rpx;white-space:pre-line}
+.es-quota{display:flex;align-items:center;gap:10rpx;margin:14rpx 0 16rpx}
+.eq-track{flex:1;height:4rpx;background:var(--mist);border-radius:4rpx}
+.eq-fill{height:100%;background:var(--tidal);border-radius:4rpx}
+.eq-tx{font-size:18rpx;color:var(--smoke);font-family:"Songti SC",serif;letter-spacing:1rpx}
+.es-sign{width:100%;background:var(--tidal);color:#fff;border:none;font-size:22rpx;padding:12rpx 0;border-radius:24rpx;letter-spacing:2rpx}
+.es-sign.full{background:var(--mist-deep);color:var(--smoke)}

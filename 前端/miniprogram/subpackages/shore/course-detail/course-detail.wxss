@@ -1,0 +1,22 @@
+.cd-page{height:100vh;background:var(--moonwhite)}
+.cd-cover{height:340rpx;background:linear-gradient(150deg,var(--tidal),var(--tidal-deep),#2B3A42);display:flex;align-items:flex-end;padding:0 44rpx 36rpx}
+.cd-symbol{font-family:"Songti SC",serif;font-size:88rpx;color:rgba(245,243,239,.9);letter-spacing:6rpx}
+.cd-body{padding:40rpx 44rpx 200rpx}
+.cd-title{font-family:"Songti SC",serif;font-size:42rpx;font-weight:500;letter-spacing:2rpx;color:var(--ink);line-height:1.4}
+.cd-meta{display:flex;gap:28rpx;margin-top:24rpx;font-size:22rpx;color:var(--smoke);letter-spacing:2rpx}
+.cd-price{margin-top:32rpx;display:flex;align-items:baseline;gap:16rpx}
+.cd-p{font-family:"Songti SC",serif;font-size:48rpx;color:var(--tidal-deep);font-weight:500}
+.cd-o{font-size:24rpx;color:var(--mist-deep);text-decoration:line-through}
+.cd-sec{margin-top:44rpx}
+.cd-lab{font-family:"Songti SC",serif;font-size:24rpx;color:var(--smoke);letter-spacing:4rpx;margin-bottom:20rpx}
+.cd-txt{font-size:26rpx;color:var(--ink);line-height:1.8;letter-spacing:1rpx}
+.cd-suits{display:flex;flex-wrap:wrap;gap:16rpx}
+.cd-suit{font-size:20rpx;padding:8rpx 22rpx;border-radius:24rpx;background:rgba(201,181,154,.18);color:#8a7558;letter-spacing:2rpx}
+.cd-ol-item{display:flex;gap:24rpx;padding:22rpx 0;border-bottom:2rpx solid var(--mist);font-size:24rpx}
+.cd-no{font-family:"Songti SC",serif;color:var(--wood);width:48rpx;flex-shrink:0}
+.cd-ot{color:var(--ink);flex:1}
+.cd-od{color:var(--smoke);font-size:20rpx}
+.cd-notice{margin-top:36rpx;padding:24rpx 28rpx;background:var(--mist);border-radius:16rpx;font-size:22rpx;color:var(--smoke);line-height:1.7}
+.cd-actions{position:fixed;bottom:0;left:0;right:0;background:rgba(245,243,239,.96);backdrop-filter:blur(20rpx);-webkit-backdrop-filter:blur(20rpx);border-top:2rpx solid var(--mist);padding:24rpx 44rpx;display:flex;align-items:center;gap:28rpx;padding-bottom:calc(24rpx + env(safe-area-inset-bottom))}
+.ca-fav{display:flex;flex-direction:column;align-items:center;gap:6rpx;font-size:18rpx;color:var(--smoke);min-width:72rpx}
+.ca-btn{flex:1;background:var(--tidal);color:#fff;border:none;padding:28rpx;border-radius:48rpx;font-size:28rpx;letter-spacing:4rpx}

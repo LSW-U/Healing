@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P12 内容详情页 · 共时海</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.p-detail{height:100%;display:flex;flex-direction:column;overflow:hidden;position:relative}
+.dt-scroll{flex:1;overflow-y:auto}
+.dt-cover{height:200px;background:linear-gradient(150deg,#5B7B8A 0%,#3F5E5A 60%,#2B3A42 100%);position:relative;display:flex;align-items:flex-end;padding:0 22px 22px}
+.dt-cover .back{position:absolute;top:14px;left:16px;color:#fff;font-size:18px;opacity:.9;cursor:pointer}
+.dt-cover .more{position:absolute;top:14px;right:16px;color:#fff;font-size:18px;opacity:.9;cursor:pointer}
+.dt-cover .symbol{font-family:var(--serif);font-size:56px;color:rgba(245,243,239,.9);letter-spacing:4px}
+.dt-body{padding:20px 22px 20px}
+.dt-title{font-family:var(--serif);font-size:22px;font-weight:500;letter-spacing:1px;color:var(--ink);line-height:1.4}
+.dt-sub{font-family:var(--serif);font-size:12px;color:var(--smoke);margin-top:8px;letter-spacing:1px}
+.dt-healer{display:flex;align-items:center;gap:10px;margin-top:16px;padding:12px 14px;background:#fff;border-radius:12px;border:1px solid var(--mist);cursor:pointer}
+.dt-healer .av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#C9B59A,#8a7558);flex-shrink:0}
+.dt-healer .info .n{font-size:13px;color:var(--ink);font-weight:500}
+.dt-healer .info .r{font-size:10px;color:var(--smoke);margin-top:2px}
+.dt-healer .go{color:var(--mist-deep);font-size:13px;margin-left:auto}
+.dt-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.dt-tags .tag{font-size:10px;padding:4px 11px;border-radius:12px;letter-spacing:1px;background:rgba(91,123,138,.12);color:var(--tidal-deep)}
+.dt-desc{font-size:13px;color:var(--ink);line-height:1.85;margin-top:18px;letter-spacing:.5px}
+.dt-desc p{margin-bottom:10px}
+.dt-section-title{font-family:var(--serif);font-size:13px;color:var(--ink);margin:22px 0 12px;letter-spacing:1px}
+.dt-related{display:flex;flex-direction:column;gap:12px}
+.dt-rel-item{display:flex;gap:12px;align-items:center;cursor:pointer}
+.dt-rel-item .thumb{width:56px;height:56px;border-radius:10px;flex-shrink:0}
+.dt-rel-item .info .t{font-size:13px;color:var(--ink);font-weight:500;line-height:1.4}
+.dt-rel-item .info .m{font-size:10px;color:var(--smoke);margin-top:4px}
+.dt-actions{background:rgba(245,243,239,.96);backdrop-filter:blur(10px);border-top:1px solid var(--mist);padding:12px 22px;display:flex;align-items:center;gap:16px}
+.dt-actions .ico-btn{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9px;color:var(--smoke);cursor:pointer;min-width:36px}
+.dt-actions .play-main{flex:1;background:var(--tidal);color:#fff;border:none;padding:13px;border-radius:24px;font-size:13px;letter-spacing:2px;font-family:var(--sans);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.dt-actions .play-main:active{transform:scale(.98)}
+</style>
+</head>
+<body>
+<div class="phone"><div class="screen">
+  <div class="p-detail">
+    <div class="dt-scroll">
+      <div class="dt-cover">
+        <span class="back">‹</span><span class="more">⋯</span>
+        <div class="symbol">海</div>
+      </div>
+      <div class="dt-body">
+        <div class="dt-title">海 的 呼 吸</div>
+        <div class="dt-sub">颂钵引导 · 8 分钟</div>
+        <div class="dt-healer">
+          <div class="av"></div>
+          <div class="info"><div class="n">林 一 沐</div><div class="r">颂钵疗愈师 · 从业 8 年</div></div>
+          <span class="go">›</span>
+        </div>
+        <div class="dt-tags">
+          <span class="tag">颂钵</span><span class="tag">助眠</span><span class="tag">8 分钟</span><span class="tag">睡前</span>
+        </div>
+        <div class="dt-desc">
+          <p>跟随颂钵的低频共振，让呼吸慢下来。海的潮汐藏在每一次钵音的起落里，你只需顺着它，一呼一吸。</p>
+          <p>适合在睡前或情绪起伏时聆听。建议佩戴耳机，找一个安静的地方。</p>
+        </div>
+        <div class="dt-section-title">相 关 推 荐</div>
+        <div class="dt-related">
+          <div class="dt-rel-item"><div class="thumb" style="background:linear-gradient(135deg,#3F5E5A,#2B3A42)"></div><div class="info"><div class="t">深夜电台 · 第 12 期</div><div class="m">人声引导 · 12 分钟</div></div></div>
+          <div class="dt-rel-item"><div class="thumb" style="background:linear-gradient(135deg,#C9B59A,#8a7558)"></div><div class="info"><div class="t">雨声 · 檐下的午后</div><div class="m">自然声 · 30 分钟</div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="dt-actions">
+      <div class="ico-btn"><span>♡</span><span>收藏</span></div>
+      <div class="ico-btn"><span>⏱</span><span>定时</span></div>
+      <div class="ico-btn"><span>⇄</span><span>分享</span></div>
+      <a href="p05-player.html"><button class="play-main">▷ 开 始 播 放</button></a>
+    </div>
+  </div>
+</div></div>
+</body>
+</html>

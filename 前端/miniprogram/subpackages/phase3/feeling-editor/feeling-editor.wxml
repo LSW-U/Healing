@@ -1,0 +1,7 @@
+<view class="fe-page">
+  <view class="fe-moods">
+    <view class="fe-mood {{moodIdx===idx?'active':''}}" wx:for="{{moods}}" wx:key="*this" wx:for-index="idx" data-idx="{{idx}}" bindtap="onMood">{{item}}</view>
+  </view>
+  <textarea class="fe-textarea" placeholder="此刻的感受…&#10;（可以是一句话，也可以什么都不说）" bindinput="onInput" value="{{text}}" auto-height/>
+  <button class="fe-btn" bindtap="onSubmit">发 布</button>
+</view>

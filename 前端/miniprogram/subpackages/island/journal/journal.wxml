@@ -1,0 +1,23 @@
+<view class="jr-page">
+  <view class="jr-month-bar">
+    <text class="jr-arr" bindtap="onPrev">‹</text>
+    <view class="jr-m">{{month}}<text class="jr-term">{{solarTerms}}</text></view>
+    <view class="jr-toggle" bindtap="onToggle">{{viewMode === 'cal' ? '列 表' : '日 历'}}</view>
+  </view>
+  <view class="jr-week"><text wx:for="{{weeks}}" wx:key="*this">{{item}}</text></view>
+  <view class="jr-grid" wx:if="{{viewMode === 'cal'}}">
+    <view class="jr-cell {{item.empty?'empty':''}} {{item.today?'today':''}} {{item.has?'has':''}}" wx:for="{{cells}}" wx:key="day" data-idx="{{index}}" bindtap="onDay">
+      <text wx:if="{{!item.empty}}">{{item.day}}</text>
+      <view class="jr-dot" wx:if="{{item.has}}"></view>
+    </view>
+  </view>
+  <scroll-view class="jr-list" wx:else scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="jr-item" wx:for="{{entries}}" wx:key="id">
+      <view class="jri-top"><view class="jri-date">{{item.date}}</view><text class="jri-moon" wx:if="{{item.moon}}">{{item.moon}}</text></view>
+      <view class="jri-mood">{{item.mood}}</view>
+      <view class="jri-txt">{{item.text}}</view>
+      <view class="jri-rel" wx:if="{{item.rel}}">关联练习：<text>{{item.rel}}</text></view>
+    </view>
+  </scroll-view>
+  <button class="jr-add" bindtap="onAdd">+</button>
+</view>

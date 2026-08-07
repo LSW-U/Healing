@@ -1,0 +1,10 @@
+<view class="ar-page">
+  <view class="ar-card" wx:for="{{events}}" wx:key="id">
+    <view class="ar-cover" style="background:{{item.bg}}"><text class="ar-symbol">{{item.symbol}}</text></view>
+    <view class="ar-body">
+      <view class="ar-title">{{item.title}}</view>
+      <view class="ar-meta">{{item.date}} · {{item.location}}</view>
+      <view class="ar-desc">{{item.desc}}</view>
+    </view>
+  </view>
+</view>

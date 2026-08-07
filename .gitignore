@@ -1,0 +1,23 @@
+.workbuddy/
+
+# 环境变量（含密钥）
+.env
+
+# 数据库文件（本地开发数据不提交）
+*.db
+*.db-shm
+*.db-wal
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 临时文件
+*.log
+npm-debug.log*

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P03 海·练习页 · 共时海</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.p-practice{padding:0 18px;height:100%;display:flex;flex-direction:column;overflow:hidden}
+.greet-line{font-family:var(--serif);font-size:13px;color:var(--smoke);letter-spacing:1px;padding:0 4px 14px}
+.greet-line b{color:var(--ink);font-weight:500}
+.practice-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px}
+.practice-card{border-radius:16px;padding:20px 18px;height:118px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer}
+.practice-card .pn{font-family:var(--serif);font-size:16px;font-weight:500;letter-spacing:2px}
+.practice-card .pd{font-size:10px;letter-spacing:1px;opacity:.85}
+.pc-breath{background:linear-gradient(150deg,#C4CFD2 0%,#9FB3B8 100%);color:#3a4a4f}
+.pc-meditate{background:linear-gradient(150deg,#E4D9C9 0%,#C9B59A 100%);color:#5a4a36}
+.pc-sound{background:linear-gradient(150deg,#D9E2E4 0%,#5B7B8A 100%);color:#F5F3EF}
+.pc-sleep{background:linear-gradient(150deg,#2B3A42 0%,#1a2530 100%);color:#C9B59A}
+.breath-demo{background:#fff;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:16px;margin-top:14px}
+.breath-ring{position:relative;width:54px;height:54px;flex-shrink:0}
+.breath-ring .core{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,#5B7B8A 0%,#3F5E5A 100%);animation:breath 8s ease-in-out infinite}
+.breath-ring .halo{position:absolute;inset:-7px;border-radius:50%;border:1px solid rgba(91,123,138,.3);animation:halo 8s ease-in-out infinite}
+@keyframes breath{0%,100%{transform:scale(.55);opacity:.7}50%{transform:scale(1);opacity:1}}
+@keyframes halo{0%,100%{transform:scale(.9);opacity:.3}50%{transform:scale(1.15);opacity:.6}}
+.breath-demo .tx{font-size:11px;color:var(--smoke);line-height:1.5}
+.breath-demo .tx b{display:block;font-family:var(--serif);font-size:14px;color:var(--ink);font-weight:500;margin-bottom:3px}
+</style>
+</head>
+<body>
+<div class="phone"><div class="screen">
+  <div class="p-practice">
+    <div class="statusbar"><span>14:08</span><span class="right"><span class="dot"></span><span class="dot"></span></span></div>
+    <div class="nav"><div class="brand">练习</div><div class="ic"><span>⊙</span></div></div>
+    <div class="greet-line">此刻，<b>你想去哪片海</b></div>
+    <div class="practice-grid">
+      <a href="p04-breathing.html" class="practice-card pc-breath"><div><div class="pn">呼吸</div><div class="pd">4-7-8 · 盒式</div></div><div class="pd">上次 2 天前</div></a>
+      <div class="practice-card pc-meditate"><div><div class="pn">冥想</div><div class="pd">人声引导</div></div><div class="pd">5-30 分钟</div></div>
+      <div class="practice-card pc-sound"><div><div class="pn">声音</div><div class="pd">颂钵 · 自然</div></div><div class="pd">∞ 循环</div></div>
+      <div class="practice-card pc-sleep"><div><div class="pn">助眠</div><div class="pd">深夜陪伴</div></div><div class="pd">定时关闭</div></div>
+    </div>
+    <div class="breath-demo">
+      <div class="breath-ring"><div class="halo"></div><div class="core"></div></div>
+      <div class="tx"><b>呼吸圆环</b>跟随真实呼吸节奏缩放<br>丝滑的动效是该页成败关键</div>
+    </div>
+  </div>
+  <div class="tabbar">
+    <a class="tab" href="p02-discover.html"><span class="ti">潮</span><span>发现</span></a>
+    <a class="tab active" href="p03-practice.html"><span class="ti">海</span><span>练习</span></a>
+    <a class="tab" href="p10-shore.html"><span class="ti">岸</span><span>连接</span></a>
+    <a class="tab" href="p06-me.html"><span class="ti">岛</span><span>我的</span></a>
+  </div>
+</div></div>
+</body>
+</html>

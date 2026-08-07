@@ -1,0 +1,7 @@
+<view class="tide-wrap">
+  <view class="tide-ring">
+    <view class="ring-halo"></view>
+    <view class="ring-core"></view>
+    <view class="ring-text">{{phaseText}}</view>
+  </view>
+</view>

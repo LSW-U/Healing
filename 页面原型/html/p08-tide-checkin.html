@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P08 潮汐打卡页 · 共时海</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.p-checkin{padding:0 18px 62px;height:100%;display:flex;flex-direction:column;overflow:hidden}
+.ci-nav{position:relative;display:flex;justify-content:space-between;align-items:center;padding:8px 2px 12px}
+.ci-nav .back{color:var(--smoke);font-size:14px;cursor:pointer}
+.ci-nav .title{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:var(--serif);font-size:14px;letter-spacing:2px;color:var(--ink)}
+.ci-nav .circle{font-size:9px;color:var(--tidal);border:1px solid var(--mist-deep);padding:3px 10px;border-radius:12px;letter-spacing:1px;cursor:pointer}
+.ci-status{padding:2px 2px 8px}
+.ci-status .big{font-family:var(--serif);font-size:20px;font-weight:500;letter-spacing:3px;color:var(--tidal-deep)}
+.ci-status .big b{color:var(--ink);font-weight:500}
+.ci-status .sm{font-size:10px;color:var(--smoke);font-family:var(--serif);letter-spacing:1px;margin-top:4px}
+.ci-tide{background:#fff;border-radius:14px;padding:12px 10px 8px;border:1px solid var(--mist)}
+.ci-tide .tt{font-size:9px;color:var(--smoke);font-family:var(--serif);letter-spacing:1px;margin-bottom:4px;padding:0 4px}
+.ci-card{margin-top:12px;background:linear-gradient(150deg,#5B7B8A 0%,#3F5E5A 100%);border-radius:14px;padding:16px 18px;color:#F5F3EF;position:relative;overflow:hidden}
+.ci-card .jq{font-size:10px;letter-spacing:2px;opacity:.85;font-family:var(--serif)}
+.ci-card .verse{font-family:var(--serif);font-size:14px;margin:8px 0 14px;line-height:1.7;letter-spacing:1px}
+.ci-card .meta{font-size:10px;opacity:.8;display:flex;justify-content:space-between;align-items:center}
+.ci-card .share{font-size:10px;border:1px solid rgba(245,243,239,.4);padding:4px 12px;border-radius:12px;letter-spacing:1px;font-family:var(--sans);cursor:pointer;background:transparent;color:#F5F3EF}
+.ci-tl-title{font-family:var(--serif);font-size:12px;color:var(--ink);margin:14px 2px 6px;letter-spacing:1px;display:flex;justify-content:space-between;align-items:center}
+.ci-tl-title .more{font-size:10px;color:var(--smoke);font-family:var(--sans);cursor:pointer}
+.ci-tl-item{display:flex;gap:10px;padding:8px 2px;border-bottom:1px solid var(--mist);cursor:pointer}
+.ci-tl-item:last-child{border-bottom:none}
+.ci-tl-item .d{font-size:9px;color:var(--smoke);font-family:monospace;width:34px;flex-shrink:0;padding-top:3px}
+.ci-tl-item .c{flex:1}
+.ci-tl-item .mood{font-size:11px;color:var(--wood);font-family:var(--serif);letter-spacing:1px;margin-bottom:2px}
+.ci-tl-item .txt{font-size:11px;color:var(--ink);line-height:1.5}
+</style>
+</head>
+<body>
+<div class="phone"><div class="screen">
+  <div class="p-checkin">
+    <div class="statusbar"><span>21:08</span><span class="right"><span class="dot"></span><span class="dot"></span></span></div>
+    <div class="ci-nav"><a href="p06-me.html" class="back">‹</a><span class="title">打 卡 与 陪 伴</span><a href="p09-circle.html" class="circle">共 修 圈</a></div>
+    <div class="ci-status">
+      <div class="big">连 绵 <b>7</b> 日 · 满 潮</div>
+      <div class="sm">潮将满，继续就好</div>
+    </div>
+    <div class="ci-tide">
+      <div class="tt">近 14 日 · 潮汐打卡图</div>
+      <svg viewBox="0 0 244 76" width="100%" preserveAspectRatio="xMidYMid meet">
+        <line x1="4" y1="8" x2="240" y2="8" stroke="#5B7B8A" stroke-width="0.5" stroke-dasharray="3 3" opacity="0.5"/>
+        <path d="M4,68 L4,64 L23,56 L42,50 L60,44 L79,36 L98,28 L117,12 L136,32 L154,40 L173,36 L192,28 L210,18 L226,12 L240,8 L240,68 Z" fill="#E6F1FB"/>
+        <path d="M4,64 L23,56 L42,50 L60,44 L79,36 L98,28 L117,12 L136,32 L154,40 L173,36 L192,28 L210,18 L226,12 L240,8" fill="none" stroke="#5B7B8A" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+        <line x1="4" y1="68" x2="240" y2="68" stroke="#DDD8CF" stroke-width="0.5"/>
+        <circle cx="117" cy="12" r="2.5" fill="#4A6B7A"/>
+        <circle cx="240" cy="8" r="2.5" fill="#4A6B7A"/>
+      </svg>
+    </div>
+    <div class="ci-card">
+      <div class="jq">立 秋 · 新 月 前</div>
+      <div class="verse">“今晨的呼吸很慢，<br>海好像也停了一下”</div>
+      <div class="meta"><span>晨间苏醒 · 8 分钟</span><button class="share"><a href="p31-card-gen.html">分 享 ›</a></button></div>
+    </div>
+    <div class="ci-tl-title"><span>最 近 的 涟 漪</span><span class="more">全 部 ›</span></div>
+    <div class="ci-tl-item">
+      <div class="d">8.6</div>
+      <div class="c"><div class="mood">沉 静</div><div class="txt">做完呼吸练习，肩膀松下来了</div></div>
+    </div>
+    <div class="ci-tl-item">
+      <div class="d">8.5</div>
+      <div class="c"><div class="mood">起 伏</div><div class="txt">思绪有点多，但没急着赶走它</div></div>
+    </div>
+  </div>
+  <div class="tabbar">
+    <a class="tab" href="p02-discover.html"><span class="ti">潮</span><span>发现</span></a>
+    <a class="tab" href="p03-practice.html"><span class="ti">海</span><span>练习</span></a>
+    <a class="tab" href="p10-shore.html"><span class="ti">岸</span><span>连接</span></a>
+    <a class="tab active" href="p06-me.html"><span class="ti">岛</span><span>我的</span></a>
+  </div>
+</div></div>
+</body>
+</html>

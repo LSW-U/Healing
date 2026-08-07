@@ -1,0 +1,5 @@
+.rm-page{padding:0 36rpx;min-height:100vh;background:var(--moonwhite)}
+.rm-item{display:flex;justify-content:space-between;align-items:center;padding:32rpx 32rpx;background:#fff;border-radius:24rpx;border:2rpx solid var(--mist);margin-bottom:16rpx}
+.rm-label{font-size:28rpx;color:var(--ink);font-weight:500}
+.rm-desc{font-size:22rpx;color:var(--smoke);margin-top:6rpx}
+.rm-notice{margin-top:48rpx;text-align:center;font-size:22rpx;color:var(--smoke);line-height:1.7}

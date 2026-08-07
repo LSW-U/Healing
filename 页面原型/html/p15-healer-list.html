@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P15 疗愈师列表 · 共时海</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.p-healer-list{padding:0 18px 62px;height:100%;display:flex;flex-direction:column;overflow:hidden}
+.hl-cats{display:flex;gap:6px;padding:0 2px 14px;overflow:hidden}
+.hl-cat{font-size:9px;padding:4px 11px;border-radius:12px;white-space:nowrap;letter-spacing:1px;flex-shrink:0;cursor:pointer}
+.hl-cat.active{background:var(--tidal);color:#fff}
+.hl-cat:not(.active){background:var(--mist);color:var(--smoke)}
+.hl-list{flex:1;overflow-y:auto}
+.hl-card{display:flex;gap:13px;padding:15px 4px;border-bottom:1px solid var(--mist);text-decoration:none;cursor:pointer}
+.hl-card:last-child{border-bottom:none}
+.hl-card .av{width:54px;height:54px;border-radius:50%;flex-shrink:0}
+.hl-card .info{flex:1}
+.hl-card .info .n{font-family:var(--serif);font-size:15px;color:var(--ink);font-weight:500;letter-spacing:1px}
+.hl-card .info .r{font-size:10px;color:var(--smoke);margin-top:3px;letter-spacing:1px}
+.hl-card .info .desc{font-size:11px;color:var(--smoke);margin-top:6px;line-height:1.5;font-family:var(--serif)}
+.hl-card .info .tags{display:flex;gap:6px;margin-top:8px}
+.hl-card .info .tags span{font-size:9px;color:var(--tidal);background:rgba(91,123,138,.1);padding:2px 8px;border-radius:8px;letter-spacing:1px}
+.hl-card .go{color:var(--mist-deep);font-size:13px;align-self:center}
+</style>
+</head>
+<body>
+<div class="phone"><div class="screen">
+  <div class="p-healer-list">
+    <div class="statusbar"><span>14:20</span><span class="right"><span class="dot"></span><span class="dot"></span></span></div>
+    <div class="nav"><a href="p10-shore.html" class="back" style="text-decoration:none">‹</a><span class="title">疗 愈 师</span><span class="ic">⊝</span></div>
+    <div class="hl-cats">
+      <span class="hl-cat active">全 部</span>
+      <span class="hl-cat">颂 钵</span>
+      <span class="hl-cat">正 念</span>
+      <span class="hl-cat">艺 术 疗 愈</span>
+      <span class="hl-cat">哲 学 话 疗</span>
+    </div>
+    <div class="hl-list">
+      <a class="hl-card" href="p16-healer-detail.html">
+        <div class="av" style="background:linear-gradient(135deg,#C9B59A,#8a7558)"></div>
+        <div class="info"><div class="n">林 一 沐</div><div class="r">颂钵疗愈师 · 从业 8 年</div><div class="desc">"声音是温柔的手，抚过每一寸紧绷"</div><div class="tags"><span>颂钵</span><span>声音疗愈</span></div></div>
+        <span class="go">›</span>
+      </a>
+      <a class="hl-card" href="p16-healer-detail.html">
+        <div class="av" style="background:linear-gradient(135deg,#5B7B8A,#3F5E5A)"></div>
+        <div class="info"><div class="n">苏 砚</div><div class="r">正念冥想引导师 · 从业 6 年</div><div class="desc">"呼吸是最小的舟，渡你回到此刻"</div><div class="tags"><span>正念</span><span>冥想</span></div></div>
+        <span class="go">›</span>
+      </a>
+      <a class="hl-card" href="p16-healer-detail.html">
+        <div class="av" style="background:linear-gradient(135deg,#3F5E5A,#2B3A42)"></div>
+        <div class="info"><div class="n">陈 知 微</div><div class="r">艺术疗愈师 · 从业 5 年</div><div class="desc">"画笔下藏着你还没说出口的话"</div><div class="tags"><span>艺术疗愈</span><span>绘画</span></div></div>
+        <span class="go">›</span>
+      </a>
+      <a class="hl-card" href="p16-healer-detail.html">
+        <div class="av" style="background:linear-gradient(135deg,#B8746A,#7a4a42)"></div>
+        <div class="info"><div class="n">周 临 川</div><div class="r">哲学话疗师 · 从业 7 年</div><div class="desc">"有些困惑，说出来海就宽了"</div><div class="tags"><span>哲学话疗</span></div></div>
+        <span class="go">›</span>
+      </a>
+    </div>
+  </div>
+  <div class="tabbar">
+    <a class="tab" href="p02-discover.html"><span class="ti">潮</span><span>发现</span></a>
+    <a class="tab" href="p03-practice.html"><span class="ti">海</span><span>练习</span></a>
+    <a class="tab active" href="p10-shore.html"><span class="ti">岸</span><span>连接</span></a>
+    <a class="tab" href="p06-me.html"><span class="ti">岛</span><span>我的</span></a>
+  </div>
+</div></div>
+</body>
+</html>

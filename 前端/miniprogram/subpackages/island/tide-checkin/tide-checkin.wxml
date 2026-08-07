@@ -1,0 +1,15 @@
+<view class="tc-page">
+  <view class="tc-header">
+    <view class="tc-tide-level">{{tideText}}</view>
+    <view class="tc-streak">连续 {{streak}} 天</view>
+    <view class="tc-status" wx:if="{{checkedToday}}">今日已打卡 ✓</view>
+    <view class="tc-status off" wx:else>今日尚未练习</view>
+  </view>
+  <view class="tc-records">
+    <view class="tc-rec" wx:for="{{records}}" wx:key="id">
+      <view class="tr-date">{{item.date}}</view>
+      <view class="tr-mood">{{item.mood}}</view>
+      <view class="tr-note" wx:if="{{item.note}}">{{item.note}}</view>
+    </view>
+  </view>
+</view>

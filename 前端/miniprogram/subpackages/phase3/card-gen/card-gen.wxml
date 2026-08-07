@@ -1,0 +1,9 @@
+<view class="cg-page">
+  <view class="cg-card">
+    <view class="cg-season">{{solarTerm}} · {{moonPhase}}</view>
+    <view class="cg-quote">"{{quote}}"</view>
+    <view class="cg-practice">{{practice}}</view>
+    <view class="cg-brand">共 时 海</view>
+  </view>
+  <button class="cg-btn" bindtap="onShare">分 享 给 朋 友</button>
+</view>

@@ -1,0 +1,4 @@
+<view class="sheet-mask" wx:if="{{show}}" bindtap="onMask"></view>
+<view class="sheet-panel {{show?'sheet-show':''}}">
+  <slot></slot>
+</view>

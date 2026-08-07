@@ -1,0 +1,16 @@
+<view class="page">
+  <view class="cl-cats">
+    <view class="cl-cat {{catIdx === idx ? 'active' : ''}}" wx:for="{{cats}}" wx:key="*this" wx:for-index="idx" data-idx="{{idx}}" bindtap="onCat">{{item}}</view>
+  </view>
+  <view class="cl-card" wx:for="{{courses}}" wx:key="id" bindtap="onCourse" data-id="{{item.id}}">
+    <view class="cl-cover" style="background:{{item.bg}}"></view>
+    <view class="cl-info">
+      <view class="cl-title">{{item.title}}</view>
+      <view class="cl-meta">{{item.instructor}} · {{item.lessons}} · {{item.typeName}}</view>
+      <view class="cl-bottom">
+        <view class="cl-price">{{item.price}}</view>
+        <view class="cl-tag">{{item.typeName}}</view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,29 @@
+<scroll-view class="hd-page" scroll-y enhanced show-scrollbar="{{false}}">
+  <view class="hd-head">
+    <view class="hd-avatar" style="background:{{healer.bg}}"></view>
+    <view class="hd-name">{{healer.name}}</view>
+    <view class="hd-role">{{healer.title}}</view>
+  </view>
+  <view class="hd-body">
+    <view class="hd-tags"><text class="hd-tag" wx:for="{{healer.tags}}" wx:key="*this">{{item}}</text></view>
+    <view class="hd-sec">
+      <view class="hd-lab">关 于</view>
+      <view class="hd-txt">{{healer.about}}</view>
+    </view>
+    <view class="hd-sec">
+      <view class="hd-lab">擅 长</view>
+      <view class="hd-txt">{{healer.specialties}}</view>
+    </view>
+    <view class="hd-sec">
+      <view class="hd-lab">提 供 服 务</view>
+      <view class="hd-srv" wx:for="{{healer.services}}" wx:key="name">
+        <view class="hs-left"><view class="hs-title">{{item.name}}</view><view class="hs-desc">{{item.desc}}</view></view>
+        <view class="hs-price">{{item.price}}</view>
+      </view>
+    </view>
+    <view class="hd-notice">本服务为陪伴与放松用途，不替代专业医疗或心理治疗。如有严重情绪困扰，请联系专业机构或拨打心理援助热线 010-82951332。</view>
+  </view>
+</scroll-view>
+<view class="hd-actions">
+  <button class="hd-btn" bindtap="onBook">预 约 咨 询</button>
+</view>

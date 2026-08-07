@@ -1,0 +1,6 @@
+<view class="pf-page">
+  <view class="pf-avatar" style="background:linear-gradient(135deg,#5B7B8A,#3F5E5A)"></view>
+  <view class="pf-item"><view class="pf-label">昵称</view><input class="pf-input" value="潮" placeholder="输入昵称"/></view>
+  <view class="pf-item"><view class="pf-label">签名</view><input class="pf-input" value="今夜，让海浪替你守着时间" placeholder="一句话介绍"/></view>
+  <view class="pf-item"><view class="pf-label">手机</view><input class="pf-input" value="" placeholder="绑定手机号"/></view>
+</view>

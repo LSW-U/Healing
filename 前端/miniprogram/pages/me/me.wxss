@@ -1,0 +1,15 @@
+/* 岛·我的页（P06） */
+.page{padding:0 36rpx 140rpx;min-height:100vh;box-sizing:border-box}
+.me-head{padding:28rpx 8rpx 36rpx}
+.me-head .nm{font-family:"Songti SC",serif;font-size:36rpx;font-weight:500;letter-spacing:2rpx;color:var(--ink)}
+.me-head .sg{font-size:22rpx;color:var(--smoke);margin-top:8rpx;font-family:"Songti SC",serif}
+.me-stat{background:#fff;border-radius:32rpx;padding:32rpx 36rpx;display:flex;justify-content:space-around;text-align:center;border:2rpx solid var(--mist);margin-bottom:32rpx}
+.me-stat .num{font-family:"Songti SC",serif;font-size:44rpx;color:var(--tidal-deep);font-weight:500}
+.me-stat .lab{font-size:20rpx;color:var(--smoke);margin-top:8rpx}
+.me-nav{display:flex;flex-direction:column;gap:4rpx}
+.me-nav-item{display:flex;align-items:center;justify-content:space-between;padding:28rpx 8rpx;border-bottom:2rpx solid var(--mist)}
+.me-nav-item:last-child{border-bottom:none}
+.me-nav-l{display:flex;align-items:center;gap:24rpx;font-size:26rpx;color:var(--ink)}
+.me-nav-l .ico{width:44rpx;text-align:center;color:var(--tidal);font-size:28rpx}
+.me-nav-r{color:var(--mist-deep);font-size:24rpx;display:flex;align-items:center}
+.me-nav-r .badge{background:var(--wood);color:#fff;font-size:18rpx;padding:2rpx 14rpx;border-radius:16rpx;margin-left:16rpx}

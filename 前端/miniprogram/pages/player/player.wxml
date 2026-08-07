@@ -1,0 +1,40 @@
+<!-- 音频播放器 P05 -->
+<view class="player-page">
+  <view class="p-top">
+    <view class="p-back" bindtap="onBack">‹ 返回</view>
+    <view class="p-center">正 在 播 放</view>
+    <view class="p-more" bindtap="onMore">⋯</view>
+  </view>
+
+  <view class="p-mid">
+    <view class="p-cover">
+      <view class="p-symbol">海</view>
+    </view>
+    <view class="p-title">{{content.title}}</view>
+    <view class="p-sub">{{content.subtitle}}</view>
+  </view>
+
+  <view class="p-controls">
+    <view class="p-progress" bindtouchstart="onProgressStart" bindtouchmove="onProgressMove" bindtouchend="onProgressEnd">
+      <view class="p-fill" style="width:{{progress}}%"></view>
+      <view class="p-knob" style="left:{{progress}}%"></view>
+    </view>
+    <view class="p-time">
+      <text>{{currentText}}</text>
+      <text>{{durationText}}</text>
+    </view>
+    <view class="p-buttons">
+      <view class="p-ctrl" bindtap="onPrev">⟲</view>
+      <view class="p-ctrl" bindtap="onRewind">◁</view>
+      <view class="p-play" bindtap="onToggle">▷</view>
+      <view class="p-ctrl" bindtap="onForward">▷</view>
+      <view class="p-ctrl" bindtap="onLoop">◎</view>
+    </view>
+  </view>
+
+  <view class="p-extras">
+    <view class="p-extra" bindtap="onTimer"><text>⏱ 30分钟</text></view>
+    <view class="p-extra" bindtap="onFav"><text>♡ 收藏</text></view>
+    <view class="p-extra" bindtap="onSections"><text>⇄ 分段</text></view>
+  </view>
+</view>

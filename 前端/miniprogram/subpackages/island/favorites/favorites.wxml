@@ -1,0 +1,13 @@
+<view class="fv-page">
+  <view class="fv-cats">
+    <view class="fv-cat {{catIdx===idx?'active':''}}" wx:for="{{cats}}" wx:key="*this" wx:for-index="idx" data-idx="{{idx}}" bindtap="onCat">{{item}}</view>
+  </view>
+  <block wx:for="{{groups}}" wx:key="name">
+    <view class="fv-group">{{item.name}}</view>
+    <view class="fv-item" wx:for="{{item.items}}" wx:for-item="it" wx:key="id" bindtap="onItem" data-id="{{it.id}}">
+      <view class="fv-thumb" style="background:{{it.bg}}"></view>
+      <view class="fv-info"><view class="fv-title">{{it.title}}</view><view class="fv-meta">{{it.subtitle}}</view></view>
+    </view>
+  </block>
+  <view class="fv-empty" wx:if="{{groups.length === 0}}">还没有收藏，练习时点击 ♡ 即可收藏</view>
+</view>

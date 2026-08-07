@@ -1,0 +1,14 @@
+<view class="an-page">
+  <view class="an-header">
+    <view class="an-year">2026</view>
+    <view class="an-sub">共 时 海 · 年 度 潮 汐</view>
+  </view>
+  <view class="an-stats">
+    <view class="an-stat"><view class="an-num">42</view><view class="an-lab">练习小时</view></view>
+    <view class="an-stat"><view class="an-num">128</view><view class="an-lab">练习次数</view></view>
+    <view class="an-stat"><view class="an-num">87</view><view class="an-lab">打卡天数</view></view>
+  </view>
+  <view class="an-sec"><view class="an-lab">你 最 喜 欢</view><view class="an-txt">冥想引导 · 颂钵 · 呼吸练习</view></view>
+  <view class="an-sec"><view class="an-lab">常 在</view><view class="an-txt">夜间 21:00 — 22:00</view></view>
+  <view class="an-footer">潮汐有涨落，海一直在</view>
+</view>

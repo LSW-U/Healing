@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P13 练习完成反馈页 · 共时海</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.p-feedback{height:100%;display:flex;flex-direction:column;padding:0 24px;background:linear-gradient(180deg,#EFE9DF 0%,#F5F3EF 100%)}
+.fb-top{padding:18px 0 6px;color:var(--smoke);font-size:13px;cursor:pointer}
+.fb-icon{margin:18px auto 18px;width:64px;height:64px;border-radius:50%;background:radial-gradient(circle,rgba(91,123,138,.2),rgba(91,123,138,.05));display:flex;align-items:center;justify-content:center}
+.fb-icon .ring{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--tidal);animation:fb-breath 4s ease-in-out infinite}
+@keyframes fb-breath{0%,100%{transform:scale(.9);opacity:.6}50%{transform:scale(1.05);opacity:1}}
+.fb-title{font-family:var(--serif);font-size:20px;font-weight:500;letter-spacing:2px;color:var(--ink);text-align:center;line-height:1.5}
+.fb-sub{font-family:var(--serif);font-size:12px;color:var(--smoke);text-align:center;margin-top:8px;letter-spacing:1px}
+.fb-section{margin-top:26px}
+.fb-section .lab{font-family:var(--serif);font-size:12px;color:var(--smoke);letter-spacing:1px;margin-bottom:12px}
+.fb-moods{display:flex;justify-content:space-between;gap:8px}
+.fb-mood{flex:1;text-align:center;padding:13px 4px;background:#fff;border-radius:12px;border:1px solid var(--mist);cursor:pointer;font-family:var(--serif);font-size:12px;color:var(--ink);letter-spacing:1px}
+.fb-mood.active{background:rgba(91,123,138,.12);border-color:var(--tidal);color:var(--tidal-deep)}
+.fb-input{margin-top:14px;background:#fff;border-radius:12px;border:1px solid var(--mist);padding:14px;font-size:13px;color:var(--ink);min-height:64px;line-height:1.6}
+.fb-input .ph{color:var(--mist-deep)}
+.fb-related{margin-top:12px;font-size:11px;color:var(--smoke);font-family:var(--serif);letter-spacing:1px}
+.fb-related b{color:var(--tidal-deep);font-weight:500}
+.fb-actions{margin-top:auto;padding:16px 0 18px;display:flex;gap:12px}
+.fb-actions .again{flex:1;background:#fff;border:1px solid var(--tidal);color:var(--tidal);padding:13px;border-radius:24px;font-size:13px;letter-spacing:2px;font-family:var(--sans);cursor:pointer}
+.fb-actions .done{flex:1.5;background:var(--tidal);color:#fff;border:none;padding:13px;border-radius:24px;font-size:13px;letter-spacing:2px;font-family:var(--sans);cursor:pointer}
+</style>
+</head>
+<body>
+<div class="phone"><div class="screen">
+  <div class="p-feedback">
+    <div class="fb-top">‹ 完成</div>
+    <div class="fb-icon"><div class="ring"></div></div>
+    <div class="fb-title">今 天 的 潮 汐<br>已 被 你 记 下</div>
+    <div class="fb-sub">晨间苏醒 · 8 分钟 · 已练习</div>
+    <div class="fb-section">
+      <div class="lab">此 刻 心 情</div>
+      <div class="fb-moods">
+        <div class="fb-mood">起 伏</div>
+        <div class="fb-mood">沉 静</div>
+        <div class="fb-mood active">微 光</div>
+        <div class="fb-mood">澄 澈</div>
+        <div class="fb-mood">温 暖</div>
+      </div>
+    </div>
+    <div class="fb-section">
+      <div class="lab">一 句 话（可 选）</div>
+      <div class="fb-input"><span class="ph">今晨的呼吸很慢，海好像也停了一下…</span></div>
+    </div>
+    <div class="fb-related">关联练习：<b>晨间苏醒 · 跟随海的呼吸</b></div>
+    <div class="fb-actions">
+      <button class="again"><a href="p03-practice.html">再 练 一 次</a></button>
+      <button class="done"><a href="p08-tide-checkin.html">完 成 · 记 下</a></button>
+    </div>
+  </div>
+</div></div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!-- 海·练习页 P03 -->
+<view class="page">
+  <view class="greet-line">此刻，<text>你想去哪片海</text></view>
+
+  <view class="practice-grid">
+    <view class="practice-card pc-breath" bindtap="onBreath">
+      <view><view class="pc-name">呼吸</view><view class="pc-desc">4-7-8 · 盒式</view></view>
+      <view class="pc-foot">上次 2 天前</view>
+    </view>
+    <view class="practice-card pc-meditate" bindtap="onMeditate">
+      <view><view class="pc-name">冥想</view><view class="pc-desc">人声引导</view></view>
+      <view class="pc-foot">5-30 分钟</view>
+    </view>
+    <view class="practice-card pc-sound" bindtap="onSound">
+      <view><view class="pc-name">声音</view><view class="pc-desc">颂钵 · 自然</view></view>
+      <view class="pc-foot">∞ 循环</view>
+    </view>
+    <view class="practice-card pc-sleep" bindtap="onSleep">
+      <view><view class="pc-name">助眠</view><view class="pc-desc">深夜陪伴</view></view>
+      <view class="pc-foot">定时关闭</view>
+    </view>
+  </view>
+
+  <view class="breath-demo" bindtap="onBreath">
+    <tide-ring pattern="{{breathPattern}}"></tide-ring>
+    <view class="breath-info">
+      <text class="bd-title">呼吸圆环</text>
+      跟随真实呼吸节奏缩放
+      丝滑动效 · 沉浸式体验
+    </view>
+  </view>
+</view>

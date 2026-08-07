@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P27 个人资料 · 共时海</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.p-profile{padding:0 18px 62px;height:100%;display:flex;flex-direction:column;overflow:hidden}
+.pf-avatar{text-align:center;padding:28px 0 22px}
+.pf-avatar .av{width:80px;height:80px;border-radius:50%;margin:0 auto 10px;background:linear-gradient(135deg,#5B7B8A,#3F5E5A);display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--serif);font-size:30px;cursor:pointer}
+.pf-avatar .tip{font-size:10px;color:var(--smoke);letter-spacing:1px;font-family:var(--serif)}
+.pf-list{flex:1;overflow-y:auto}
+.pf-item{display:flex;justify-content:space-between;align-items:center;padding:16px 4px;border-bottom:1px solid var(--mist);cursor:pointer}
+.pf-item:last-child{border-bottom:none}
+.pf-item .l{font-family:var(--serif);font-size:13px;color:var(--ink);letter-spacing:1px}
+.pf-item .r{font-size:12px;color:var(--smoke);display:flex;align-items:center;gap:6px}
+.pf-save{margin-top:auto;padding:16px 0;text-align:center}
+.pf-save button{background:var(--tidal);color:#fff;border:none;padding:13px 60px;border-radius:24px;font-size:13px;letter-spacing:2px;cursor:pointer;font-family:var(--sans)}
+</style>
+</head>
+<body>
+<div class="phone"><div class="screen">
+  <div class="p-profile">
+    <div class="statusbar"><span>22:20</span><span class="right"><span class="dot"></span><span class="dot"></span></span></div>
+    <div class="nav"><a href="p25-settings.html" class="back" style="text-decoration:none">‹</a><span class="title">个 人 资 料</span><span class="ic"></span></div>
+    <div class="pf-avatar"><div class="av">潮</div><div class="tip">点 击 更 换 头 像</div></div>
+    <div class="pf-list">
+      <div class="pf-item"><span class="l">昵 称</span><span class="r">潮 · ›</span></div>
+      <div class="pf-item"><span class="l">签 名</span><span class="r">今夜，让海浪替你守着时间 ›</span></div>
+      <div class="pf-item"><span class="l">手 机 号</span><span class="r">138****8888 ›</span></div>
+      <div class="pf-item"><span class="l">微 信 授 权</span><span class="r">已绑定 ›</span></div>
+    </div>
+    <div class="pf-save"><a href="p25-settings.html" style="text-decoration:none"><button>保 存</button></a></div>
+  </div>
+  <div class="tabbar">
+    <a class="tab" href="p02-discover.html"><span class="ti">潮</span><span>发现</span></a>
+    <a class="tab" href="p03-practice.html"><span class="ti">海</span><span>练习</span></a>
+    <a class="tab" href="p10-shore.html"><span class="ti">岸</span><span>连接</span></a>
+    <a class="tab active" href="p06-me.html"><span class="ti">岛</span><span>我的</span></a>
+  </div>
+</div></div>
+</body>
+</html>

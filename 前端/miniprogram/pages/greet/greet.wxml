@@ -1,0 +1,13 @@
+<!-- P01 启动问候页 · 由 ../页面原型/html/p01-greet.html 转换 -->
+<view class="greet">
+  <view class="brand">共时海</view>
+  <view class="slogan">潮起潮落 · 你都在</view>
+
+  <view class="season-card">
+    <view class="term">{{ greeting.solarTerm || '立秋' }}</view>
+    <view class="poem">{{ greeting.quote || '凉风至，白露生，寒蝉鸣。' }}</view>
+    <view class="source" wx:if="{{ greeting.source }}">— {{ greeting.source }}</view>
+  </view>
+
+  <button class="enter" bindtap="enter">进入共时海</button>
+</view>

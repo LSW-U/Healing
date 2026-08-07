@@ -1,0 +1,25 @@
+.cr-page{padding:0 36rpx 140rpx;display:flex;flex-direction:column;min-height:100vh;background:var(--moonwhite)}
+.cr-head{background:linear-gradient(150deg,var(--tidal),var(--tidal-deep));border-radius:28rpx;padding:28rpx 32rpx;color:var(--moonwhite);margin-bottom:24rpx}
+.cr-t{font-family:"Songti SC",serif;font-size:28rpx;letter-spacing:4rpx;font-weight:500}
+.cr-p{display:flex;justify-content:space-between;align-items:center;margin-top:18rpx;font-size:18rpx;opacity:.85;letter-spacing:2rpx}
+.cr-prog{flex:1;height:6rpx;background:rgba(245,243,239,.25);border-radius:6rpx;margin:0 20rpx}
+.cr-bar{height:100%;background:var(--wood);border-radius:6rpx}
+.cr-wall{background:#fff;border-radius:28rpx;padding:20rpx 28rpx;border:2rpx solid var(--mist);margin-bottom:24rpx;display:flex;align-items:center;gap:20rpx}
+.cr-label{font-size:20rpx;color:var(--smoke);font-family:"Songti SC",serif;line-height:1.4;flex-shrink:0}
+.cr-count{color:var(--tidal-deep);font-weight:500;font-size:26rpx;display:block;font-family:"Songti SC",serif;margin-bottom:4rpx}
+.cr-avatars{display:flex;align-items:center;margin-left:auto}
+.cr-av{width:40rpx;height:40rpx;border-radius:50%;border:3rpx solid var(--moonwhite);margin-left:-12rpx}
+.cr-av:first-child{margin-left:0}
+.cr-more{font-size:18rpx;color:var(--smoke);margin-left:16rpx}
+.cr-subtitle{font-family:"Songti SC",serif;font-size:24rpx;color:var(--ink);margin:8rpx 4rpx 16rpx;letter-spacing:2rpx}
+.cr-feed{flex:1;overflow:hidden}
+.cr-item{background:#fff;border-radius:24rpx;padding:22rpx 28rpx;margin-bottom:20rpx;border:2rpx solid var(--mist)}
+.cri-top{display:flex;align-items:center;gap:16rpx;margin-bottom:12rpx}
+.cri-av{width:36rpx;height:36rpx;border-radius:50%}
+.cri-name{font-size:22rpx;color:var(--ink);font-weight:500}
+.cri-time{font-size:18rpx;color:var(--smoke);margin-left:auto}
+.cri-mood{font-size:20rpx;color:var(--wood);font-family:"Songti SC",serif;letter-spacing:2rpx;margin-bottom:6rpx}
+.cri-txt{font-size:24rpx;color:var(--ink);line-height:1.5;margin-bottom:16rpx}
+.cri-warm{display:flex;gap:12rpx}
+.cw-btn{font-size:20rpx;color:var(--tidal);border:2rpx solid var(--mist-deep);padding:4rpx 16rpx;border-radius:20rpx;letter-spacing:2rpx}
+.cr-post{margin-top:auto;align-self:center;background:var(--tidal);color:#fff;font-size:24rpx;letter-spacing:4rpx;padding:18rpx 44rpx;border-radius:40rpx;border:none}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P09 共修圈页 · 共时海</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.p-circle{padding:0 18px 62px;height:100%;display:flex;flex-direction:column;overflow:hidden}
+.cr-nav{display:flex;justify-content:space-between;align-items:center;padding:8px 2px 12px}
+.cr-nav .back{color:var(--smoke);font-size:14px;cursor:pointer}
+.cr-nav .name{font-family:var(--serif);font-size:13px;letter-spacing:1px;color:var(--ink);text-align:center;flex:1}
+.cr-nav .set{color:var(--smoke);font-size:14px;cursor:pointer}
+.cr-head{background:linear-gradient(150deg,#5B7B8A 0%,#3F5E5A 100%);border-radius:14px;padding:14px 16px;color:#F5F3EF;margin-bottom:12px}
+.cr-head .t{font-family:var(--serif);font-size:14px;letter-spacing:2px;font-weight:500}
+.cr-head .p{display:flex;justify-content:space-between;align-items:center;margin-top:9px;font-size:9px;opacity:.85;letter-spacing:1px}
+.cr-head .p .prog{flex:1;height:3px;background:rgba(245,243,239,.25);border-radius:3px;margin:0 10px;position:relative}
+.cr-head .p .prog .bar{position:absolute;left:0;top:0;height:100%;width:66%;background:#C9B59A;border-radius:3px}
+.cr-wall{background:#fff;border-radius:14px;padding:10px 14px;border:1px solid var(--mist);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.cr-wall .label{font-size:9px;color:var(--smoke);font-family:var(--serif);line-height:1.4;flex-shrink:0;letter-spacing:1px}
+.cr-wall .label b{color:var(--tidal-deep);font-weight:500;font-size:12px;display:block;font-family:var(--serif);margin-bottom:2px}
+.cr-avatars{display:flex;align-items:center;margin-left:auto}
+.cr-avatars .av{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--moonwhite);margin-left:-6px}
+.cr-avatars .av:first-child{margin-left:0}
+.cr-avatars .more{font-size:9px;color:var(--smoke);margin-left:8px}
+.cr-title{font-family:var(--serif);font-size:11px;color:var(--ink);margin:2px 2px 8px;letter-spacing:1px}
+.cr-feed{flex:1;overflow:hidden}
+.cr-item{background:#fff;border-radius:12px;padding:11px 14px;margin-bottom:10px;border:1px solid var(--mist)}
+.cr-item .top{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.cr-item .top .av{width:18px;height:18px;border-radius:50%}
+.cr-item .top .nm{font-size:11px;color:var(--ink);font-weight:500}
+.cr-item .top .tm{font-size:9px;color:var(--smoke);margin-left:auto;font-family:monospace}
+.cr-item .mood{font-size:10px;color:var(--wood);font-family:var(--serif);letter-spacing:1px;margin-bottom:3px}
+.cr-item .txt{font-size:11px;color:var(--ink);line-height:1.5;margin-bottom:8px}
+.cr-item .warm{display:flex;gap:6px}
+.cr-item .warm span{font-size:9px;color:var(--tidal);border:1px solid var(--mist-deep);padding:2px 8px;border-radius:10px;letter-spacing:1px;cursor:pointer}
+.cr-post{margin-top:auto;align-self:center;background:var(--tidal);color:#fff;font-size:11px;letter-spacing:2px;padding:9px 22px;border-radius:20px;font-family:var(--sans);box-shadow:0 4px 12px rgba(91,123,138,.25);margin-bottom:4px;cursor:pointer;border:none}
+</style>
+</head>
+<body>
+<div class="phone"><div class="screen">
+  <div class="p-circle">
+    <div class="statusbar"><span>21:34</span><span class="right"><span class="dot"></span><span class="dot"></span></span></div>
+    <div class="cr-nav"><a href="p10-shore.html" class="back">‹</a><span class="name">21 天 晨 间 呼 吸 共 修 圈</span><span class="set">⋯</span></div>
+    <div class="cr-head">
+      <div class="t">共 同 潮 汐 · 第 14 日</div>
+      <div class="p"><span>21 天周期</span><span class="prog"><span class="bar"></span></span><span>14 / 21</span></div>
+    </div>
+    <div class="cr-wall">
+      <div class="label">今日<b>12 位同修</b>在海里</div>
+      <div class="cr-avatars">
+        <div class="av" style="background:#C9B59A"></div>
+        <div class="av" style="background:#5B7B8A"></div>
+        <div class="av" style="background:#3F5E5A"></div>
+        <div class="av" style="background:#B8746A"></div>
+        <div class="av" style="background:#8A8A8A"></div>
+        <span class="more">+7</span>
+      </div>
+    </div>
+    <div class="cr-title">同 修 的 涟 漪</div>
+    <div class="cr-feed">
+      <div class="cr-item">
+        <div class="top"><div class="av" style="background:#C9B59A"></div><span class="nm">小 满</span><span class="tm">08:12</span></div>
+        <div class="mood">沉 静</div>
+        <div class="txt">今早的呼吸很顺，好像跟着海一起涨落</div>
+        <div class="warm"><span>也 在</span><span>陪 你</span></div>
+      </div>
+      <div class="cr-item">
+        <div class="top"><div class="av" style="background:#5B7B8A"></div><span class="nm">青 舟</span><span class="tm">07:45</span></div>
+        <div class="mood">微 光</div>
+        <div class="txt">醒来第一件事是呼吸，今天是新的海</div>
+        <div class="warm"><span>也 在</span><span>陪 你</span></div>
+      </div>
+    </div>
+    <button class="cr-post"><a href="p32-feeling-editor.html">+ 发 打 卡 / 感 受</a></button>
+  </div>
+  <div class="tabbar">
+    <a class="tab" href="p02-discover.html"><span class="ti">潮</span><span>发现</span></a>
+    <a class="tab" href="p03-practice.html"><span class="ti">海</span><span>练习</span></a>
+    <a class="tab active" href="p10-shore.html"><span class="ti">岸</span><span>连接</span></a>
+    <a class="tab" href="p06-me.html"><span class="ti">岛</span><span>我的</span></a>
+  </div>
+</div></div>
+</body>
+</html>

@@ -1,0 +1,1 @@
+Page({data:{events:[{id:1,symbol:'茶',title:'大暑·茶会',date:'7.22',location:'共时海工作室',desc:'大暑之夜，一盏清茶消暑气。',bg:'linear-gradient(135deg,#5B7B8A,#3F5E5A)'},{id:2,symbol:'音',title:'颂钵·满月沙龙',date:'7.15',location:'共时海工作室',desc:'满月之夜颂钵共修。',bg:'linear-gradient(135deg,#C9B59A,#8a7558)'}]}})

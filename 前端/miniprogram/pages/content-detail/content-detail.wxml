@@ -1,0 +1,52 @@
+<!-- 内容详情页 P12 -->
+<scroll-view class="detail-page" scroll-y enhanced show-scrollbar="{{false}}">
+  <!-- 封面渐变区 -->
+  <view class="dt-cover">
+    <view class="dt-symbol">海</view>
+  </view>
+
+  <view class="dt-body">
+    <view class="dt-title">{{content.title}}</view>
+    <view class="dt-sub">{{content.subtitle}}</view>
+
+    <!-- 疗愈师卡片 -->
+    <view class="dt-healer" bindtap="onHealer">
+      <view class="dh-avatar" style="background:{{content.healerBg}}"></view>
+      <view class="dh-info">
+        <view class="dh-name">{{content.healerName}}</view>
+        <view class="dh-role">{{content.healerRole}}</view>
+      </view>
+      <view class="dh-go">›</view>
+    </view>
+
+    <!-- 标签 -->
+    <view class="dt-tags">
+      <view class="dt-tag" wx:for="{{content.tags}}" wx:key="*this">{{item}}</view>
+    </view>
+
+    <!-- 简介 -->
+    <view class="dt-desc">
+      <view wx:for="{{content.description}}" wx:key="*this">{{item}}</view>
+    </view>
+
+    <!-- 相关推荐 -->
+    <view class="dt-section-title">相 关 推 荐</view>
+    <view class="dt-related">
+      <view class="dt-rel-item" wx:for="{{related}}" wx:key="id" bindtap="onRelated" data-id="{{item.id}}">
+        <view class="dr-thumb" style="background:{{item.bg}}"></view>
+        <view class="dr-info">
+          <view class="dr-title">{{item.title}}</view>
+          <view class="dr-meta">{{item.subtitle}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</scroll-view>
+
+<!-- 底部操作栏 -->
+<view class="dt-actions">
+  <view class="da-btn" bindtap="onFav"><text class="da-icon">♡</text><text>收藏</text></view>
+  <view class="da-btn" bindtap="onTimer"><text class="da-icon">⏱</text><text>定时</text></view>
+  <view class="da-btn" bindtap="onShare"><text class="da-icon">⇄</text><text>分享</text></view>
+  <button class="da-play" bindtap="onPlay">▷ 开 始 播 放</button>
+</view>

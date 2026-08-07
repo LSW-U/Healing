@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P24 订单与报名 · 共时海</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.p-orders{padding:0 18px 62px;height:100%;display:flex;flex-direction:column;overflow:hidden}
+.od-tabs{display:flex;gap:18px;padding:0 2px 14px;border-bottom:1px solid var(--mist)}
+.od-tab{font-size:12px;color:var(--smoke);cursor:pointer;padding-bottom:8px;letter-spacing:1px;font-family:var(--serif)}
+.od-tab.active{color:var(--tidal-deep);border-bottom:2px solid var(--tidal)}
+.od-list{flex:1;overflow-y:auto;padding-top:14px}
+.od-item{background:#fff;border-radius:12px;border:1px solid var(--mist);padding:14px 16px;margin-bottom:12px;cursor:pointer}
+.od-item .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.od-item .top .t{font-family:var(--serif);font-size:13px;color:var(--ink);font-weight:500;letter-spacing:1px}
+.od-item .top .st{font-size:9px;padding:2px 8px;border-radius:8px;letter-spacing:1px}
+.od-item .top .st.done{background:rgba(63,94,90,.12);color:var(--ink-green)}
+.od-item .top .st.ing{background:rgba(201,181,154,.18);color:#8a7558}
+.od-item .meta{font-size:11px;color:var(--smoke);line-height:1.7;letter-spacing:.5px;font-family:var(--serif)}
+.od-item .ft{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--mist)}
+.od-item .ft .price{font-family:var(--serif);color:var(--tidal-deep);font-size:14px;font-weight:500}
+.od-item .ft .go{font-size:11px;color:var(--tidal);cursor:pointer;letter-spacing:1px}
+</style>
+</head>
+<body>
+<div class="phone"><div class="screen">
+  <div class="p-orders">
+    <div class="statusbar"><span>22:10</span><span class="right"><span class="dot"></span><span class="dot"></span></span></div>
+    <div class="nav"><a href="p06-me.html" class="back" style="text-decoration:none">‹</a><span class="title">订 单 与 报 名</span><span class="ic"></span></div>
+    <div class="od-tabs">
+      <span class="od-tab active">全 部</span>
+      <span class="od-tab">已 报 名</span>
+      <span class="od-tab">已 完 成</span>
+    </div>
+    <div class="od-list">
+      <div class="od-item">
+        <div class="top"><span class="t">立秋 · 凉风至茶会</span><span class="st ing">已 报 名</span></div>
+        <div class="meta">8.7 周五 19:30 · 共时海工作室</div>
+        <div class="ft"><span class="price">¥ 128</span><span class="go">查 看 详 情 ›</span></div>
+      </div>
+      <div class="od-item">
+        <div class="top"><span class="t">冥想初阶 · 21 天入门</span><span class="st ing">学 习 中</span></div>
+        <div class="meta">林一沐 · 21 课时 · 已学 8/21</div>
+        <div class="ft"><span class="price">¥ 199</span><span class="go">继 续 学 习 ›</span></div>
+      </div>
+      <div class="od-item">
+        <div class="top"><span class="t">颂钵音疗沙龙</span><span class="st done">已 完 成</span></div>
+        <div class="meta">7.25 周四 19:30 · 共时海工作室</div>
+        <div class="ft"><span class="price">¥ 128</span><span class="go">写 感 受 ›</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="tabbar">
+    <a class="tab" href="p02-discover.html"><span class="ti">潮</span><span>发现</span></a>
+    <a class="tab" href="p03-practice.html"><span class="ti">海</span><span>练习</span></a>
+    <a class="tab" href="p10-shore.html"><span class="ti">岸</span><span>连接</span></a>
+    <a class="tab active" href="p06-me.html"><span class="ti">岛</span><span>我的</span></a>
+  </div>
+</div></div>
+</body>
+</html>

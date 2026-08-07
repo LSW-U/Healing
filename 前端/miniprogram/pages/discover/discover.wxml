@@ -1,0 +1,49 @@
+<!-- 潮·发现页 P02 -->
+<view class="page">
+  <!-- 三行问候：问候词 / 潮汐将至 / 落句 -->
+  <view class="greet-block">
+    <view class="greet-search" bindtap="onSearch">○</view>
+    <view class="greet-time">{{greeting}}</view>
+    <view class="greet-hl">{{highlight}}</view>
+    <view class="greet-sub">{{suffix}}</view>
+  </view>
+
+  <!-- 今日共时推荐 -->
+  <view class="card-hero" bindtap="onHeroTap">
+    <view class="tag">今 日 共 时</view>
+    <view class="title">{{recommend.title}}</view>
+    <view class="meta"><text>{{recommend.duration}}</text><text>·</text><text>{{recommend.typeName}}</text></view>
+    <view class="play-btn">▷</view>
+  </view>
+
+  <!-- 主题专栏 -->
+  <view class="sec-header">
+    <text>主题专栏</text>
+    <text class="more" bindtap="onColumnsMore">更多 ›</text>
+  </view>
+  <view class="content-list">
+    <view class="content-item" wx:for="{{columns}}" wx:key="id" bindtap="onColumnTap" data-id="{{item.id}}">
+      <view class="ci-thumb" style="background:{{item.bg}}"></view>
+      <view class="ci-info">
+        <view class="ci-title">{{item.title}}</view>
+        <view class="ci-sub">{{item.subtitle}}</view>
+      </view>
+      <view class="ci-arrow">›</view>
+    </view>
+  </view>
+
+  <!-- 内容流 -->
+  <view class="sec-header">
+    <text>热门内容</text>
+  </view>
+  <view class="content-list">
+    <view class="content-item" wx:for="{{contents}}" wx:key="id" bindtap="onContentTap" data-id="{{item.id}}">
+      <view class="ci-thumb" style="background:{{item.bg}}"></view>
+      <view class="ci-info">
+        <view class="ci-title">{{item.title}}</view>
+        <view class="ci-sub">{{item.duration}} · {{item.typeName}}</view>
+      </view>
+      <view class="ci-arrow">›</view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,1 @@
+Page({data:{moods:['起 伏','沉 静','微 光','澄 澈','温 暖'],moodIdx:2,text:''},onMood(e){this.setData({moodIdx:parseInt(e.currentTarget.dataset.idx)})},onInput(e){this.setData({text:e.detail.value})},onSubmit(){wx.showToast({title:'已发布',icon:'none'});setTimeout(()=>wx.navigateBack(),800)}})

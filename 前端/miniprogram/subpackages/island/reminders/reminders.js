@@ -1,0 +1,1 @@
+Page({data:{scenes:[{scene:'morning',label:'晨间提醒',desc:'每天 8:00 · 开启一天的呼吸',enabled:true},{scene:'noon',label:'午间放松',desc:'每天 12:30 · 留5分钟给自己',enabled:false},{scene:'night',label:'睡前助眠',desc:'每天 22:30 · 让海浪替你守夜',enabled:true}]},onToggle(e){const s=this.data.scenes.map(x=>{if(x.scene===e.currentTarget.dataset.scene)x.enabled=e.detail.value;return x});this.setData({scenes:s})}})

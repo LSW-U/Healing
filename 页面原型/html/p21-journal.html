@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P21 疗愈日记 · 共时海</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.p-journal{padding:0 18px 62px;height:100%;display:flex;flex-direction:column;overflow:hidden;position:relative}
+.jr-nav{position:relative;display:flex;justify-content:space-between;align-items:center;padding:8px 2px 10px}
+.jr-nav .title{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:var(--serif);font-size:15px;letter-spacing:2px;color:var(--ink)}
+.jr-nav .toggle{margin-left:auto;background:var(--mist);border:none;border-radius:14px;font-size:10px;letter-spacing:2px;color:var(--tidal-deep);font-family:var(--serif);padding:6px 15px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .2s}
+.jr-nav .toggle:active{background:#e4e9ec}
+.jr-list{flex:1;overflow-y:auto}
+.p-journal.cal-mode .jr-list{display:none}
+.jr-cal{display:none;flex:1;overflow-y:auto}
+.p-journal.cal-mode .jr-cal{display:block}
+.jr-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:16px}
+.jr-grid .wd{font-size:10px;color:var(--smoke);text-align:center;font-family:var(--serif);letter-spacing:1px;padding-bottom:4px}
+.jr-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--ink);border-radius:10px;position:relative;font-family:var(--serif)}
+.jr-cell.empty{visibility:hidden}
+.jr-cell.has{background:#fff;border:1px solid var(--mist);cursor:pointer}
+.jr-cell .dot{position:absolute;bottom:6px;width:5px;height:5px;border-radius:50%;background:var(--tidal)}
+.jr-cell.today{background:var(--tidal);color:#fff;box-shadow:0 4px 12px rgba(91,123,138,.3)}
+.jr-cell.today .dot{background:#fff}
+.jr-legend{font-size:10px;color:var(--smoke);font-family:var(--serif);letter-spacing:1px;text-align:center}
+.jr-mask{position:absolute;inset:0;background:rgba(40,52,58,.28);opacity:0;visibility:hidden;transition:opacity .25s;z-index:30}
+.jr-mask.show{opacity:1;visibility:visible}
+.jr-sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:18px 18px 0 0;padding:20px 18px calc(26px + env(safe-area-inset-bottom));transform:translateY(100%);transition:transform .28s ease;z-index:31;box-shadow:0 -6px 24px rgba(40,52,58,.15)}
+.jr-mask.show .jr-sheet{transform:translateY(0)}
+.jr-sheet .s-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.jr-sheet .s-date{font-family:var(--serif);font-size:14px;color:var(--ink);letter-spacing:1px}
+.jr-sheet .s-date b{color:var(--wood);font-weight:400;margin-left:8px;font-size:11px}
+.jr-sheet .s-close{color:var(--smoke);font-size:18px;cursor:pointer;line-height:1}
+.jr-sheet .s-mood{font-size:12px;color:var(--wood);font-family:var(--serif);letter-spacing:2px;margin-bottom:8px}
+.jr-sheet .s-txt{font-size:13px;color:var(--ink);line-height:1.8;letter-spacing:.5px}
+.jr-sheet .s-rel{font-size:11px;color:var(--smoke);margin-top:12px;font-family:var(--serif);letter-spacing:1px;display:none}
+.jr-sheet .s-rel b{color:var(--tidal-deep);font-weight:500}
+.jr-month{display:flex;justify-content:space-between;align-items:center;padding:2px 2px 14px}
+.jr-month .m{font-family:var(--serif);font-size:15px;color:var(--ink);letter-spacing:2px}
+.jr-month .m b{color:var(--wood);font-size:10px;font-weight:400;margin-left:8px;letter-spacing:1px}
+.jr-month .arr{color:var(--smoke);font-size:14px;cursor:pointer}
+.jr-list{flex:1;overflow-y:auto}
+.jr-item{background:#fff;border-radius:14px;border:1px solid var(--mist);padding:14px 16px;margin-bottom:12px;cursor:pointer}
+.jr-item .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.jr-item .top .d{font-family:var(--serif);font-size:12px;color:var(--ink);letter-spacing:1px}
+.jr-item .top .d b{color:var(--wood);font-weight:400;margin-left:6px;font-size:10px}
+.jr-item .top .moon{font-size:10px;color:var(--ink-green);font-family:var(--serif);letter-spacing:1px}
+.jr-item .mood{font-size:11px;color:var(--wood);font-family:var(--serif);letter-spacing:2px;margin-bottom:6px}
+.jr-item .txt{font-size:12px;color:var(--ink);line-height:1.7;letter-spacing:.5px}
+.jr-item .rel{font-size:10px;color:var(--smoke);margin-top:8px;font-family:var(--serif);letter-spacing:1px}
+.jr-item .rel b{color:var(--tidal-deep);font-weight:500}
+.jr-add{position:absolute;right:18px;bottom:74px;width:50px;height:50px;border-radius:50%;background:var(--tidal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 6px 16px rgba(91,123,138,.35);cursor:pointer;border:none;z-index:5}
+</style>
+</head>
+<body>
+<div class="phone"><div class="screen">
+  <div class="p-journal">
+    <div class="statusbar"><span>21:20</span><span class="right"><span class="dot"></span><span class="dot"></span></span></div>
+    <div class="jr-nav">
+      <a href="p06-me.html" style="text-decoration:none;color:var(--smoke);font-size:16px;position:relative;z-index:2;">‹</a>
+      <span class="title">疗 愈 日 记</span>
+      <button class="toggle" id="jrToggle">日 历</button>
+    </div>
+    <div class="jr-month"><span class="arr">‹</span><span class="m">八 月<b>立 秋 · 处 暑</b></span><span class="arr">›</span></div>
+    <div class="jr-cal">
+      <div class="jr-grid">
+        <div class="wd">日</div><div class="wd">一</div><div class="wd">二</div><div class="wd">三</div><div class="wd">四</div><div class="wd">五</div><div class="wd">六</div>
+        <div class="empty jr-cell"></div><div class="empty jr-cell"></div><div class="empty jr-cell"></div><div class="empty jr-cell"></div><div class="empty jr-cell"></div><div class="empty jr-cell"></div>
+        <div class="jr-cell has">1<span class="dot"></span></div>
+        <div class="jr-cell">2</div>
+        <div class="jr-cell has">3<span class="dot"></span></div>
+        <div class="jr-cell">4</div>
+        <div class="jr-cell has">5<span class="dot"></span></div>
+        <div class="jr-cell today has">6<span class="dot"></span></div>
+        <div class="empty jr-cell"></div>
+        <div class="jr-cell">7</div><div class="jr-cell">8</div><div class="jr-cell">9</div><div class="jr-cell">10</div><div class="jr-cell">11</div><div class="jr-cell">12</div><div class="jr-cell">13</div>
+        <div class="jr-cell">14</div><div class="jr-cell">15</div><div class="jr-cell">16</div><div class="jr-cell">17</div><div class="jr-cell">18</div><div class="jr-cell">19</div><div class="jr-cell">20</div>
+        <div class="jr-cell">21</div><div class="jr-cell">22</div><div class="jr-cell">23</div><div class="jr-cell">24</div><div class="jr-cell">25</div><div class="jr-cell">26</div><div class="jr-cell">27</div>
+        <div class="jr-cell">28</div><div class="jr-cell">29</div><div class="jr-cell">30</div><div class="jr-cell">31</div>
+        <div class="empty jr-cell"></div><div class="empty jr-cell"></div><div class="empty jr-cell"></div><div class="empty jr-cell"></div><div class="empty jr-cell"></div>
+      </div>
+      <div class="jr-legend">● 有记录的日子 · 蓝底为今日</div>
+    </div>
+    <div class="jr-list">
+      <div class="jr-item">
+        <div class="top"><div class="d">8.6 周四<b>立 秋</b></div></div>
+        <div class="mood">沉 静</div>
+        <div class="txt">做完呼吸练习，肩膀松下来了。立秋的第一缕风，从窗缝里进来，凉。</div>
+        <div class="rel">关联练习：<b>晨间苏醒</b></div>
+      </div>
+      <div class="jr-item">
+        <div class="top"><div class="d">8.5 周三</div></div>
+        <div class="mood">起 伏</div>
+        <div class="txt">思绪有点多，但没急着赶走它。就让它像潮水一样来去。</div>
+      </div>
+      <div class="jr-item">
+        <div class="top"><div class="d">8.3 周一</div><div class="moon">● 满 月</div></div>
+        <div class="mood">微 光</div>
+        <div class="txt">月光下的散步，影子很长。心里某个地方也被照亮了一点点。</div>
+      </div>
+      <div class="jr-item">
+        <div class="top"><div class="d">8.1 周六</div></div>
+        <div class="mood">澄 澈</div>
+        <div class="txt">清晨很安静，听到远处的鸟叫。原来安静是有声音的。</div>
+      </div>
+    </div>
+    <button class="jr-add">+</button>
+  </div>
+  <div class="tabbar">
+    <a class="tab" href="p02-discover.html"><span class="ti">潮</span><span>发现</span></a>
+    <a class="tab" href="p03-practice.html"><span class="ti">海</span><span>练习</span></a>
+    <a class="tab" href="p10-shore.html"><span class="ti">岸</span><span>连接</span></a>
+    <a class="tab active" href="p06-me.html"><span class="ti">岛</span><span>我的</span></a>
+  </div>
+  <div class="jr-mask" id="jrMask">
+    <div class="jr-sheet">
+      <div class="s-top"><div class="s-date" id="jrDate"></div><div class="s-close" id="jrClose">×</div></div>
+      <div class="s-mood" id="jrMood"></div>
+      <div class="s-txt" id="jrTxt"></div>
+      <div class="s-rel" id="jrRel"></div>
+    </div>
+  </div>
+</div></div>
+<script>
+  var journal = document.querySelector('.p-journal');
+  var btn = document.getElementById('jrToggle');
+  var cal = false; // false=时间线（默认）, true=日历
+  btn.addEventListener('click', function(){
+    cal = !cal;
+    journal.classList.toggle('cal-mode', cal);
+    btn.textContent = cal ? '时 间 线' : '日 历';
+  });
+  var entries = {
+    1:{d:'8.1 周六',sub:'',mood:'澄 澈',txt:'清晨很安静，听到远处的鸟叫。原来安静是有声音的。',rel:''},
+    3:{d:'8.3 周一',sub:'满 月',mood:'微 光',txt:'月光下的散步，影子很长。心里某个地方也被照亮了一点点。',rel:''},
+    5:{d:'8.5 周三',sub:'',mood:'起 伏',txt:'思绪有点多，但没急着赶走它。就让它像潮水一样来去。',rel:''},
+    6:{d:'8.6 周四',sub:'立 秋',mood:'沉 静',txt:'做完呼吸练习，肩膀松下来了。立秋的第一缕风，从窗缝里进来，凉。',rel:'晨间苏醒'}
+  };
+  var mask = document.getElementById('jrMask');
+  var sDate = document.getElementById('jrDate');
+  var sMood = document.getElementById('jrMood');
+  var sTxt = document.getElementById('jrTxt');
+  var sRel = document.getElementById('jrRel');
+  document.querySelectorAll('.jr-cell.has').forEach(function(cell){
+    cell.addEventListener('click', function(){
+      var day = cell.textContent.replace(/\D/g,'');
+      var e = entries[day];
+      if(!e) return;
+      sDate.innerHTML = e.d + (e.sub ? '<b>' + e.sub + '</b>' : '');
+      sMood.textContent = e.mood;
+      sTxt.textContent = e.txt;
+      if(e.rel){ sRel.style.display='block'; sRel.innerHTML = '关联练习：<b>' + e.rel + '</b>'; }
+      else { sRel.style.display='none'; }
+      mask.classList.add('show');
+    });
+  });
+  function closeSheet(){ mask.classList.remove('show'); }
+  mask.addEventListener('click', function(ev){ if(ev.target === mask) closeSheet(); });
+  document.getElementById('jrClose').addEventListener('click', closeSheet);
+</script>
+</body>
+</html>

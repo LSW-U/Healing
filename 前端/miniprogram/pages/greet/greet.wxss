@@ -1,0 +1,69 @@
+.greet {
+  min-height: 100vh;
+  background: var(--moonwhite);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 160rpx 60rpx 80rpx;
+  box-sizing: border-box;
+}
+
+.brand {
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 64rpx;
+  letter-spacing: 12rpx;
+  color: var(--tidal-deep);
+}
+
+.slogan {
+  margin-top: 16rpx;
+  font-size: 24rpx;
+  letter-spacing: 4rpx;
+  color: var(--smoke);
+}
+
+.season-card {
+  margin-top: 120rpx;
+  width: 100%;
+  background: #fff;
+  border: 1rpx solid var(--mist);
+  border-radius: 32rpx;
+  padding: 64rpx 48rpx;
+  text-align: center;
+  box-shadow: 0 12rpx 40rpx rgba(91,123,138,.08);
+}
+
+.term {
+  font-family: "Songti SC", serif;
+  font-size: 40rpx;
+  letter-spacing: 8rpx;
+  color: var(--tidal-deep);
+}
+
+.poem {
+  margin-top: 32rpx;
+  font-size: 30rpx;
+  line-height: 2;
+  color: var(--ink);
+  letter-spacing: 2rpx;
+}
+
+.source {
+  margin-top: 24rpx;
+  font-size: 22rpx;
+  color: var(--wood);
+  letter-spacing: 1rpx;
+}
+
+.enter {
+  margin-top: auto;
+  width: 100%;
+  background: var(--tidal);
+  color: #fff;
+  border-radius: 48rpx;
+  padding: 26rpx 0;
+  font-size: 30rpx;
+  letter-spacing: 6rpx;
+  border: none;
+}
+.enter:active { opacity: .9; }

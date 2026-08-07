@@ -1,0 +1,18 @@
+<view class="sr-page">
+  <view class="sr-bar">
+    <input class="sr-input" placeholder="搜索内容、疗愈师、课程…" bindinput="onInput" value="{{keyword}}" focus />
+    <text class="sr-cancel" bindtap="onCancel">取消</text>
+  </view>
+  <view class="sr-results" wx:if="{{keyword}}">
+    <view class="sr-item" wx:for="{{results}}" wx:key="id" bindtap="onTap" data-id="{{item.id}}" data-type="{{item.type}}">
+      <view class="sr-thumb" style="background:{{item.bg}}"></view>
+      <view class="sr-info"><view class="sr-title">{{item.title}}</view><view class="sr-sub">{{item.subtitle}}</view></view>
+    </view>
+  </view>
+  <view class="sr-hot" wx:else>
+    <view class="sr-hot-title">大家都在搜</view>
+    <view class="sr-tags">
+      <text class="sr-tag" wx:for="{{hotTags}}" wx:key="*this" bindtap="onTag" data-tag="{{item}}">{{item}}</text>
+    </view>
+  </view>
+</view>

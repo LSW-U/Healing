@@ -1,0 +1,7 @@
+<view class="rm-page">
+  <view class="rm-item" wx:for="{{scenes}}" wx:key="scene">
+    <view class="rm-info"><view class="rm-label">{{item.label}}</view><view class="rm-desc">{{item.desc}}</view></view>
+    <switch checked="{{item.enabled}}" bindchange="onToggle" data-scene="{{item.scene}}"/>
+  </view>
+  <view class="rm-notice">提醒通过微信订阅消息推送，温和不打扰</view>
+</view>

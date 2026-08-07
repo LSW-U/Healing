@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P16 疗愈师详情页 · 共时海</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.p-healer-detail{height:100%;display:flex;flex-direction:column;overflow:hidden;position:relative}
+.hd-scroll{flex:1;overflow-y:auto}
+.hd-head{height:210px;background:linear-gradient(150deg,#5B7B8A,#3F5E5A);position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#F5F3EF;padding:0 22px}
+.hd-head .back{position:absolute;top:14px;left:16px;color:#fff;font-size:18px;opacity:.9;cursor:pointer;text-decoration:none}
+.hd-head .more{position:absolute;top:14px;right:16px;color:#fff;font-size:18px;opacity:.9;cursor:pointer}
+.hd-head .av{width:72px;height:72px;border-radius:50%;border:2px solid rgba(245,243,239,.5);margin-bottom:12px;background:linear-gradient(135deg,#C9B59A,#8a7558)}
+.hd-head .n{font-family:var(--serif);font-size:20px;font-weight:500;letter-spacing:2px}
+.hd-head .r{font-size:11px;opacity:.85;margin-top:5px;letter-spacing:1px}
+.hd-body{padding:20px 22px 90px}
+.hd-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.hd-tags span{font-size:10px;padding:4px 11px;border-radius:12px;letter-spacing:1px;background:rgba(91,123,138,.12);color:var(--tidal-deep)}
+.hd-sec{margin-top:20px}
+.hd-sec .lab{font-family:var(--serif);font-size:12px;color:var(--smoke);letter-spacing:2px;margin-bottom:10px}
+.hd-sec .txt{font-size:13px;color:var(--ink);line-height:1.8;letter-spacing:.5px}
+.hd-services{display:flex;flex-direction:column;gap:10px}
+.hd-srv{background:#fff;border-radius:12px;border:1px solid var(--mist);padding:13px 15px;display:flex;justify-content:space-between;align-items:center}
+.hd-srv .l .t{font-size:13px;color:var(--ink);font-weight:500}
+.hd-srv .l .d{font-size:10px;color:var(--smoke);margin-top:3px}
+.hd-srv .p{font-family:var(--serif);color:var(--tidal-deep);font-size:13px;font-weight:500}
+.hd-notice{margin-top:20px;padding:12px 14px;background:rgba(184,116,106,.08);border-left:2px solid var(--dusk);border-radius:6px;font-size:11px;color:#7a4a42;line-height:1.7}
+.hd-actions{position:absolute;bottom:0;left:0;right:0;background:rgba(245,243,239,.96);border-top:1px solid var(--mist);padding:12px 22px}
+.hd-actions .btn{display:block;width:100%;background:var(--tidal);color:#fff;border:none;padding:14px;border-radius:24px;font-size:13px;letter-spacing:2px;font-family:var(--sans);cursor:pointer;text-align:center;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="phone"><div class="screen">
+  <div class="p-healer-detail">
+    <div class="hd-scroll">
+      <div class="hd-head">
+        <a href="p15-healer-list.html" class="back">‹</a>
+        <span class="more">⋯</span>
+        <div class="av"></div>
+        <div class="n">林 一 沐</div>
+        <div class="r">颂钵疗愈师 · 从业 8 年</div>
+      </div>
+      <div class="hd-body">
+        <div class="hd-tags"><span>颂钵</span><span>声音疗愈</span><span>线下</span><span>线上</span></div>
+        <div class="hd-sec">
+          <div class="lab">关 于</div>
+          <div class="txt">受训于尼泊尔颂钵传承体系，八年来在声音的共振里陪伴许多人卸下紧绷。相信声音能抵达言语到不了的地方。</div>
+        </div>
+        <div class="hd-sec">
+          <div class="lab">擅 长</div>
+          <div class="txt">颂钵音疗沙龙 · 一对一声音疗愈 · 睡前助眠引导 · 情绪释放</div>
+        </div>
+        <div class="hd-sec">
+          <div class="lab">提 供 服 务</div>
+          <div class="hd-services">
+            <div class="hd-srv"><div class="l"><div class="t">一对一声音疗愈</div><div class="d">60 分钟 · 线下</div></div><div class="p">¥ 388</div></div>
+            <div class="hd-srv"><div class="l"><div class="t">颂钵沙龙（小班）</div><div class="d">90 分钟 · 线下</div></div><div class="p">¥ 128</div></div>
+            <div class="hd-srv"><div class="l"><div class="t">睡前助眠音频</div><div class="d">线上 · 已上线</div></div><div class="p">¥ 19.9</div></div>
+          </div>
+        </div>
+        <div class="hd-notice">本服务为陪伴与放松用途，不替代专业医疗或心理治疗。如有严重情绪困扰，请联系专业机构或拨打心理援助热线 010-82951332。</div>
+      </div>
+    </div>
+    <div class="hd-actions"><a class="btn" href="p14-signup-success.html">预 约 咨 询</a></div>
+  </div>
+</div></div>
+</body>
+</html>

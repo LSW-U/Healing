@@ -1,0 +1,9 @@
+.od-page{padding:0 36rpx;min-height:100vh;background:var(--moonwhite)}
+.od-card{background:#fff;border-radius:24rpx;border:2rpx solid var(--mist);padding:28rpx 32rpx;margin-bottom:20rpx}
+.od-top{display:flex;justify-content:space-between;align-items:center}
+.od-title{font-size:28rpx;color:var(--ink);font-weight:500;font-family:"Songti SC",serif;letter-spacing:2rpx}
+.od-status{font-size:20rpx;padding:4rpx 16rpx;border-radius:16rpx}
+.od-status.paid{background:rgba(63,94,90,.12);color:var(--ink-green)}
+.od-meta{font-size:22rpx;color:var(--smoke);margin-top:12rpx}
+.od-price{font-family:"Songti SC",serif;font-size:26rpx;color:var(--tidal-deep);margin-top:16rpx;font-weight:500}
+.od-empty{text-align:center;padding:120rpx;font-size:24rpx;color:var(--smoke);font-family:"Songti SC",serif}

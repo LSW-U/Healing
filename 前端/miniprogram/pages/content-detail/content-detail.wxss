@@ -1,0 +1,39 @@
+/* 内容详情页（P12） */
+.detail-page{height:100vh;background:var(--moonwhite)}
+.dt-cover{height:360rpx;background:linear-gradient(150deg,var(--tidal) 0%,var(--tidal-deep) 60%,#2B3A42 100%);
+  display:flex;align-items:flex-end;padding:0 44rpx 44rpx}
+.dt-symbol{font-family:"Songti SC",serif;font-size:112rpx;color:rgba(245,243,239,.9);letter-spacing:8rpx}
+.dt-body{padding:40rpx 44rpx 240rpx}
+.dt-title{font-family:"Songti SC",serif;font-size:44rpx;font-weight:500;letter-spacing:2rpx;color:var(--ink);line-height:1.4}
+.dt-sub{font-family:"Songti SC",serif;font-size:24rpx;color:var(--smoke);margin-top:16rpx;letter-spacing:2rpx}
+.dt-healer{display:flex;align-items:center;gap:20rpx;margin-top:32rpx;padding:24rpx 28rpx;
+  background:#fff;border-radius:24rpx;border:2rpx solid var(--mist)}
+.dh-avatar{width:64rpx;height:64rpx;border-radius:50%;flex-shrink:0}
+.dh-info{flex:1}
+.dh-name{font-size:26rpx;color:var(--ink);font-weight:500}
+.dh-role{font-size:20rpx;color:var(--smoke);margin-top:4rpx}
+.dh-go{color:var(--mist-deep);font-size:26rpx}
+.dt-tags{display:flex;gap:16rpx;flex-wrap:wrap;margin-top:32rpx}
+.dt-tag{font-size:20rpx;padding:8rpx 22rpx;border-radius:24rpx;letter-spacing:2rpx;
+  background:rgba(91,123,138,.12);color:var(--tidal-deep)}
+.dt-desc{font-size:26rpx;color:var(--ink);line-height:1.85;margin-top:36rpx;letter-spacing:1rpx}
+.dt-desc view{margin-bottom:20rpx}
+.dt-section-title{font-family:"Songti SC",serif;font-size:26rpx;color:var(--ink);margin:44rpx 0 24rpx;letter-spacing:2rpx}
+.dt-related{display:flex;flex-direction:column;gap:24rpx}
+.dt-rel-item{display:flex;gap:24rpx;align-items:center}
+.dr-thumb{width:112rpx;height:112rpx;border-radius:20rpx;flex-shrink:0}
+.dr-info{flex:1}
+.dr-title{font-size:26rpx;color:var(--ink);font-weight:500;line-height:1.4}
+.dr-meta{font-size:20rpx;color:var(--smoke);margin-top:8rpx}
+
+/* 底部操作栏（固定） */
+.dt-actions{position:fixed;bottom:0;left:0;right:0;
+  background:rgba(245,243,239,.96);backdrop-filter:blur(20rpx);
+  -webkit-backdrop-filter:blur(20rpx);
+  border-top:2rpx solid var(--mist);
+  padding:24rpx 44rpx;display:flex;align-items:center;gap:32rpx;
+  padding-bottom:calc(24rpx + env(safe-area-inset-bottom))}
+.da-btn{display:flex;flex-direction:column;align-items:center;gap:6rpx;font-size:18rpx;color:var(--smoke);min-width:72rpx}
+.da-icon{font-size:28rpx}
+.da-play{flex:1;background:var(--tidal);color:#fff;border:none;padding:26rpx;border-radius:48rpx;
+  font-size:28rpx;letter-spacing:4rpx;display:flex;align-items:center;justify-content:center;gap:16rpx}

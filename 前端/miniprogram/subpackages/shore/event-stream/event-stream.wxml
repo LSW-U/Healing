@@ -1,0 +1,40 @@
+<scroll-view class="page" scroll-y enhanced show-scrollbar="{{false}}">
+  <view class="es-cats">
+    <view class="es-cat {{catIdx === idx ? 'active' : ''}}" wx:for="{{cats}}" wx:key="*this" wx:for-index="idx" data-idx="{{idx}}" bindtap="onCat">{{item}}</view>
+  </view>
+  <view class="es-water">
+    <view class="es-col">
+      <block wx:for="{{leftCol}}" wx:key="id">
+        <view class="es-card" bindtap="onEvent" data-id="{{item.id}}">
+          <view class="es-poster" style="background:{{item.bg}}"><text wx:if="{{!item.cover}}" class="es-noban-text">{{item.tag}}</text></view>
+          <view class="es-body">
+            <view class="es-tag">{{item.tag}}</view>
+            <view class="es-name">{{item.title}}</view>
+            <view class="es-meta">{{item.date}}\n{{item.location}}</view>
+            <view class="es-quota">
+              <view class="eq-track"><view class="eq-fill" style="width:{{(1-item.remaining/item.total)*100}}%"></view></view>
+              <view class="eq-tx" wx:if="{{item.remaining <= 5 && item.remaining > 0}}">余 {{item.remaining}} 席</view>
+              <view class="eq-tx" wx:elif="{{item.remaining === 0}}">已满</view>
+              <view class="eq-tx" wx:else>{{item.remaining}}/{{item.total}}</view>
+            </view>
+            <button class="es-sign {{item.remaining === 0 ? 'full' : ''}}">立 即 报 名</button>
+          </view>
+        </view>
+      </block>
+    </view>
+    <view class="es-col">
+      <block wx:for="{{rightCol}}" wx:key="id">
+        <view class="es-card" bindtap="onEvent" data-id="{{item.id}}">
+          <view class="es-poster" style="background:{{item.bg}}"><text wx:if="{{!item.cover}}" class="es-noban-text">{{item.tag}}</text></view>
+          <view class="es-body">
+            <view class="es-tag">{{item.tag}}</view>
+            <view class="es-name">{{item.title}}</view>
+            <view class="es-meta">{{item.date}}\n{{item.location}}</view>
+            <view class="es-quota"><view class="eq-track"><view class="eq-fill" style="width:{{(1-item.remaining/item.total)*100}}%"></view></view><view class="eq-tx">{{item.remaining}}/{{item.total}}</view></view>
+            <button class="es-sign {{item.remaining === 0 ? 'full' : ''}}">立 即 报 名</button>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+</scroll-view>

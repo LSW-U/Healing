@@ -1,0 +1,20 @@
+.breath-page{height:100vh;
+  background:linear-gradient(160deg,#1a2530 0%,#2B3A42 50%,#3F5E5A 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  color:#EAE6DF;text-align:center}
+.b-label{font-family:"Songti SC",serif;font-size:24rpx;letter-spacing:12rpx;opacity:.6;margin-bottom:120rpx}
+.b-ring-wrap{position:relative;width:400rpx;height:400rpx;display:flex;align-items:center;justify-content:center}
+.b-ring{position:relative;width:400rpx;height:400rpx}
+.b-core{position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,181,154,.5) 0%,rgba(91,123,138,.3) 60%,transparent 100%);
+  animation:bigbreath 8s ease-in-out infinite}
+.b-halo{position:absolute;inset:60rpx;border-radius:50%;
+  border:3rpx solid rgba(201,181,154,.5);
+  animation:bighalo 8s ease-in-out infinite}
+.b-text{position:relative;z-index:2;font-family:"Songti SC",serif;font-size:36rpx;letter-spacing:8rpx;
+  animation:btxtfade 8s ease-in-out infinite}
+@keyframes bigbreath{0%,100%{transform:scale(.7);opacity:.6}50%{transform:scale(1.05);opacity:1}}
+@keyframes bighalo{0%,100%{transform:scale(.85);opacity:.4}50%{transform:scale(1.1);opacity:.8}}
+@keyframes btxtfade{0%,100%{opacity:.6}50%{opacity:1}}
+.b-count{margin-top:112rpx;font-family:"Songti SC",serif;font-size:26rpx;opacity:.7;letter-spacing:4rpx}
+.b-stop{margin-top:48rpx;font-size:22rpx;opacity:.6;border:2rpx solid rgba(234,230,223,.3);padding:14rpx 40rpx;border-radius:40rpx;letter-spacing:4rpx}

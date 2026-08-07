@@ -1,0 +1,26 @@
+.fb-page{min-height:100vh;display:flex;flex-direction:column;padding:0 48rpx;
+  background:linear-gradient(180deg,#EFE9DF 0%,var(--moonwhite) 100%)}
+.fb-icon-wrap{margin:48rpx auto 36rpx;width:128rpx;height:128rpx;border-radius:50%;
+  background:radial-gradient(circle,rgba(91,123,138,.2),rgba(91,123,138,.05));
+  display:flex;align-items:center;justify-content:center}
+.fb-ring{width:80rpx;height:80rpx;border-radius:50%;border:3rpx solid var(--tidal);
+  animation:fb-breath 4s ease-in-out infinite}
+@keyframes fb-breath{0%,100%{transform:scale(.9);opacity:.6}50%{transform:scale(1.05);opacity:1}}
+.fb-title{font-family:"Songti SC",serif;font-size:40rpx;font-weight:500;letter-spacing:4rpx;color:var(--ink);text-align:center;line-height:1.5}
+.fb-sub{font-family:"Songti SC",serif;font-size:24rpx;color:var(--smoke);text-align:center;margin-top:16rpx;letter-spacing:2rpx}
+.fb-section{margin-top:52rpx}
+.fb-lab{font-family:"Songti SC",serif;font-size:24rpx;color:var(--smoke);letter-spacing:2rpx;margin-bottom:24rpx}
+.fb-moods{display:flex;justify-content:space-between;gap:16rpx}
+.fb-mood{flex:1;text-align:center;padding:26rpx 8rpx;background:#fff;border-radius:24rpx;
+  border:2rpx solid var(--mist);font-family:"Songti SC",serif;font-size:24rpx;color:var(--ink);letter-spacing:2rpx}
+.fb-mood.active{background:rgba(91,123,138,.12);border-color:var(--tidal);color:var(--tidal-deep)}
+.fb-input{margin-top:0;background:#fff;border-radius:24rpx;border:2rpx solid var(--mist);padding:28rpx}
+.fb-input textarea{width:100%;min-height:120rpx;font-size:26rpx;color:var(--ink);line-height:1.6}
+.fb-ph{color:var(--mist-deep)}
+.fb-related{margin-top:24rpx;font-size:22rpx;color:var(--smoke);font-family:"Songti SC",serif;letter-spacing:2rpx}
+.fb-rel-name{color:var(--tidal-deep);font-weight:500}
+.fb-actions{margin-top:auto;padding:32rpx 0 44rpx;display:flex;gap:24rpx}
+.fb-again{flex:1;background:#fff;border:2rpx solid var(--tidal);color:var(--tidal);padding:26rpx;border-radius:48rpx;
+  font-size:26rpx;letter-spacing:4rpx}
+.fb-done{flex:1.5;background:var(--tidal);color:#fff;border:none;padding:26rpx;border-radius:48rpx;
+  font-size:26rpx;letter-spacing:4rpx}

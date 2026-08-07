@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P28 消息中心 · 共时海</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.p-messages{padding:0 18px;height:100%;display:flex;flex-direction:column;overflow:hidden}
+.ms-list{flex:1;overflow-y:auto}
+.ms-item{display:flex;gap:12px;padding:14px 4px;border-bottom:1px solid var(--mist);cursor:pointer}
+.ms-item:last-child{border-bottom:none}
+.ms-item .ico{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;color:#fff;font-family:var(--serif)}
+.ms-item .info{flex:1;min-width:0}
+.ms-item .info .top{display:flex;justify-content:space-between;align-items:center}
+.ms-item .info .t{font-size:13px;color:var(--ink);font-weight:500;letter-spacing:1px;font-family:var(--serif)}
+.ms-item .info .tm{font-size:9px;color:var(--smoke);font-family:monospace;flex-shrink:0;margin-left:8px}
+.ms-item .info .d{font-size:11px;color:var(--smoke);margin-top:5px;line-height:1.5;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ms-item .badge{background:var(--dusk);color:#fff;font-size:9px;padding:1px 6px;border-radius:8px;align-self:center;flex-shrink:0}
+</style>
+</head>
+<body>
+<div class="phone"><div class="screen">
+  <div class="p-messages">
+    <div class="statusbar"><span>22:25</span><span class="right"><span class="dot"></span><span class="dot"></span></span></div>
+    <div class="nav"><a href="p25-settings.html" class="back" style="text-decoration:none">‹</a><span class="title">消 息 中 心</span><span class="ic"></span></div>
+    <div class="ms-list">
+      <a class="ms-item" href="p24-orders.html" style="text-decoration:none">
+        <div class="ico" style="background:var(--tidal)">报</div>
+        <div class="info"><div class="top"><span class="t">报 名 成 功</span><span class="tm">10:30</span></div><div class="d">立秋·凉风至茶会 报名成功，期待与你相聚</div></div>
+        <span class="badge">1</span>
+      </a>
+      <div class="ms-item">
+        <div class="ico" style="background:var(--ink-green)">圈</div>
+        <div class="info"><div class="top"><span class="t">共 修 圈 提 醒</span><span class="tm">08:00</span></div><div class="d">21天晨间呼吸共修圈 · 今日已有 12 位同修打卡</div></div>
+        <span class="badge">3</span>
+      </div>
+      <div class="ms-item">
+        <div class="ico" style="background:var(--wood)">醒</div>
+        <div class="info"><div class="top"><span class="t">定 时 提 醒</span><span class="tm">昨天</span></div><div class="d">潮汐将至，留 5 分钟给自己</div></div>
+      </div>
+      <div class="ms-item">
+        <div class="ico" style="background:var(--smoke)">系</div>
+        <div class="info"><div class="top"><span class="t">系 统 消 息</span><span class="tm">3天前</span></div><div class="d">共时海 v1.0 已更新，新增呼吸练习工具</div></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+</body>
+</html>

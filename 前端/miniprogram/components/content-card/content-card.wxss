@@ -1,0 +1,8 @@
+.list-row{display:flex;align-items:center;gap:24rpx;padding:18rpx 0;border-bottom:2rpx solid var(--mist)}
+.list-thumb{width:128rpx;height:128rpx;border-radius:24rpx;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.thumb-icon{font-size:40rpx;color:#fff;font-family:"Songti SC",serif}
+.thumb-img{width:100%;height:100%;border-radius:24rpx}
+.list-info{flex:1;display:flex;flex-direction:column;justify-content:center;min-width:0}
+.lt{font-size:26rpx;color:var(--ink);font-weight:500;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lm{font-size:22rpx;color:var(--smoke);margin-top:10rpx}
+.list-arrow{color:var(--mist-deep);font-size:24rpx;flex-shrink:0}

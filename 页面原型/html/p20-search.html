@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P20 搜索页 · 共时海</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.p-search{padding:0 18px;height:100%;display:flex;flex-direction:column;overflow:hidden}
+.se-top{display:flex;align-items:center;gap:10px;padding:10px 2px 14px}
+.se-box{flex:1;background:#fff;border-radius:24px;border:1px solid var(--mist);padding:9px 16px;font-size:13px;display:flex;align-items:center;gap:8px}
+.se-box .ico{color:var(--smoke);font-size:14px}
+.se-box input{border:none;outline:none;flex:1;font-size:13px;background:transparent;color:var(--ink);font-family:var(--sans)}
+.se-cancel{font-size:13px;color:var(--tidal);cursor:pointer;text-decoration:none;letter-spacing:1px}
+.se-scroll{flex:1;overflow-y:auto}
+.se-sec{margin:16px 0}
+.se-sec .lab{font-family:var(--serif);font-size:12px;color:var(--smoke);letter-spacing:2px;margin-bottom:12px}
+.se-hot{display:flex;flex-wrap:wrap;gap:8px}
+.se-hot a{font-size:11px;padding:6px 13px;border-radius:14px;background:var(--mist);color:var(--ink);cursor:pointer;letter-spacing:1px;text-decoration:none}
+.se-group{margin:18px 0}
+.se-group .gt{font-family:var(--serif);font-size:12px;color:var(--tidal-deep);letter-spacing:2px;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--mist);display:flex;justify-content:space-between;align-items:center}
+.se-group .gt .cnt{font-size:10px;color:var(--smoke);font-family:monospace}
+.se-item{display:flex;gap:12px;padding:11px 0;align-items:center;cursor:pointer;text-decoration:none}
+.se-item .thumb{width:44px;height:44px;border-radius:10px;flex-shrink:0}
+.se-item .info .t{font-size:13px;color:var(--ink);font-weight:500;line-height:1.4}
+.se-item .info .m{font-size:10px;color:var(--smoke);margin-top:3px;letter-spacing:.5px}
+.se-empty{font-size:12px;color:var(--mist-deep);font-family:var(--serif);text-align:center;padding:40px 0;letter-spacing:2px;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="phone"><div class="screen">
+  <div class="p-search">
+    <div class="statusbar"><span>14:50</span><span class="right"><span class="dot"></span><span class="dot"></span></span></div>
+    <div class="se-top">
+      <div class="se-box"><span class="ico">○</span><input value="冥想" autofocus></div>
+      <a class="se-cancel" href="p02-discover.html">取 消</a>
+    </div>
+    <div class="se-scroll">
+      <div class="se-group">
+        <div class="gt"><span>内 容</span><span class="cnt">2 条</span></div>
+        <a class="se-item" href="p12-content-detail.html"><div class="thumb" style="background:linear-gradient(135deg,#5B7B8A,#3F5E5A)"></div><div class="info"><div class="t">海 的 呼 吸</div><div class="m">颂钵引导 · 8 分钟</div></div></a>
+        <a class="se-item" href="p12-content-detail.html"><div class="thumb" style="background:linear-gradient(135deg,#3F5E5A,#2B3A42)"></div><div class="info"><div class="t">晨 间 苏 醒</div><div class="m">冥想引导 · 8 分钟</div></div></a>
+      </div>
+      <div class="se-group">
+        <div class="gt"><span>疗 愈 师</span><span class="cnt">1 位</span></div>
+        <a class="se-item" href="p16-healer-detail.html"><div class="thumb" style="background:linear-gradient(135deg,#C9B59A,#8a7558);border-radius:50%"></div><div class="info"><div class="t">林 一 沐</div><div class="m">颂钵疗愈师 · 冥想引导</div></div></a>
+      </div>
+      <div class="se-group">
+        <div class="gt"><span>课 程</span><span class="cnt">1 门</span></div>
+        <a class="se-item" href="p18-course-detail.html"><div class="thumb" style="background:linear-gradient(135deg,#5B7B8A,#3F5E5A)"></div><div class="info"><div class="t">冥想初阶 · 21 天入门</div><div class="m">21 课时 · 录播 · ¥199</div></div></a>
+      </div>
+    </div>
+  </div>
+</div></div>
+</body>
+</html>

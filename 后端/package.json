@@ -1,0 +1,24 @@
+{
+  "name": "gongsihai-backend",
+  "version": "1.0.0",
+  "description": "共时海疗愈小程序后端服务（Node.js + Koa + SQLite）",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "node --watch src/app.js",
+    "init-db": "node src/db/seed.js",
+    "seed": "node src/db/seed.js"
+  },
+  "dependencies": {
+    "@koa/cors": "^5.0.0",
+    "better-sqlite3": "^11.8.1",
+    "dotenv": "^16.4.7",
+    "jsonwebtoken": "^9.0.2",
+    "koa": "^2.15.3",
+    "koa-bodyparser": "^4.4.1",
+    "koa-router": "^12.0.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

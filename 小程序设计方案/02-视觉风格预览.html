@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>共时海 · 视觉风格预览</title>
+<style>
+  :root{
+    --moonwhite:#F5F3EF;
+    --mist:#EAE6DF;
+    --mist-deep:#DDD8CF;
+    --tidal:#5B7B8A;
+    --tidal-deep:#4A6B7A;
+    --wood:#C9B59A;
+    --ink-green:#3F5E5A;
+    --ink:#2B2B2B;
+    --smoke:#8A8A8A;
+    --dusk:#B8746A;
+    --serif:'Songti SC','STSong','Source Han Serif SC',serif;
+    --sans:-apple-system,BlinkMacSystemFont,'PingFang SC','Helvetica Neue',sans-serif;
+    --r-card:18px;
+    --r-btn:32px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    font-family:var(--sans);
+    background:var(--moonwhite);
+    color:var(--ink);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:80px;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+
+  /* 顶部品牌区 */
+  .hero{
+    padding:90px 0 70px;
+    text-align:center;
+    background:linear-gradient(180deg,#F5F3EF 0%,#EAE6DF 100%);
+    position:relative;overflow:hidden;
+  }
+  .hero .seal{
+    font-family:var(--serif);
+    font-size:13px;letter-spacing:6px;color:var(--tidal);
+    margin-bottom:24px;
+  }
+  .hero h1{
+    font-family:var(--serif);
+    font-size:64px;font-weight:500;letter-spacing:8px;
+    color:var(--ink);
+  }
+  .hero .slogan{
+    font-family:var(--serif);
+    font-size:17px;color:var(--smoke);letter-spacing:4px;
+    margin-top:20px;
+  }
+  .hero .meta{font-size:12px;color:var(--smoke);margin-top:30px;letter-spacing:2px}
+  .wave{height:6px;width:60px;background:var(--tidal);border-radius:6px;margin:30px auto 0;opacity:.4}
+
+  /* 章节标题 */
+  section{padding:70px 0 20px}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:14px}
+  .sec-head .no{font-family:var(--serif);font-size:13px;color:var(--tidal);letter-spacing:2px}
+  .sec-head h2{font-family:var(--serif);font-size:28px;font-weight:500;letter-spacing:2px}
+  .sec-desc{color:var(--smoke);font-size:14px;max-width:640px;margin-bottom:36px}
+
+  /* 设计原则 */
+  .principles{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .principle{background:#fff;border-radius:var(--r-card);padding:32px 28px}
+  .principle .p-no{font-family:var(--serif);font-size:13px;color:var(--wood);letter-spacing:2px}
+  .principle h3{font-family:var(--serif);font-size:21px;margin:10px 0 14px;font-weight:500}
+  .principle p{font-size:13px;color:var(--smoke);line-height:1.8}
+
+  /* 色板 */
+  .palette{display:grid;grid-template-columns:repeat(8,1fr);gap:14px;margin-top:10px}
+  .swatch{border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+  .swatch .chip{height:90px}
+  .swatch .info{background:#fff;padding:10px 12px}
+  .swatch .name{font-size:12px;color:var(--ink)}
+  .swatch .hex{font-size:11px;color:var(--smoke);font-family:monospace;margin-top:2px}
+
+  /* 手机预览区 */
+  .phones{display:flex;gap:28px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+  .phone{
+    width:300px;flex-shrink:0;
+    background:var(--moonwhite);
+    border-radius:38px;
+    padding:10px;
+    box-shadow:0 20px 50px rgba(74,107,122,.14),0 4px 12px rgba(0,0,0,.06);
+    border:1px solid #ECE8E0;
+  }
+  .screen{
+    border-radius:30px;overflow:hidden;
+    background:var(--moonwhite);
+    height:580px;position:relative;
+  }
+  .phone-cap{text-align:center;margin-top:14px}
+  .phone-cap .t{font-family:var(--serif);font-size:14px;color:var(--ink)}
+  .phone-cap .s{font-size:11px;color:var(--smoke);margin-top:3px}
+
+  /* 状态栏 */
+  .statusbar{display:flex;justify-content:space-between;align-items:center;padding:14px 22px 6px;font-size:11px;color:var(--ink)}
+  .statusbar .right{display:flex;gap:5px;align-items:center}
+  .dot{width:4px;height:4px;border-radius:50%;background:var(--ink)}
+
+  /* —— 页面1：启动问候页 —— */
+  .p-greet{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    background:linear-gradient(160deg,#EFE9DF 0%,#D9E2E4 60%,#C4CFD2 100%);text-align:center;padding:0 30px}
+  .p-greet .jq{font-family:var(--serif);font-size:12px;letter-spacing:6px;color:var(--tidal-deep);margin-bottom:8px}
+  .p-greet .jq b{font-weight:500;color:var(--ink-green)}
+  .p-greet .verse{font-family:var(--serif);font-size:22px;line-height:1.9;color:#3a3a3a;margin:26px 0 10px;letter-spacing:2px}
+  .p-greet .verse-sub{font-family:var(--serif);font-size:12px;color:#6b6b6b;letter-spacing:3px}
+  .p-greet .enter-btn{margin-top:54px;background:rgba(255,255,255,.55);backdrop-filter:blur(6px);
+    border:1px solid rgba(255,255,255,.7);color:var(--tidal-deep);font-size:13px;letter-spacing:3px;
+    padding:12px 34px;border-radius:var(--r-btn);font-family:var(--serif)}
+
+  /* —— 页面2：发现页 —— */
+  .p-discover{padding:0 18px}
+  .nav{display:flex;justify-content:space-between;align-items:center;padding:8px 4px 16px}
+  .nav .brand{font-family:var(--serif);font-size:16px;letter-spacing:3px}
+  .nav .ic{display:flex;gap:14px;color:var(--smoke);font-size:14px}
+  .greet-line{font-family:var(--serif);font-size:13px;color:var(--smoke);letter-spacing:1px;padding:0 4px 14px}
+  .greet-line b{color:var(--ink);font-weight:500}
+  .card-hero{background:linear-gradient(150deg,#5B7B8A 0%,#3F5E5A 100%);border-radius:16px;padding:22px 20px;color:#F5F3EF;position:relative;overflow:hidden}
+  .card-hero .tag{font-size:10px;letter-spacing:2px;opacity:.8}
+  .card-hero h4{font-family:var(--serif);font-size:19px;margin:8px 0 6px;font-weight:500;line-height:1.5}
+  .card-hero .meta{font-size:11px;opacity:.75;display:flex;gap:10px;margin-top:14px}
+  .card-hero .play{position:absolute;right:18px;bottom:18px;width:34px;height:34px;border-radius:50%;
+    background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;color:#fff}
+  .sec-mini{font-family:var(--serif);font-size:13px;color:var(--ink);margin:20px 4px 12px;letter-spacing:1px;display:flex;justify-content:space-between;align-items:center}
+  .sec-mini .more{font-size:11px;color:var(--smoke);font-family:var(--sans)}
+  .list-row{display:flex;gap:12px;margin-bottom:14px}
+  .list-thumb{width:64px;height:64px;border-radius:12px;flex-shrink:0;background:var(--mist-deep)}
+  .list-info{flex:1;display:flex;flex-direction:column;justify-content:center}
+  .list-info .lt{font-size:13px;color:var(--ink);font-weight:500;line-height:1.4}
+  .list-info .lm{font-size:11px;color:var(--smoke);margin-top:5px}
+
+  /* —— 页面3：练习页 —— */
+  .p-practice{padding:0 18px;display:flex;flex-direction:column;height:100%}
+  .practice-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px}
+  .practice-card{border-radius:16px;padding:20px 18px;height:118px;display:flex;flex-direction:column;justify-content:space-between}
+  .practice-card .pn{font-family:var(--serif);font-size:16px;font-weight:500;letter-spacing:2px}
+  .practice-card .pd{font-size:10px;letter-spacing:1px}
+  .pc-breath{background:linear-gradient(150deg,#C4CFD2 0%,#9FB3B8 100%);color:#3a4a4f}
+  .pc-meditate{background:linear-gradient(150deg,#E4D9C9 0%,#C9B59A 100%);color:#5a4a36}
+  .pc-sound{background:linear-gradient(150deg,#D9E2E4 0%,#5B7B8A 100%);color:#F5F3EF}
+  .pc-sleep{background:linear-gradient(150deg,#2B3A42 0%,#1a2530 100%);color:#C9B59A}
+  .principle-cta{margin-top:auto;padding:16px 0 12px}
+  .breath-demo{background:#fff;border-radius:16px;padding:22px 20px;display:flex;align-items:center;gap:16px}
+  .breath-ring{position:relative;width:60px;height:60px;flex-shrink:0}
+  .breath-ring .core{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,#5B7B8A 0%,#3F5E5A 100%);animation:breath 8s ease-in-out infinite}
+  .breath-ring .halo{position:absolute;inset:-8px;border-radius:50%;border:1px solid rgba(91,123,138,.3);animation:halo 8s ease-in-out infinite}
+  @keyframes breath{0%,100%{transform:scale(.55);opacity:.7}50%{transform:scale(1);opacity:1}}
+  @keyframes halo{0%,100%{transform:scale(.9);opacity:.3}50%{transform:scale(1.15);opacity:.6}}
+  .breath-demo .tx{font-size:12px;color:var(--smoke)}
+  .breath-demo .tx b{display:block;font-family:var(--serif);font-size:14px;color:var(--ink);font-weight:500;margin-bottom:3px}
+
+  /* —— 页面4：呼吸练习进行中 —— */
+  .p-breathing{height:100%;background:linear-gradient(160deg,#1a2530 0%,#2B3A42 50%,#3F5E5A 100%);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;color:#EAE6DF;text-align:center}
+  .p-breathing .label{font-family:var(--serif);font-size:12px;letter-spacing:6px;opacity:.6;margin-bottom:60px}
+  .big-ring{position:relative;width:200px;height:200px;display:flex;align-items:center;justify-content:center}
+  .big-ring .core{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,rgba(201,181,154,.5) 0%,rgba(91,123,138,.3) 60%,transparent 100%);animation:bigbreath 8s ease-in-out infinite}
+  .big-ring .ring{position:absolute;inset:30px;border-radius:50%;border:1.5px solid rgba(201,181,154,.5);animation:bighalo 8s ease-in-out infinite}
+  .big-ring .txt{position:relative;z-index:2;font-family:var(--serif);font-size:18px;letter-spacing:4px;animation:fade 8s ease-in-out infinite}
+  @keyframes bigbreath{0%,100%{transform:scale(.7);opacity:.6}50%{transform:scale(1.05);opacity:1}}
+  @keyframes bighalo{0%,100%{transform:scale(.85);opacity:.4}50%{transform:scale(1.1);opacity:.8}}
+  @keyframes fade{0%,100%{opacity:.6}50%{opacity:1}}
+  .p-breathing .count{margin-top:56px;font-family:var(--serif);font-size:13px;opacity:.7;letter-spacing:2px}
+  .p-breathing .stop{margin-top:24px;font-size:11px;opacity:.5;border:1px solid rgba(234,230,223,.3);padding:6px 18px;border-radius:20px;letter-spacing:2px}
+
+  /* —— 页面5：音频播放器 —— */
+  .p-player{height:100%;display:flex;flex-direction:column;padding:0 22px;
+    background:linear-gradient(180deg,#EFE9DF 0%,#F5F3EF 40%)}
+  .player-top{display:flex;justify-content:space-between;align-items:center;padding:12px 0;color:var(--smoke);font-size:13px}
+  .cover{margin:14px auto 18px;width:160px;height:160px;border-radius:20px;
+    background:linear-gradient(150deg,#5B7B8A 0%,#3F5E5A 60%,#2B3A42 100%);
+    box-shadow:0 12px 30px rgba(91,123,138,.25);display:flex;align-items:center;justify-content:center}
+  .cover .symbol{font-family:var(--serif);font-size:40px;color:rgba(245,243,239,.85);letter-spacing:4px}
+  .player-title{font-family:var(--serif);font-size:18px;text-align:center;font-weight:500;letter-spacing:1px}
+  .player-sub{font-size:11px;color:var(--smoke);text-align:center;margin-top:6px;letter-spacing:1px}
+  .progress{margin:24px 0 6px;height:2px;background:var(--mist-deep);border-radius:2px;position:relative}
+  .progress .fill{position:absolute;left:0;top:0;height:100%;width:38%;background:var(--tidal);border-radius:2px}
+  .progress .knob{position:absolute;left:38%;top:50%;width:10px;height:10px;background:#fff;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 1px 4px rgba(0,0,0,.2)}
+  .time{display:flex;justify-content:space-between;font-size:10px;color:var(--smoke);font-family:monospace}
+  .controls{display:flex;align-items:center;justify-content:center;gap:28px;margin-top:26px}
+  .ctrl{color:var(--smoke);font-size:16px}
+  .play-big{width:58px;height:58px;border-radius:50%;background:var(--tidal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 6px 16px rgba(91,123,138,.3)}
+  .player-bottom{margin-top:auto;padding:14px 0;display:flex;justify-content:center;gap:18px;font-size:11px;color:var(--smoke)}
+  .player-bottom span{display:flex;align-items:center;gap:4px}
+
+  /* —— 页面6：我的页 —— */
+  .p-me{padding:0 18px;height:100%;display:flex;flex-direction:column}
+  .me-head{padding:14px 4px 18px}
+  .me-head .nm{font-family:var(--serif);font-size:18px;font-weight:500;letter-spacing:1px}
+  .me-head .sg{font-size:11px;color:var(--smoke);margin-top:4px;font-family:var(--serif)}
+  .me-stat{background:#fff;border-radius:16px;padding:16px 18px;display:flex;justify-content:space-around;text-align:center}
+  .me-stat .num{font-family:var(--serif);font-size:22px;color:var(--tidal-deep);font-weight:500}
+  .me-stat .lab{font-size:10px;color:var(--smoke);margin-top:4px}
+  .me-nav{display:flex;flex-direction:column;gap:2px;margin-top:16px}
+  .me-nav-item{display:flex;align-items:center;justify-content:space-between;padding:14px 4px;border-bottom:1px solid var(--mist)}
+  .me-nav-item .l{display:flex;align-items:center;gap:12px;font-size:13px}
+  .me-nav-item .l .ico{width:22px;text-align:center;color:var(--tidal);font-size:14px}
+  .me-nav-item .r{color:var(--mist-deep);font-size:12px}
+  .me-nav-item .badge{background:var(--wood);color:#fff;font-size:9px;padding:1px 7px;border-radius:8px;margin-left:8px}
+
+  /* 底部 Tab */
+  .tabbar{position:absolute;bottom:0;left:0;right:0;height:56px;background:rgba(245,243,239,.95);
+    backdrop-filter:blur(10px);border-top:1px solid var(--mist);display:flex;justify-content:space-around;align-items:center;padding-bottom:4px}
+  .tab{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9px;color:var(--smoke);letter-spacing:1px}
+  .tab .ti{font-family:var(--serif);font-size:13px}
+  .tab.active{color:var(--tidal-deep)}
+  .tab.active .ti{color:var(--tidal-deep)}
+
+  /* —— 页面7：活动日历页 —— */
+  .p-calendar{padding:0 16px 56px;height:100%;display:flex;flex-direction:column}
+  .cal-nav{display:flex;justify-content:space-between;align-items:center;padding:8px 2px 10px}
+  .cal-nav .back{color:var(--smoke);font-size:14px}
+  .cal-nav .title{font-family:var(--serif);font-size:14px;letter-spacing:2px;color:var(--ink)}
+  .cal-nav .toggle{font-size:10px;color:var(--tidal);border:1px solid var(--mist-deep);padding:3px 11px;border-radius:12px;letter-spacing:1px}
+  .cal-month{display:flex;justify-content:space-between;align-items:center;padding:2px 2px 12px}
+  .cal-month .m{font-family:var(--serif);font-size:18px;font-weight:500;letter-spacing:3px;color:var(--ink)}
+  .cal-month .m b{color:var(--wood);font-size:10px;font-weight:400;margin-left:8px;letter-spacing:2px}
+  .cal-month .arr{color:var(--smoke);font-size:14px}
+  .cal-week{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-size:9px;color:var(--smoke);padding-bottom:6px;border-bottom:1px solid var(--mist);letter-spacing:1px}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px 0;padding-top:5px}
+  .cal-cell{height:34px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;color:var(--ink);border-radius:8px;position:relative;gap:1px;line-height:1}
+  .cal-cell.empty{color:transparent}
+  .cal-cell .dot{width:4px;height:4px;border-radius:50%;background:var(--tidal)}
+  .cal-cell .jq{font-size:7px;color:var(--wood);letter-spacing:0;line-height:1}
+  .cal-cell.today{background:var(--tidal);color:#fff}
+  .cal-cell.today .dot{background:#fff}
+  .cal-cell.today .jq{color:rgba(255,255,255,.85)}
+  .cal-cell.sel{box-shadow:inset 0 0 0 1.5px var(--tidal)}
+  .cal-event{background:#fff;border-radius:14px;padding:14px 16px;margin-top:10px;border:1px solid var(--mist)}
+  .cal-event .ed{font-size:10px;color:var(--smoke);letter-spacing:1px;font-family:var(--serif)}
+  .cal-event .en{font-family:var(--serif);font-size:15px;font-weight:500;margin:5px 0 9px;letter-spacing:1px;color:var(--ink)}
+  .cal-event .em{font-size:10px;color:var(--smoke);display:flex;gap:8px;align-items:center;margin-bottom:9px}
+  .cal-event .em .s{color:var(--mist-deep)}
+  .cal-event .eq{font-size:10px;color:var(--wood);font-family:var(--serif);margin-bottom:12px;letter-spacing:2px}
+  .cal-event .sign{background:var(--tidal);color:#fff;border:none;padding:8px 20px;border-radius:20px;font-size:11px;letter-spacing:2px;font-family:var(--sans)}
+  .cal-foot{margin-top:auto;padding:6px 0 4px;text-align:center;font-size:10px;color:var(--smoke);font-family:var(--serif);letter-spacing:1px}
+
+  /* —— 页面8：潮汐打卡页 —— */
+  .p-checkin{padding:0 18px 56px;height:100%;display:flex;flex-direction:column}
+  .ci-nav{display:flex;justify-content:space-between;align-items:center;padding:8px 2px 12px}
+  .ci-nav .back{color:var(--smoke);font-size:14px}
+  .ci-nav .title{font-family:var(--serif);font-size:14px;letter-spacing:2px;color:var(--ink)}
+  .ci-nav .circle{font-size:9px;color:var(--tidal);border:1px solid var(--mist-deep);padding:3px 10px;border-radius:12px;letter-spacing:1px}
+  .ci-status{padding:2px 2px 8px}
+  .ci-status .big{font-family:var(--serif);font-size:20px;font-weight:500;letter-spacing:3px;color:var(--tidal-deep)}
+  .ci-status .big b{color:var(--ink);font-weight:500}
+  .ci-status .sm{font-size:10px;color:var(--smoke);font-family:var(--serif);letter-spacing:1px;margin-top:4px}
+  .ci-tide{background:#fff;border-radius:14px;padding:12px 10px 8px;border:1px solid var(--mist)}
+  .ci-tide .tt{font-size:9px;color:var(--smoke);font-family:var(--serif);letter-spacing:1px;margin-bottom:4px;padding:0 4px}
+  .ci-card{margin-top:12px;background:linear-gradient(150deg,#5B7B8A 0%,#3F5E5A 100%);border-radius:14px;padding:16px 18px;color:#F5F3EF;position:relative;overflow:hidden}
+  .ci-card .jq{font-size:10px;letter-spacing:2px;opacity:.85;font-family:var(--serif)}
+  .ci-card .verse{font-family:var(--serif);font-size:14px;margin:8px 0 14px;line-height:1.7;letter-spacing:1px}
+  .ci-card .meta{font-size:10px;opacity:.8;display:flex;justify-content:space-between;align-items:center}
+  .ci-card .share{font-size:10px;border:1px solid rgba(245,243,239,.4);padding:4px 12px;border-radius:12px;letter-spacing:1px;font-family:var(--sans)}
+  .ci-tl-title{font-family:var(--serif);font-size:12px;color:var(--ink);margin:14px 2px 6px;letter-spacing:1px;display:flex;justify-content:space-between;align-items:center}
+  .ci-tl-title .more{font-size:10px;color:var(--smoke);font-family:var(--sans)}
+  .ci-tl-item{display:flex;gap:10px;padding:8px 2px;border-bottom:1px solid var(--mist)}
+  .ci-tl-item .d{font-size:9px;color:var(--smoke);font-family:monospace;width:34px;flex-shrink:0;padding-top:3px}
+  .ci-tl-item .c{flex:1}
+  .ci-tl-item .mood{font-size:11px;color:var(--wood);font-family:var(--serif);letter-spacing:1px;margin-bottom:2px}
+  .ci-tl-item .txt{font-size:11px;color:var(--ink);line-height:1.5}
+
+  /* —— 页面9：共修圈 —— */
+  .p-circle{padding:0 18px 56px;height:100%;display:flex;flex-direction:column}
+  .cr-nav{display:flex;justify-content:space-between;align-items:center;padding:8px 2px 12px}
+  .cr-nav .back{color:var(--smoke);font-size:14px}
+  .cr-nav .name{font-family:var(--serif);font-size:13px;letter-spacing:1px;color:var(--ink);text-align:center;flex:1}
+  .cr-nav .set{color:var(--smoke);font-size:14px}
+  .cr-head{background:linear-gradient(150deg,#5B7B8A 0%,#3F5E5A 100%);border-radius:14px;padding:14px 16px;color:#F5F3EF;margin-bottom:12px}
+  .cr-head .t{font-family:var(--serif);font-size:14px;letter-spacing:2px;font-weight:500}
+  .cr-head .p{display:flex;justify-content:space-between;align-items:center;margin-top:9px;font-size:9px;opacity:.85;letter-spacing:1px}
+  .cr-head .p .prog{flex:1;height:3px;background:rgba(245,243,239,.25);border-radius:3px;margin:0 10px;position:relative}
+  .cr-head .p .prog .bar{position:absolute;left:0;top:0;height:100%;width:66%;background:#C9B59A;border-radius:3px}
+  .cr-wall{background:#fff;border-radius:14px;padding:10px 14px;border:1px solid var(--mist);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+  .cr-wall .label{font-size:9px;color:var(--smoke);font-family:var(--serif);line-height:1.4;flex-shrink:0;letter-spacing:1px}
+  .cr-wall .label b{color:var(--tidal-deep);font-weight:500;font-size:12px;display:block;font-family:var(--serif);margin-bottom:2px}
+  .cr-avatars{display:flex;align-items:center;margin-left:auto}
+  .cr-avatars .av{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--moonwhite);margin-left:-6px}
+  .cr-avatars .av:first-child{margin-left:0}
+  .cr-avatars .more{font-size:9px;color:var(--smoke);margin-left:8px}
+  .cr-title{font-family:var(--serif);font-size:11px;color:var(--ink);margin:2px 2px 8px;letter-spacing:1px}
+  .cr-feed{flex:1;overflow:hidden}
+  .cr-item{background:#fff;border-radius:12px;padding:11px 14px;margin-bottom:10px;border:1px solid var(--mist)}
+  .cr-item .top{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+  .cr-item .top .av{width:18px;height:18px;border-radius:50%}
+  .cr-item .top .nm{font-size:11px;color:var(--ink);font-weight:500}
+  .cr-item .top .tm{font-size:9px;color:var(--smoke);margin-left:auto;font-family:monospace}
+  .cr-item .mood{font-size:10px;color:var(--wood);font-family:var(--serif);letter-spacing:1px;margin-bottom:3px}
+  .cr-item .txt{font-size:11px;color:var(--ink);line-height:1.5;margin-bottom:8px}
+  .cr-item .warm{display:flex;gap:6px}
+  .cr-item .warm span{font-size:9px;color:var(--tidal);border:1px solid var(--mist-deep);padding:2px 8px;border-radius:10px;letter-spacing:1px}
+  .cr-post{margin-top:auto;align-self:center;background:var(--tidal);color:#fff;font-size:11px;letter-spacing:2px;padding:9px 22px;border-radius:20px;font-family:var(--sans);box-shadow:0 4px 12px rgba(91,123,138,.25);margin-bottom:4px}
+
+  /* —— 页面10：岸·连接 Tab落地页 —— */
+  .p-shore{padding:0 18px 56px;height:100%;display:flex;flex-direction:column}
+  .sh-nav{display:flex;justify-content:space-between;align-items:center;padding:8px 2px 4px}
+  .sh-nav .title{font-family:var(--serif);font-size:15px;letter-spacing:3px;color:var(--ink)}
+  .sh-nav .ic{color:var(--smoke);font-size:14px}
+  .sh-greet{font-family:var(--serif);font-size:13px;color:var(--smoke);padding:6px 2px 16px;letter-spacing:1px}
+  .sh-greet b{color:var(--ink);font-weight:500}
+  .sh-circle-card{background:linear-gradient(150deg,#5B7B8A 0%,#3F5E5A 100%);border-radius:16px;padding:16px 18px;color:#F5F3EF;margin-bottom:18px;position:relative}
+  .sh-circle-card .go{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:18px;opacity:.6}
+  .sh-circle-card .tag{font-size:9px;letter-spacing:2px;opacity:.8;font-family:var(--serif)}
+  .sh-circle-card .name{font-family:var(--serif);font-size:14px;margin:6px 0 10px;letter-spacing:1px;font-weight:500}
+  .sh-circle-card .prog-row{display:flex;justify-content:space-between;align-items:center;font-size:9px;opacity:.85;letter-spacing:1px}
+  .sh-circle-card .prog{flex:1;height:3px;background:rgba(245,243,239,.25);border-radius:3px;margin:0 10px;position:relative}
+  .sh-circle-card .prog .bar{position:absolute;left:0;top:0;height:100%;width:66%;background:#C9B59A;border-radius:3px}
+  .sh-sec-title{font-family:var(--serif);font-size:11px;color:var(--smoke);letter-spacing:2px;margin:0 2px 10px}
+  .sh-entries{display:flex;flex-direction:column}
+  .sh-entry{display:flex;align-items:center;gap:13px;padding:15px 4px;border-bottom:1px solid var(--mist)}
+  .sh-entry .ico{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:17px;flex-shrink:0;font-weight:500}
+  .sh-entry .info{flex:1}
+  .sh-entry .info .t{font-family:var(--serif);font-size:14px;color:var(--ink);letter-spacing:1px;font-weight:500}
+  .sh-entry .info .s{font-size:10px;color:var(--smoke);margin-top:3px;letter-spacing:1px}
+  .sh-entry .r{display:flex;align-items:center;gap:8px;color:var(--mist-deep);font-size:13px}
+  .sh-entry .r .badge{background:var(--wood);color:#fff;font-size:8px;padding:2px 7px;border-radius:8px;letter-spacing:1px;font-family:var(--sans)}
+  .sh-entry:last-child{border-bottom:none}
+
+  /* —— 页面11：线下活动 · 瀑布流 —— */
+  .p-stream{padding:0 14px 56px;height:100%;display:flex;flex-direction:column}
+  .st-nav{display:flex;justify-content:space-between;align-items:center;padding:8px 2px 10px}
+  .st-nav .back{color:var(--smoke);font-size:14px}
+  .st-nav .title{font-family:var(--serif);font-size:14px;letter-spacing:2px;color:var(--ink)}
+  .st-nav .view{font-size:9px;color:var(--tidal);border:1px solid var(--mist-deep);padding:3px 10px;border-radius:12px;letter-spacing:1px}
+  .st-cats{display:flex;gap:6px;padding:0 2px 12px;overflow:hidden}
+  .st-cat{font-size:9px;padding:4px 10px;border-radius:12px;white-space:nowrap;letter-spacing:1px;flex-shrink:0}
+  .st-cat.active{background:var(--tidal);color:#fff}
+  .st-cat:not(.active){background:var(--mist);color:var(--smoke)}
+  .st-water{display:flex;gap:8px;flex:1;overflow:hidden}
+  .st-col{flex:1;display:flex;flex-direction:column;gap:8px}
+  .st-card{background:#fff;border-radius:12px;overflow:hidden;border:1px solid var(--mist)}
+  .st-card .poster{height:72px}
+  .st-card .nobanner{height:38px;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:13px;letter-spacing:3px;font-weight:500}
+  .st-card .body{padding:10px 11px 11px}
+  .st-card .tag{font-size:8px;color:var(--wood);font-family:var(--serif);letter-spacing:1px;margin-bottom:3px}
+  .st-card .name{font-family:var(--serif);font-size:12px;color:var(--ink);font-weight:500;line-height:1.4;margin-bottom:6px;letter-spacing:.5px}
+  .st-card .meta{font-size:9px;color:var(--smoke);line-height:1.6;font-family:var(--serif);letter-spacing:.5px}
+  .st-card .quota{display:flex;align-items:center;gap:5px;margin:7px 0 8px}
+  .st-card .quota .track{flex:1;height:2px;background:var(--mist);border-radius:2px;position:relative}
+  .st-card .quota .fill{position:absolute;left:0;top:0;height:100%;background:var(--tidal);border-radius:2px}
+  .st-card .quota .tx{font-size:8px;color:var(--smoke);font-family:var(--serif);letter-spacing:1px;white-space:nowrap}
+  .st-card .sign{display:block;width:100%;background:var(--tidal);color:#fff;border:none;font-size:9px;padding:5px 0;border-radius:12px;letter-spacing:2px;font-family:var(--sans)}
+  .st-card .sign.full{background:var(--mist-deep);color:var(--smoke)}
+
+  /* 组件库区 */
+  .comp-block{background:#fff;border-radius:var(--r-card);padding:30px;margin-top:10px}
+  .comp-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+  .comp-row:last-child{margin-bottom:0}
+  .comp-label{font-size:11px;color:var(--smoke);width:80px;flex-shrink:0;letter-spacing:1px}
+  .btn-primary{background:var(--tidal);color:#fff;border:none;padding:11px 28px;border-radius:var(--r-btn);font-size:13px;font-family:var(--sans);letter-spacing:1px}
+  .btn-ghost{background:transparent;border:1px solid var(--tidal);color:var(--tidal);padding:10px 26px;border-radius:var(--r-btn);font-size:13px}
+  .btn-text{background:none;border:none;color:var(--tidal);font-size:13px;padding:8px 4px}
+  .tag{display:inline-block;padding:3px 12px;border-radius:12px;font-size:10px;letter-spacing:1px}
+  .tag-blue{background:rgba(91,123,138,.12);color:var(--tidal-deep)}
+  .tag-wood{background:rgba(201,181,154,.2);color:#8a7558}
+  .tag-green{background:rgba(63,94,90,.12);color:var(--ink-green)}
+  .bar-track{width:180px;height:4px;background:var(--mist);border-radius:4px;position:relative}
+  .bar-fill{position:absolute;height:100%;width:62%;background:var(--tidal);border-radius:4px}
+
+  /* 文案对比 */
+  .copy-table{width:100%;border-collapse:collapse;margin-top:10px;background:#fff;border-radius:var(--r-card);overflow:hidden}
+  .copy-table th,.copy-table td{padding:16px 20px;text-align:left;font-size:13px;border-bottom:1px solid var(--mist)}
+  .copy-table th{background:var(--mist);font-family:var(--serif);font-weight:500;font-size:12px;color:var(--smoke);letter-spacing:2px}
+  .copy-table .bad{color:var(--dusk)}
+  .copy-table .good{color:var(--ink-green);font-family:var(--serif)}
+
+  /* footer */
+  footer{margin-top:70px;text-align:center;color:var(--smoke);font-size:12px;padding:30px 0;border-top:1px solid var(--mist)}
+  footer .fz{font-family:var(--serif);color:var(--tidal);margin-bottom:8px;letter-spacing:3px}
+
+  @media(max-width:760px){
+    .principles{grid-template-columns:1fr}
+    .palette{grid-template-columns:repeat(4,1fr)}
+    .hero h1{font-size:44px}
+    .phones{gap:36px}
+  }
+</style>
+</head>
+<body>
+
+<!-- 顶部品牌 -->
+<header class="hero">
+  <div class="seal">GONG · SHI · HAI</div>
+  <h1>共 时 海</h1>
+  <div class="slogan">潮起潮落 · 你都在</div>
+  <div class="meta">疗愈小程序 · 视觉风格预览</div>
+  <div class="wave"></div>
+</header>
+
+<div class="wrap">
+
+  <!-- 设计原则 -->
+  <section>
+    <div class="sec-head"><span class="no">01</span><h2>设计三原则</h2></div>
+    <p class="sec-desc">疗愈类产品的设计，克制比丰盛更重要。每一处决策都回到原点：让人更安静了吗？</p>
+    <div class="principles">
+      <div class="principle">
+        <div class="p-no">一</div>
+        <h3>留白即疗愈</h3>
+        <p>页面要"会呼吸"。不堆砌信息密度，每一屏都给心理喘息的空间。宁可少，不要满。</p>
+      </div>
+      <div class="principle">
+        <div class="p-no">二</div>
+        <h3>慢即是快</h3>
+        <p>动效缓、切换柔、文字少。引导用户从"刷"的节奏，回到"在"的节奏。</p>
+      </div>
+      <div class="principle">
+        <div class="p-no">三</div>
+        <h3>一致即信任</h3>
+        <p>视觉、声音、文字三者统一。让用户形成"打开就安心"的条件反射。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 色板 -->
+  <section>
+    <div class="sec-head"><span class="no">02</span><h2>色板</h2></div>
+    <p class="sec-desc">低饱和、高灰度的东方水色系。避免高对比刺激，深浅主题均保持柔和不刺眼。</p>
+    <div class="palette">
+      <div class="swatch"><div class="chip" style="background:#F5F3EF"></div><div class="info"><div class="name">月白</div><div class="hex">#F5F3EF</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#EAE6DF"></div><div class="info"><div class="name">晨雾</div><div class="hex">#EAE6DF</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#DDD8CF"></div><div class="info"><div class="name">雾深</div><div class="hex">#DDD8CF</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#5B7B8A"></div><div class="info"><div class="name">潮汐蓝</div><div class="hex">#5B7B8A</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#4A6B7A"></div><div class="info"><div class="name">潮汐深</div><div class="hex">#4A6B7A</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#C9B59A"></div><div class="info"><div class="name">浅木</div><div class="hex">#C9B59A</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#3F5E5A"></div><div class="info"><div class="name">墨绿</div><div class="hex">#3F5E5A</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#B8746A"></div><div class="info"><div class="name">暮霞</div><div class="hex">#B8746A</div></div></div>
+    </div>
+  </section>
+
+  <!-- 核心页面预览 -->
+  <section>
+    <div class="sec-head"><span class="no">03</span><h2>核心页面预览</h2></div>
+    <p class="sec-desc">下方为 6 个关键页面的样式示意，包含启动问候、发现、练习、呼吸进行中、播放器、个人中心。</p>
+
+    <div class="phones">
+
+      <!-- 页面1 启动问候 -->
+      <div>
+        <div class="phone"><div class="screen">
+          <div class="p-greet">
+            <div class="jq">立 秋 · <b>凉 风 至</b></div>
+            <div class="verse">潮起潮落<br>你都在</div>
+            <div class="verse-sub">共 时 海 · 第 廿 二 节 气</div>
+            <div class="enter-btn">进 入 共 时 海</div>
+          </div>
+        </div></div>
+        <div class="phone-cap"><div class="t">启动问候页</div><div class="s">每日一语 · 节气仪式</div></div>
+      </div>
+
+      <!-- 页面2 发现 -->
+      <div>
+        <div class="phone"><div class="screen">
+          <div class="p-discover">
+            <div class="statusbar"><span>9:24</span><span class="right"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></div>
+            <div class="nav"><div class="brand">共时海</div><div class="ic"><span>○</span><span>⊝</span></div></div>
+            <div class="greet-line">早安，<b>潮汐将至</b>，留 5 分钟给自己</div>
+            <div class="card-hero">
+              <div class="tag">今 日 共 时</div>
+              <h4>晨间苏醒 ·<br>跟随海的呼吸</h4>
+              <div class="meta"><span>8 分钟</span><span>·</span><span>冥想引导</span></div>
+              <div class="play">▷</div>
+            </div>
+            <div class="sec-mini"><span>主题专栏</span><span class="more">更多 ›</span></div>
+            <div class="list-row"><div class="list-thumb" style="background:linear-gradient(135,#C9B59A,#8a7558)"></div><div class="list-info"><div class="lt">二十四节气疗愈</div><div class="lm">立秋 · 凉风至</div></div></div>
+            <div class="list-row"><div class="list-thumb" style="background:linear-gradient(135,#3F5E5A,#2B3A42)"></div><div class="list-info"><div class="lt">深夜电台</div><div class="lm">睡前陪伴 · 更至第 12 期</div></div></div>
+          </div>
+          <div class="tabbar">
+            <div class="tab active"><span class="ti">潮</span><span>发现</span></div>
+            <div class="tab"><span class="ti">海</span><span>练习</span></div>
+            <div class="tab"><span class="ti">岸</span><span>连接</span></div>
+            <div class="tab"><span class="ti">岛</span><span>我的</span></div>
+          </div>
+        </div></div>
+        <div class="phone-cap"><div class="t">潮 · 发现页</div><div class="s">今日共时推荐 + 主题专栏</div></div>
+      </div>
+
+      <!-- 页面3 练习 -->
+      <div>
+        <div class="phone"><div class="screen">
+          <div class="p-practice">
+            <div class="statusbar"><span>14:08</span><span class="right"><span class="dot"></span><span class="dot"></span></span></div>
+            <div class="nav"><div class="brand">练习</div><div class="ic"><span>⊙</span></div></div>
+            <div class="greet-line">此刻，<b>你想去哪片海</b></div>
+            <div class="practice-grid">
+              <div class="practice-card pc-breath"><div><div class="pn">呼吸</div><div class="pd">4-7-8 · 盒式</div></div><div class="pd">上次 2 天前</div></div>
+              <div class="practice-card pc-meditate"><div><div class="pn">冥想</div><div class="pd">人声引导</div></div><div class="pd">5-30 分钟</div></div>
+              <div class="practice-card pc-sound"><div><div class="pn">声音</div><div class="pd">颂钵 · 自然</div></div><div class="pd">∞ 循环</div></div>
+              <div class="practice-card pc-sleep"><div><div class="pn">助眠</div><div class="pd">深夜陪伴</div></div><div class="pd">定时关闭</div></div>
+            </div>
+            <div class="principle-cta">
+              <div class="breath-demo">
+                <div class="breath-ring"><div class="halo"></div><div class="core"></div></div>
+                <div class="tx"><b>呼吸圆环</b>跟随真实呼吸节奏缩放<br>丝滑的动效是该页成败关键</div>
+              </div>
+            </div>
+          </div>
+          <div class="tabbar">
+            <div class="tab"><span class="ti">潮</span><span>发现</span></div>
+            <div class="tab active"><span class="ti">海</span><span>练习</span></div>
+            <div class="tab"><span class="ti">岸</span><span>连接</span></div>
+            <div class="tab"><span class="ti">岛</span><span>我的</span></div>
+          </div>
+        </div></div>
+        <div class="phone-cap"><div class="t">海 · 练习页</div><div class="s">四大入口 + 呼吸圆环动效</div></div>
+      </div>
+
+      <!-- 页面4 呼吸进行中 -->
+      <div>
+        <div class="phone"><div class="screen">
+          <div class="p-breathing">
+            <div class="label">呼 吸 练 习 · 第 2 轮</div>
+            <div class="big-ring">
+              <div class="core"></div>
+              <div class="ring"></div>
+              <div class="txt">吸 气</div>
+            </div>
+            <div class="count">已 练 习 3 分 12 秒</div>
+            <div class="stop">轻 触 结 束</div>
+          </div>
+        </div></div>
+        <div class="phone-cap"><div class="t">呼吸练习 · 进行中</div><div class="s">全屏呼吸引导 · 8 秒循环</div></div>
+      </div>
+
+      <!-- 页面5 播放器 -->
+      <div>
+        <div class="phone"><div class="screen">
+          <div class="p-player">
+            <div class="player-top"><span>‹ 返回</span><span>正 在 播 放</span><span>⋯</span></div>
+            <div class="cover"><div class="symbol">海</div></div>
+            <div class="player-title">海的呼吸</div>
+            <div class="player-sub">颂钵引导 · 8 分钟 · 助眠</div>
+            <div class="progress"><div class="fill"></div><div class="knob"></div></div>
+            <div class="time"><span>03:02</span><span>08:00</span></div>
+            <div class="controls">
+              <span class="ctrl">⟲</span>
+              <span class="ctrl">◁</span>
+              <div class="play-big">▷</div>
+              <span class="ctrl">▷</span>
+              <span class="ctrl">◎</span>
+            </div>
+            <div class="player-bottom">
+              <span>⏱ 30分钟</span><span>♡ 收藏</span><span>⇄ 分段</span>
+            </div>
+          </div>
+        </div></div>
+        <div class="phone-cap"><div class="t">音频播放器</div><div class="s">定时 · 分段 · 背景音叠加</div></div>
+      </div>
+
+      <!-- 页面6 我的 -->
+      <div>
+        <div class="phone"><div class="screen">
+          <div class="p-me">
+            <div class="statusbar"><span>21:46</span><span class="right"><span class="dot"></span><span class="dot"></span></span></div>
+            <div class="me-head"><div class="nm">潮 ·</div><div class="sg">"今夜，让海浪替你守着时间"</div></div>
+            <div class="me-stat">
+              <div><div class="num">12</div><div class="lab">累计小时</div></div>
+              <div><div class="num">7</div><div class="lab">连续天数</div></div>
+              <div><div class="num">38</div><div class="lab">练习次数</div></div>
+            </div>
+            <div class="me-nav">
+              <div class="me-nav-item"><div class="l"><span class="ico">✎</span>疗愈日记</div><div class="r">今日已记 ›</div></div>
+              <div class="me-nav-item"><div class="l"><span class="ico">♡</span>我的收藏</div><div class="r">3 组 ›</div></div>
+              <div class="me-nav-item"><div class="l"><span class="ico">◷</span>定时提醒</div><div class="r">睡前 22:30 ›</div></div>
+              <div class="me-nav-item"><div class="l"><span class="ico">▤</span>课程与报名</div><div class="r"><span class="badge">1</span>›</div></div>
+            </div>
+          </div>
+          <div class="tabbar">
+            <div class="tab"><span class="ti">潮</span><span>发现</span></div>
+            <div class="tab"><span class="ti">海</span><span>练习</span></div>
+            <div class="tab"><span class="ti">岸</span><span>连接</span></div>
+            <div class="tab active"><span class="ti">岛</span><span>我的</span></div>
+          </div>
+        </div></div>
+        <div class="phone-cap"><div class="t">岛 · 我的</div><div class="s">疗愈日记 + 成长记录</div></div>
+      </div>
+
+      <!-- 页面7 活动日历 -->
+      <div>
+        <div class="phone"><div class="screen">
+          <div class="p-calendar">
+            <div class="statusbar"><span>15:20</span><span class="right"><span class="dot"></span><span class="dot"></span></span></div>
+            <div class="cal-nav"><span class="back">‹</span><span class="title">线 下 活 动</span><span class="toggle">列 表</span></div>
+            <div class="cal-month"><span class="arr">‹</span><span class="m">八 月<b>立 秋 · 处 暑</b></span><span class="arr">›</span></div>
+            <div class="cal-week"><span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span></div>
+            <div class="cal-grid">
+              <div class="cal-cell empty"></div><div class="cal-cell empty"></div><div class="cal-cell empty"></div><div class="cal-cell empty"></div><div class="cal-cell empty"></div><div class="cal-cell empty"></div><div class="cal-cell">1</div>
+              <div class="cal-cell">2</div><div class="cal-cell">3</div><div class="cal-cell">4</div><div class="cal-cell">5</div><div class="cal-cell today sel">6<div class="dot"></div></div><div class="cal-cell">7<div class="jq">立秋</div><div class="dot"></div></div><div class="cal-cell">8</div>
+              <div class="cal-cell">9</div><div class="cal-cell">10</div><div class="cal-cell">11</div><div class="cal-cell">12<div class="dot"></div></div><div class="cal-cell">13</div><div class="cal-cell">14</div><div class="cal-cell">15<div class="dot"></div></div>
+              <div class="cal-cell">16</div><div class="cal-cell">17</div><div class="cal-cell">18</div><div class="cal-cell">19</div><div class="cal-cell">20</div><div class="cal-cell">21</div><div class="cal-cell">22</div>
+              <div class="cal-cell">23<div class="jq">处暑</div><div class="dot"></div></div><div class="cal-cell">24</div><div class="cal-cell">25</div><div class="cal-cell">26</div><div class="cal-cell">27</div><div class="cal-cell">28<div class="dot"></div></div><div class="cal-cell">29</div>
+              <div class="cal-cell">30</div><div class="cal-cell">31</div><div class="cal-cell empty"></div><div class="cal-cell empty"></div><div class="cal-cell empty"></div><div class="cal-cell empty"></div><div class="cal-cell empty"></div>
+            </div>
+            <div class="cal-event">
+              <div class="ed">8月6日 · 周四 · 今日</div>
+              <div class="en">颂 钵 音 疗 沙 龙</div>
+              <div class="em"><span>19:30 — 21:00</span><span class="s">·</span><span>共时海工作室</span></div>
+              <div class="eq">潮 将 满 · 余 2 席</div>
+              <button class="sign">立 即 报 名</button>
+            </div>
+            <div class="cal-foot">本月 6 场相聚 · 往期回顾 ›</div>
+          </div>
+          <div class="tabbar">
+            <div class="tab"><span class="ti">潮</span><span>发现</span></div>
+            <div class="tab"><span class="ti">海</span><span>练习</span></div>
+            <div class="tab active"><span class="ti">岸</span><span>连接</span></div>
+            <div class="tab"><span class="ti">岛</span><span>我的</span></div>
+          </div>
+        </div></div>
+        <div class="phone-cap"><div class="t">活动日历页</div><div class="s">月历 · 节气 · 报名</div></div>
+      </div>
+
+      <!-- 页面8 潮汐打卡 -->
+      <div>
+        <div class="phone"><div class="screen">
+          <div class="p-checkin">
+            <div class="statusbar"><span>21:08</span><span class="right"><span class="dot"></span><span class="dot"></span></span></div>
+            <div class="ci-nav"><span class="back">‹</span><span class="title">打 卡 与 陪 伴</span><span class="circle">共 修 圈</span></div>
+            <div class="ci-status">
+              <div class="big">连 绵 <b>7</b> 日 · 满 潮</div>
+              <div class="sm">潮将满，继续就好</div>
+            </div>
+            <div class="ci-tide">
+              <div class="tt">近 14 日 · 潮汐打卡图</div>
+              <svg viewBox="0 0 244 76" width="100%" preserveAspectRatio="xMidYMid meet" role="img">
+                <line x1="4" y1="8" x2="240" y2="8" stroke="#185FA5" stroke-width="0.5" stroke-dasharray="3 3" opacity="0.5"/>
+                <path d="M4,68 L4,64 L23,56 L42,50 L60,44 L79,36 L98,28 L117,12 L136,32 L154,40 L173,36 L192,28 L210,18 L226,12 L240,8 L240,68 Z" fill="#E6F1FB"/>
+                <path d="M4,64 L23,56 L42,50 L60,44 L79,36 L98,28 L117,12 L136,32 L154,40 L173,36 L192,28 L210,18 L226,12 L240,8" fill="none" stroke="#185FA5" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+                <line x1="4" y1="68" x2="240" y2="68" stroke="#B4B2A9" stroke-width="0.5"/>
+                <circle cx="117" cy="12" r="2.5" fill="#0C447C"/>
+                <circle cx="240" cy="8" r="2.5" fill="#0C447C"/>
+              </svg>
+            </div>
+            <div class="ci-card">
+              <div class="jq">立 秋 · 新 月 前</div>
+              <div class="verse">“今晨的呼吸很慢，<br>海好像也停了一下”</div>
+              <div class="meta"><span>晨间苏醒 · 8 分钟</span><span class="share">分 享 ›</span></div>
+            </div>
+            <div class="ci-tl-title"><span>最 近 的 涟 漪</span><span class="more">全 部 ›</span></div>
+            <div class="ci-tl-item">
+              <div class="d">8.6</div>
+              <div class="c"><div class="mood">沉 静</div><div class="txt">做完呼吸练习，肩膀松下来了</div></div>
+            </div>
+            <div class="ci-tl-item">
+              <div class="d">8.5</div>
+              <div class="c"><div class="mood">起 伏</div><div class="txt">思绪有点多，但没急着赶走它</div></div>
+            </div>
+          </div>
+          <div class="tabbar">
+            <div class="tab"><span class="ti">潮</span><span>发现</span></div>
+            <div class="tab"><span class="ti">海</span><span>练习</span></div>
+            <div class="tab"><span class="ti">岸</span><span>连接</span></div>
+            <div class="tab active"><span class="ti">岛</span><span>我的</span></div>
+          </div>
+        </div></div>
+        <div class="phone-cap"><div class="t">潮汐打卡页</div><div class="s">打卡图 + 感受卡 + 时间线</div></div>
+      </div>
+
+      <!-- 页面9 共修圈 -->
+      <div>
+        <div class="phone"><div class="screen">
+          <div class="p-circle">
+            <div class="statusbar"><span>21:34</span><span class="right"><span class="dot"></span><span class="dot"></span></span></div>
+            <div class="cr-nav"><span class="back">‹</span><span class="name">21 天 晨 间 呼 吸 共 修 圈</span><span class="set">⋯</span></div>
+            <div class="cr-head">
+              <div class="t">共 同 潮 汐 · 第 14 日</div>
+              <div class="p"><span>21 天周期</span><span class="prog"><span class="bar"></span></span><span>14 / 21</span></div>
+            </div>
+            <div class="cr-wall">
+              <div class="label">今日<b>12 位同修</b>在海里</div>
+              <div class="cr-avatars">
+                <div class="av" style="background:#C9B59A"></div>
+                <div class="av" style="background:#5B7B8A"></div>
+                <div class="av" style="background:#3F5E5A"></div>
+                <div class="av" style="background:#B8746A"></div>
+                <div class="av" style="background:#8A8A8A"></div>
+                <span class="more">+7</span>
+              </div>
+            </div>
+            <div class="cr-title">同 修 的 涟 漪</div>
+            <div class="cr-feed">
+              <div class="cr-item">
+                <div class="top"><div class="av" style="background:#C9B59A"></div><span class="nm">小 满</span><span class="tm">08:12</span></div>
+                <div class="mood">沉 静</div>
+                <div class="txt">今早的呼吸很顺，好像跟着海一起涨落</div>
+                <div class="warm"><span>也 在</span><span>陪 你</span></div>
+              </div>
+              <div class="cr-item">
+                <div class="top"><div class="av" style="background:#5B7B8A"></div><span class="nm">青 舟</span><span class="tm">07:45</span></div>
+                <div class="mood">微 光</div>
+                <div class="txt">醒来第一件事是呼吸，今天是新的海</div>
+                <div class="warm"><span>也 在</span><span>陪 你</span></div>
+              </div>
+            </div>
+            <div class="cr-post">+ 发 打 卡 / 感 受</div>
+          </div>
+          <div class="tabbar">
+            <div class="tab"><span class="ti">潮</span><span>发现</span></div>
+            <div class="tab"><span class="ti">海</span><span>练习</span></div>
+            <div class="tab active"><span class="ti">岸</span><span>连接</span></div>
+            <div class="tab"><span class="ti">岛</span><span>我的</span></div>
+          </div>
+        </div></div>
+        <div class="phone-cap"><div class="t">共修圈页</div><div class="s">共同潮汐墙 + 同修打卡流</div></div>
+      </div>
+
+      <!-- 页面10 岸·连接 Tab落地页 -->
+      <div>
+        <div class="phone"><div class="screen">
+          <div class="p-shore">
+            <div class="statusbar"><span>13:08</span><span class="right"><span class="dot"></span><span class="dot"></span></span></div>
+            <div class="sh-nav"><span class="title">岸 · 连 接</span><span class="ic">⊝</span></div>
+            <div class="sh-greet">在 这 里，<b>与 人 相 遇</b></div>
+            <div class="sh-circle-card">
+              <div class="go">›</div>
+              <div class="tag">我 的 共 修 圈</div>
+              <div class="name">21 天 晨 间 呼 吸 共 修 圈</div>
+              <div class="prog-row"><span>共 同 潮 汐</span><span class="prog"><span class="bar"></span></span><span>第 14 日</span></div>
+            </div>
+            <div class="sh-sec-title">连 接 · 同 修 · 场 域</div>
+            <div class="sh-entries">
+              <div class="sh-entry">
+                <div class="ico" style="background:#E4D9C9;color:#8a7558">师</div>
+                <div class="info"><div class="t">疗 愈 师</div><div class="s">颂钵 · 正念 · 艺术疗愈</div></div>
+                <div class="r">›</div>
+              </div>
+              <div class="sh-entry">
+                <div class="ico" style="background:#D9E2E4;color:#4A6B7A">课</div>
+                <div class="info"><div class="t">课 程 与 工 作 坊</div><div class="s">录播 · 直播 · 线下</div></div>
+                <div class="r">›</div>
+              </div>
+              <div class="sh-entry">
+                <div class="ico" style="background:#DCE6DE;color:#3F5E5A">场</div>
+                <div class="info"><div class="t">线 下 活 动</div><div class="s">本月 6 场相聚 · 立秋茶会</div></div>
+                <div class="r"><span class="badge">近 期</span>›</div>
+              </div>
+              <div class="sh-entry">
+                <div class="ico" style="background:#EAE6DF;color:#8A8A8A">共</div>
+                <div class="info"><div class="t">关 于 共 时 海</div><div class="s">品牌故事 · 团队 · 合作</div></div>
+                <div class="r">›</div>
+              </div>
+            </div>
+          </div>
+          <div class="tabbar">
+            <div class="tab"><span class="ti">潮</span><span>发现</span></div>
+            <div class="tab"><span class="ti">海</span><span>练习</span></div>
+            <div class="tab active"><span class="ti">岸</span><span>连接</span></div>
+            <div class="tab"><span class="ti">岛</span><span>我的</span></div>
+          </div>
+        </div></div>
+        <div class="phone-cap"><div class="t">岸 · 连接</div><div class="s">Tab 落地页 · 聚合入口</div></div>
+      </div>
+
+      <!-- 页面11 线下活动·瀑布流 -->
+      <div>
+        <div class="phone"><div class="screen">
+          <div class="p-stream">
+            <div class="statusbar"><span>13:50</span><span class="right"><span class="dot"></span><span class="dot"></span></span></div>
+            <div class="st-nav"><span class="back">‹</span><span class="title">线 下 活 动</span><span class="view">日 历</span></div>
+            <div class="st-cats">
+              <span class="st-cat active">全 部</span>
+              <span class="st-cat">节 气 茶 会</span>
+              <span class="st-cat">颂 钵 沙 龙</span>
+              <span class="st-cat">正 念 徒 步</span>
+              <span class="st-cat">艺 术 疗 愈</span>
+            </div>
+            <div class="st-water">
+              <div class="st-col">
+                <div class="st-card">
+                  <div class="poster" style="background:linear-gradient(135deg,#C9B59A 0%,#5B7B8A 100%)"></div>
+                  <div class="body">
+                    <div class="tag">节 气 茶 会</div>
+                    <div class="name">立 秋 · 凉 风 至 茶 会</div>
+                    <div class="meta">8.7 周五 19:30<br>共时海工作室</div>
+                    <div class="quota"><span class="track"><span class="fill" style="width:85%"></span></span><span class="tx">余 2 席</span></div>
+                    <button class="sign">立 即 报 名</button>
+                  </div>
+                </div>
+                <div class="st-card">
+                  <div class="nobanner" style="background:#3F5E5A;color:#F5F3EF">冥 想 圈</div>
+                  <div class="body">
+                    <div class="tag">月 相 共 修</div>
+                    <div class="name">新 月 · 静 默 共 修</div>
+                    <div class="meta">8.14 周四 21:00<br>线上 · 腾讯会议</div>
+                    <div class="quota"><span class="track"><span class="fill" style="width:40%"></span></span><span class="tx">8 / 20</span></div>
+                    <button class="sign">立 即 报 名</button>
+                  </div>
+                </div>
+                <div class="st-card">
+                  <div class="poster" style="background:linear-gradient(135deg,#3F5E5A 0%,#2B3A42 100%)"></div>
+                  <div class="body">
+                    <div class="tag">艺 术 疗 愈</div>
+                    <div class="name">色 彩 与 情 绪 · 表 达 性 绘 画</div>
+                    <div class="meta">8.15 周日 14:00<br>共时海工作室</div>
+                    <div class="quota"><span class="track"><span class="fill" style="width:60%"></span></span><span class="tx">余 6 席</span></div>
+                    <button class="sign">立 即 报 名</button>
+                  </div>
+                </div>
+              </div>
+              <div class="st-col">
+                <div class="st-card">
+                  <div class="nobanner" style="background:#E4D9C9;color:#8a7558">颂 钵</div>
+                  <div class="body">
+                    <div class="tag">颂 钵 沙 龙</div>
+                    <div class="name">颂 钵 音 疗 · 海 的 共 振</div>
+                    <div class="meta">8.12 周三 19:30<br>共时海工作室</div>
+                    <div class="quota"><span class="track"><span class="fill" style="width:80%"></span></span><span class="tx">余 3 席</span></div>
+                    <button class="sign">立 即 报 名</button>
+                  </div>
+                </div>
+                <div class="st-card">
+                  <div class="poster" style="background:linear-gradient(135deg,#EAE6DF 0%,#C9B59A 100%)"></div>
+                  <div class="body">
+                    <div class="tag">正 念 徒 步</div>
+                    <div class="name">城 郊 山 林 · 行 禅 半 日</div>
+                    <div class="meta">8.23 周日 09:00<br>青城山 · 集合点</div>
+                    <div class="quota"><span class="track"><span class="fill" style="width:50%"></span></span><span class="tx">余 8 席</span></div>
+                    <button class="sign">立 即 报 名</button>
+                  </div>
+                </div>
+                <div class="st-card">
+                  <div class="nobanner" style="background:#5B7B8A;color:#F5F3EF">处 暑</div>
+                  <div class="body">
+                    <div class="tag">节 气 冥 想</div>
+                    <div class="name">处 暑 · 暑 尽 生 凉</div>
+                    <div class="meta">8.23 周日 20:00<br>线上</div>
+                    <div class="quota"><span class="track"><span class="fill" style="width:100%"></span></span><span class="tx">已 满</span></div>
+                    <button class="sign full">候 补 登 记</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tabbar">
+            <div class="tab"><span class="ti">潮</span><span>发现</span></div>
+            <div class="tab"><span class="ti">海</span><span>练习</span></div>
+            <div class="tab active"><span class="ti">岸</span><span>连接</span></div>
+            <div class="tab"><span class="ti">岛</span><span>我的</span></div>
+          </div>
+        </div></div>
+        <div class="phone-cap"><div class="t">活动 · 瀑布流</div><div class="s">分类筛选 + 左右交错卡片</div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 组件库 -->
+  <section>
+    <div class="sec-head"><span class="no">04</span><h2>组件样式</h2></div>
+    <p class="sec-desc">基础组件遵循"柔和、不刺眼"调性。按钮圆角胶囊形，标签低饱和，进度条细线不抢戏。</p>
+    <div class="comp-block">
+      <div class="comp-row"><div class="comp-label">按钮</div><button class="btn-primary">开始播放</button><button class="btn-ghost">收藏</button><button class="btn-text">更多 ›</button></div>
+      <div class="comp-row"><div class="comp-label">标签</div><span class="tag tag-blue">冥想引导</span><span class="tag tag-wood">5-15分钟</span><span class="tag tag-green">助眠</span></div>
+      <div class="comp-row"><div class="comp-label">进度条</div><div class="bar-track"><div class="bar-fill"></div></div></div>
+      <div class="comp-row"><div class="comp-label">呼吸圆环</div><div class="breath-ring"><div class="halo"></div><div class="core"></div></div><span style="font-size:12px;color:var(--smoke)">8 秒循环 · 吸气4s 呼气4s</span></div>
+    </div>
+  </section>
+
+  <!-- 文案对比 -->
+  <section>
+    <div class="sec-head"><span class="no">05</span><h2>文案调性</h2></div>
+    <p class="sec-desc">真诚 > 华丽。第二人称。留白式表达。不承诺治愈。</p>
+    <table class="copy-table">
+      <tr><th style="width:22%">场景</th><th>不要这样</th><th>这样</th></tr>
+      <tr><td>启动页</td><td class="bad">你的专属疗愈师</td><td class="good">潮起潮落，你都在</td></tr>
+      <tr><td>空状态</td><td class="bad">暂无数据</td><td class="good">这里还很安静，等你来留下第一道涟漪</td></tr>
+      <tr><td>打卡完成</td><td class="bad">打卡成功！+1</td><td class="good">今天的潮汐，已被你记下</td></tr>
+      <tr><td>助眠引导</td><td class="bad">30分钟告别失眠</td><td class="good">今夜，让海浪替你守着时间</td></tr>
+    </table>
+  </section>
+
+  <footer>
+    <div class="fz">共 时 海</div>
+    <div>每一处设计决策，都回到那个原点问自己：这一处，让人更安静了吗？</div>
+  </footer>
+
+</div>
+</body>
+</html>

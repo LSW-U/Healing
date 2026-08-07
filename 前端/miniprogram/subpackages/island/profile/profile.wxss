@@ -1,0 +1,5 @@
+.pf-page{padding:60rpx 48rpx;min-height:100vh;background:var(--moonwhite)}
+.pf-avatar{width:160rpx;height:160rpx;border-radius:50%;margin:0 auto 56rpx}
+.pf-item{display:flex;align-items:center;padding:28rpx 32rpx;background:#fff;border-radius:20rpx;border:2rpx solid var(--mist);margin-bottom:16rpx}
+.pf-label{font-size:26rpx;color:var(--smoke);width:100rpx}
+.pf-input{flex:1;font-size:26rpx;color:var(--ink)}

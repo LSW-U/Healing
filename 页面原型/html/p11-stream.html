@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P11 活动·瀑布流 · 共时海</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.p-stream{padding:0 14px 62px;height:100%;display:flex;flex-direction:column;overflow:hidden}
+.st-nav{position:relative;display:flex;justify-content:space-between;align-items:center;padding:8px 2px 10px}
+.st-nav .back{color:var(--smoke);font-size:14px;cursor:pointer}
+.st-nav .title{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:var(--serif);font-size:14px;letter-spacing:2px;color:var(--ink)}
+.st-nav .view{font-size:9px;color:var(--tidal);border:1px solid var(--mist-deep);padding:3px 10px;border-radius:12px;letter-spacing:1px;cursor:pointer}
+.st-cats{display:flex;gap:6px;padding:0 2px 12px;overflow:hidden}
+.st-cat{font-size:9px;padding:4px 10px;border-radius:12px;white-space:nowrap;letter-spacing:1px;flex-shrink:0;cursor:pointer}
+.st-cat.active{background:var(--tidal);color:#fff}
+.st-cat:not(.active){background:var(--mist);color:var(--smoke)}
+.st-water{display:flex;gap:8px;flex:1;overflow:hidden}
+.st-col{flex:1;display:flex;flex-direction:column;gap:8px}
+.st-card{background:#fff;border-radius:12px;overflow:hidden;border:1px solid var(--mist);cursor:pointer}
+.st-card .poster{height:72px}
+.st-card .nobanner{height:38px;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:13px;letter-spacing:3px;font-weight:500}
+.st-card .body{padding:10px 11px 11px}
+.st-card .tag{font-size:8px;color:var(--wood);font-family:var(--serif);letter-spacing:1px;margin-bottom:3px}
+.st-card .name{font-family:var(--serif);font-size:12px;color:var(--ink);font-weight:500;line-height:1.4;margin-bottom:6px;letter-spacing:.5px}
+.st-card .meta{font-size:9px;color:var(--smoke);line-height:1.6;font-family:var(--serif);letter-spacing:.5px}
+.st-card .quota{display:flex;align-items:center;gap:5px;margin:7px 0 8px}
+.st-card .quota .track{flex:1;height:2px;background:var(--mist);border-radius:2px;position:relative}
+.st-card .quota .fill{position:absolute;left:0;top:0;height:100%;background:var(--tidal);border-radius:2px}
+.st-card .quota .tx{font-size:8px;color:var(--smoke);font-family:var(--serif);letter-spacing:1px;white-space:nowrap}
+.st-card .sign{display:block;width:100%;background:var(--tidal);color:#fff;border:none;font-size:9px;padding:5px 0;border-radius:12px;letter-spacing:2px;font-family:var(--sans);cursor:pointer}
+.st-card .sign.full{background:var(--mist-deep);color:var(--smoke)}
+</style>
+</head>
+<body>
+<div class="phone"><div class="screen">
+  <div class="p-stream">
+    <div class="statusbar"><span>13:50</span><span class="right"><span class="dot"></span><span class="dot"></span></span></div>
+    <div class="st-nav"><a href="p10-shore.html" class="back">‹</a><span class="title">线 下 活 动</span><a href="p07-calendar.html" class="view">日 历</a></div>
+    <div class="st-cats">
+      <span class="st-cat active">全 部</span>
+      <span class="st-cat">节 气 茶 会</span>
+      <span class="st-cat">颂 钵 沙 龙</span>
+      <span class="st-cat">正 念 徒 步</span>
+      <span class="st-cat">艺 术 疗 愈</span>
+    </div>
+    <div class="st-water">
+      <div class="st-col">
+        <div class="st-card">
+          <div class="poster" style="background:linear-gradient(135deg,#C9B59A 0%,#5B7B8A 100%)"></div>
+          <div class="body">
+            <div class="tag">节 气 茶 会</div>
+            <div class="name">立 秋 · 凉 风 至 茶 会</div>
+            <div class="meta">8.7 周五 19:30<br>共时海工作室</div>
+            <div class="quota"><span class="track"><span class="fill" style="width:85%"></span></span><span class="tx">余 2 席</span></div>
+            <a href="p19-event-detail.html"><button class="sign">立 即 报 名</button></a>
+          </div>
+        </div>
+        <div class="st-card">
+          <div class="nobanner" style="background:#3F5E5A;color:#F5F3EF">冥 想 圈</div>
+          <div class="body">
+            <div class="tag">月 相 共 修</div>
+            <div class="name">新 月 · 静 默 共 修</div>
+            <div class="meta">8.14 周四 21:00<br>线上 · 腾讯会议</div>
+            <div class="quota"><span class="track"><span class="fill" style="width:40%"></span></span><span class="tx">8 / 20</span></div>
+            <a href="p19-event-detail.html"><button class="sign">立 即 报 名</button></a>
+          </div>
+        </div>
+        <div class="st-card">
+          <div class="poster" style="background:linear-gradient(135deg,#3F5E5A 0%,#2B3A42 100%)"></div>
+          <div class="body">
+            <div class="tag">艺 术 疗 愈</div>
+            <div class="name">色 彩 与 情 绪 · 表 达 性 绘 画</div>
+            <div class="meta">8.15 周日 14:00<br>共时海工作室</div>
+            <div class="quota"><span class="track"><span class="fill" style="width:60%"></span></span><span class="tx">余 6 席</span></div>
+            <a href="p19-event-detail.html"><button class="sign">立 即 报 名</button></a>
+          </div>
+        </div>
+      </div>
+      <div class="st-col">
+        <div class="st-card">
+          <div class="nobanner" style="background:#E4D9C9;color:#8a7558">颂 钵</div>
+          <div class="body">
+            <div class="tag">颂 钵 沙 龙</div>
+            <div class="name">颂 钵 音 疗 · 海 的 共 振</div>
+            <div class="meta">8.12 周三 19:30<br>共时海工作室</div>
+            <div class="quota"><span class="track"><span class="fill" style="width:80%"></span></span><span class="tx">余 3 席</span></div>
+            <a href="p19-event-detail.html"><button class="sign">立 即 报 名</button></a>
+          </div>
+        </div>
+        <div class="st-card">
+          <div class="poster" style="background:linear-gradient(135deg,#EAE6DF 0%,#C9B59A 100%)"></div>
+          <div class="body">
+            <div class="tag">正 念 徒 步</div>
+            <div class="name">城 郊 山 林 · 行 禅 半 日</div>
+            <div class="meta">8.23 周日 09:00<br>青城山 · 集合点</div>
+            <div class="quota"><span class="track"><span class="fill" style="width:50%"></span></span><span class="tx">余 8 席</span></div>
+            <a href="p19-event-detail.html"><button class="sign">立 即 报 名</button></a>
+          </div>
+        </div>
+        <div class="st-card">
+          <div class="nobanner" style="background:#5B7B8A;color:#F5F3EF">处 暑</div>
+          <div class="body">
+            <div class="tag">节 气 冥 想</div>
+            <div class="name">处 暑 · 暑 尽 生 凉</div>
+            <div class="meta">8.23 周日 20:00<br>线上</div>
+            <div class="quota"><span class="track"><span class="fill" style="width:100%"></span></span><span class="tx">已 满</span></div>
+            <button class="sign full">候 补 登 记</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tabbar">
+    <a class="tab" href="p02-discover.html"><span class="ti">潮</span><span>发现</span></a>
+    <a class="tab" href="p03-practice.html"><span class="ti">海</span><span>练习</span></a>
+    <a class="tab active" href="p10-shore.html"><span class="ti">岸</span><span>连接</span></a>
+    <a class="tab" href="p06-me.html"><span class="ti">岛</span><span>我的</span></a>
+  </div>
+</div></div>
+</body>
+</html>

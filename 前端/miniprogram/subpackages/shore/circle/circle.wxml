@@ -1,0 +1,26 @@
+<view class="cr-page">
+  <view class="cr-head">
+    <view class="cr-t">共 同 潮 汐 · 第 {{circle.currentDay}} 日</view>
+    <view class="cr-p"><text>{{circle.cycleDays}} 天周期</text><view class="cr-prog"><view class="cr-bar" style="width:{{circle.progress}}%"></view></view><text>{{circle.currentDay}} / {{circle.cycleDays}}</text></view>
+  </view>
+  <view class="cr-wall">
+    <view class="cr-label">今日<text class="cr-count">{{circle.todayCount}} 位同修</text>在海里</view>
+    <view class="cr-avatars">
+      <view class="cr-av" wx:for="{{circle.avatars}}" wx:key="*this" style="background:{{item}}"></view>
+      <text class="cr-more" wx:if="{{circle.extraCount > 0}}">+{{circle.extraCount}}</text>
+    </view>
+  </view>
+  <view class="cr-subtitle">同 修 的 涟 漪</view>
+  <scroll-view class="cr-feed" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="cr-item" wx:for="{{posts}}" wx:key="id">
+      <view class="cri-top"><view class="cri-av" style="background:{{item.avBg}}"></view><text class="cri-name">{{item.name}}</text><text class="cri-time">{{item.time}}</text></view>
+      <view class="cri-mood">{{item.mood}}</view>
+      <view class="cri-txt">{{item.text}}</view>
+      <view class="cri-warm">
+        <text class="cw-btn" bindtap="onReact" data-type="也在">也 在</text>
+        <text class="cw-btn" bindtap="onReact" data-type="陪你">陪 你</text>
+      </view>
+    </view>
+  </scroll-view>
+  <button class="cr-post" bindtap="onPost">+ 发 打 卡 / 感 受</button>
+</view>

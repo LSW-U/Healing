@@ -1,0 +1,16 @@
+<!-- 呼吸练习 P04 -->
+<view class="breath-page">
+  <view class="b-label">呼 吸 练 习 · 第 {{cycle}} 轮</view>
+
+  <view class="b-ring-wrap">
+    <view class="b-ring">
+      <view class="b-core"></view>
+      <view class="b-halo"></view>
+      <view class="b-text">{{phaseText}}</view>
+    </view>
+  </view>
+
+  <view class="b-count">已 练 习 {{elapsed}}</view>
+
+  <view class="b-stop" bindtap="onStop">轻 触 结 束</view>
+</view>

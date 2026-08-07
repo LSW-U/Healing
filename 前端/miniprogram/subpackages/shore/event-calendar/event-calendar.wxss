@@ -1,0 +1,22 @@
+.ec-page{padding:0 32rpx 140rpx}
+.ec-month{display:flex;justify-content:space-between;align-items:center;padding:8rpx 4rpx 24rpx}
+.ec-arr{color:var(--smoke);font-size:36rpx}
+.ec-m{font-family:"Songti SC",serif;font-size:36rpx;font-weight:500;letter-spacing:6rpx;color:var(--ink)}
+.ec-term{font-size:20rpx;color:var(--wood);font-weight:400;margin-left:16rpx;letter-spacing:4rpx}
+.ec-week{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-size:22rpx;color:var(--smoke);padding-bottom:12rpx;border-bottom:2rpx solid var(--mist);letter-spacing:2rpx}
+.ec-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:0;padding-top:10rpx}
+.ec-cell{height:72rpx;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:24rpx;color:var(--ink);border-radius:16rpx;gap:3rpx;line-height:1}
+.ec-cell.empty{color:transparent}
+.ec-cell.sel{box-shadow:inset 0 0 0 3rpx var(--tidal)}
+.ec-cell.today{background:var(--tidal);color:#fff}
+.ec-dot{width:8rpx;height:8rpx;border-radius:50%;background:var(--tidal)}
+.ec-cell.today .ec-dot{background:#fff}
+.ec-solar{font-size:16rpx;color:var(--wood);letter-spacing:0}
+.ec-cell.today .ec-solar{color:rgba(255,255,255,.85)}
+.ec-event{background:#fff;border-radius:28rpx;padding:26rpx 32rpx;margin-top:20rpx;border:2rpx solid var(--mist)}
+.ee-date{font-size:20rpx;color:var(--smoke);letter-spacing:2rpx;font-family:"Songti SC",serif}
+.ee-title{font-family:"Songti SC",serif;font-size:30rpx;font-weight:500;margin:10rpx 0 18rpx;letter-spacing:2rpx;color:var(--ink)}
+.ee-meta{font-size:20rpx;color:var(--smoke);display:flex;gap:16rpx;align-items:center;margin-bottom:14rpx}
+.ee-quota{font-size:20rpx;color:var(--wood);font-family:"Songti SC",serif;margin-bottom:20rpx;letter-spacing:2rpx}
+.ee-sign{background:var(--tidal);color:#fff;border:none;padding:16rpx 40rpx;border-radius:40rpx;font-size:22rpx;letter-spacing:4rpx}
+.ec-empty{text-align:center;padding:60rpx;font-size:24rpx;color:var(--smoke);font-family:"Songti SC",serif}

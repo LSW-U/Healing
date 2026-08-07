@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P31 打卡卡生成 · 共时海</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.p-cardgen{height:100%;display:flex;flex-direction:column;padding:0 22px;overflow:hidden}
+.cg-top{padding:14px 0 6px;color:var(--smoke);font-size:13px}
+.cg-top a{color:var(--smoke);text-decoration:none}
+.cg-preview{margin:20px 0}
+.cg-card{background:linear-gradient(150deg,#5B7B8A,#3F5E5A);border-radius:16px;padding:26px 24px;color:#F5F3EF;position:relative;overflow:hidden;box-shadow:0 12px 30px rgba(91,123,138,.25)}
+.cg-card .jq{font-size:11px;letter-spacing:3px;opacity:.85;font-family:var(--serif)}
+.cg-card .verse{font-family:var(--serif);font-size:17px;margin:16px 0 22px;line-height:1.9;letter-spacing:1px}
+.cg-card .meta{font-size:10px;opacity:.8;display:flex;justify-content:space-between}
+.cg-card .logo{position:absolute;right:20px;bottom:20px;font-family:var(--serif);font-size:11px;opacity:.45;letter-spacing:3px}
+.cg-tip{text-align:center;font-size:11px;color:var(--smoke);font-family:var(--serif);letter-spacing:1px;margin-bottom:10px}
+.cg-actions{margin-top:auto;padding:16px 0 20px;display:flex;gap:10px}
+.cg-btn{flex:1;background:#fff;border:1px solid var(--mist-deep);color:var(--ink);padding:13px;border-radius:24px;font-size:12px;letter-spacing:1px;cursor:pointer;font-family:var(--sans);text-align:center;text-decoration:none}
+.cg-btn.primary{background:var(--tidal);color:#fff;border:none}
+</style>
+</head>
+<body>
+<div class="phone"><div class="screen">
+  <div class="p-cardgen">
+    <div class="cg-top"><a href="p08-tide-checkin.html">‹ 返回</a></div>
+    <div class="cg-preview">
+      <div class="cg-card">
+        <div class="jq">立 秋 · 新 月 前</div>
+        <div class="verse">"今晨的呼吸很慢，<br>海好像也停了一下"</div>
+        <div class="meta"><span>晨间苏醒 · 8 分钟</span><span>连绵 7 日 · 满潮</span></div>
+        <div class="logo">共 时 海</div>
+      </div>
+    </div>
+    <div class="cg-tip">点 击 卡 片 可 更 换 模 板</div>
+    <div class="cg-actions">
+      <a class="cg-btn" href="p09-circle.html">发 共 修 圈</a>
+      <a class="cg-btn" href="p08-tide-checkin.html">分 享 好 友</a>
+      <a class="cg-btn primary" href="p08-tide-checkin.html">存 到 相 册</a>
+    </div>
+  </div>
+</div></div>
+</body>
+</html>

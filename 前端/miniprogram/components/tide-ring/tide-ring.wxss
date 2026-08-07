@@ -1,0 +1,12 @@
+.tide-wrap{display:flex;align-items:center;justify-content:center;padding:20rpx}
+.tide-ring{position:relative;width:108rpx;height:108rpx}
+.ring-core{position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle,var(--tidal) 0%,var(--tidal-deep) 100%);
+  animation:breath 8s ease-in-out infinite}
+.ring-halo{position:absolute;inset:-14rpx;border-radius:50%;
+  border:2rpx solid rgba(91,123,138,.3);
+  animation:halo 8s ease-in-out infinite}
+.ring-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:"Songti SC",serif;font-size:22rpx;color:#fff;letter-spacing:4rpx}
+@keyframes breath{0%,100%{transform:scale(.55);opacity:.7}50%{transform:scale(1);opacity:1}}
+@keyframes halo{0%,100%{transform:scale(.9);opacity:.3}50%{transform:scale(1.15);opacity:.6}}

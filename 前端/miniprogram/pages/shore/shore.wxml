@@ -1,0 +1,42 @@
+<!-- 岸·连接页 P10 -->
+<view class="page">
+  <view class="sh-greet">在 这 里，<text>与 人 相 遇</text></view>
+
+  <!-- 共修圈卡 -->
+  <view class="sh-circle-card" bindtap="onCircle">
+    <view class="go">›</view>
+    <view class="tag">我 的 共 修 圈</view>
+    <view class="name">21 天 晨 间 呼 吸 共 修 圈</view>
+    <view class="prog-row">
+      <text>共 同 潮 汐</text>
+      <view class="prog"><view class="prog-bar"></view></view>
+      <text>第 14 日</text>
+    </view>
+  </view>
+
+  <view class="sh-sec-title">连 接 · 同 修 · 场 域</view>
+
+  <view class="sh-entry" bindtap="onHealers">
+    <view class="sh-ico" style="background:#E4D9C9;color:#8a7558">师</view>
+    <view class="sh-info"><view class="t">疗 愈 师</view><view class="s">颂钵 · 正念 · 艺术疗愈</view></view>
+    <view class="sh-r">›</view>
+  </view>
+
+  <view class="sh-entry" bindtap="onCourses">
+    <view class="sh-ico" style="background:#D9E2E4;color:#4A6B7A">课</view>
+    <view class="sh-info"><view class="t">课 程 与 工 作 坊</view><view class="s">录播 · 直播 · 线下</view></view>
+    <view class="sh-r">›</view>
+  </view>
+
+  <view class="sh-entry" bindtap="onEvents">
+    <view class="sh-ico" style="background:#DCE6DE;color:#3F5E5A">场</view>
+    <view class="sh-info"><view class="t">线 下 活 动</view><view class="s">本月 6 场相聚 · 立秋茶会</view></view>
+    <view class="sh-r"><view class="badge">近 期</view>›</view>
+  </view>
+
+  <view class="sh-entry" bindtap="onAbout">
+    <view class="sh-ico" style="background:#EAE6DF;color:#8A8A8A">共</view>
+    <view class="sh-info"><view class="t">关 于 共 时 海</view><view class="s">品牌故事 · 团队 · 合作</view></view>
+    <view class="sh-r">›</view>
+  </view>
+</view>

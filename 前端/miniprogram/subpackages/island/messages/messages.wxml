@@ -1,0 +1,7 @@
+<view class="ms-page">
+  <view class="ms-item" wx:for="{{messages}}" wx:key="id">
+    <view class="ms-dot" wx:if="{{!item.read}}"></view>
+    <view class="ms-info"><view class="ms-title">{{item.title}}</view><view class="ms-content">{{item.content}}</view></view>
+    <view class="ms-time">{{item.time}}</view>
+  </view>
+</view>

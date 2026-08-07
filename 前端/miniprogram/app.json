@@ -1,0 +1,89 @@
+{
+  "pages": [
+    "pages/greet/greet",
+    "pages/discover/discover",
+    "pages/practice/practice",
+    "pages/shore/shore",
+    "pages/me/me",
+    "pages/content-detail/content-detail",
+    "pages/player/player",
+    "pages/breathing/breathing",
+    "pages/feedback/feedback"
+  ],
+  "subpackages": [
+    {
+      "root": "subpackages/shore",
+      "name": "shore",
+      "pages": [
+        "healer-list/healer-list",
+        "healer-detail/healer-detail",
+        "course-list/course-list",
+        "course-detail/course-detail",
+        "event-calendar/event-calendar",
+        "event-stream/event-stream",
+        "event-detail/event-detail",
+        "circle/circle",
+        "circle-create/circle-create",
+        "signup-success/signup-success"
+      ]
+    },
+    {
+      "root": "subpackages/island",
+      "name": "island",
+      "pages": [
+        "tide-checkin/tide-checkin",
+        "journal/journal",
+        "favorites/favorites",
+        "reminders/reminders",
+        "orders/orders",
+        "settings/settings",
+        "about/about",
+        "profile/profile",
+        "messages/messages"
+      ]
+    },
+    {
+      "root": "subpackages/phase3",
+      "name": "phase3",
+      "pages": [
+        "search/search",
+        "archive/archive",
+        "card-gen/card-gen",
+        "feeling-editor/feeling-editor",
+        "annual-report/annual-report"
+      ]
+    }
+  ],
+  "preloadRule": {
+    "pages/discover/discover": {
+      "network": "all",
+      "packages": ["shore"]
+    },
+    "pages/me/me": {
+      "network": "all",
+      "packages": ["island"]
+    }
+  },
+  "window": {
+    "navigationBarBackgroundColor": "#F5F3EF",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "共时海",
+    "backgroundColor": "#F5F3EF"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#9AA0A4",
+    "selectedColor": "#4A6B7A",
+    "backgroundColor": "#F5F3EF",
+    "borderStyle": "white",
+    "list": [
+      { "pagePath": "pages/discover/discover", "text": "潮" },
+      { "pagePath": "pages/practice/practice", "text": "海" },
+      { "pagePath": "pages/shore/shore", "text": "岸" },
+      { "pagePath": "pages/me/me", "text": "岛" }
+    ]
+  },
+  "requiredBackgroundModes": ["audio"],
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

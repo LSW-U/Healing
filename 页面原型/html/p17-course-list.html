@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P17 课程列表 · 共时海</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.p-course-list{padding:0 18px 62px;height:100%;display:flex;flex-direction:column;overflow:hidden}
+.cl-cats{display:flex;gap:6px;padding:0 2px 14px;overflow:hidden}
+.cl-cat{font-size:9px;padding:4px 11px;border-radius:12px;white-space:nowrap;letter-spacing:1px;flex-shrink:0;cursor:pointer}
+.cl-cat.active{background:var(--tidal);color:#fff}
+.cl-cat:not(.active){background:var(--mist);color:var(--smoke)}
+.cl-list{flex:1;overflow-y:auto}
+.cl-card{display:flex;gap:12px;padding:14px 4px;border-bottom:1px solid var(--mist);text-decoration:none;cursor:pointer}
+.cl-card:last-child{border-bottom:none}
+.cl-card .cover{width:84px;height:84px;border-radius:12px;flex-shrink:0}
+.cl-card .info{flex:1;display:flex;flex-direction:column;justify-content:center}
+.cl-card .info .t{font-family:var(--serif);font-size:14px;color:var(--ink);font-weight:500;line-height:1.4;letter-spacing:1px}
+.cl-card .info .m{font-size:10px;color:var(--smoke);margin-top:5px;letter-spacing:1px}
+.cl-card .info .b{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.cl-card .info .b .p{font-family:var(--serif);color:var(--tidal-deep);font-size:13px;font-weight:500}
+.cl-card .info .b .tag{font-size:9px;color:var(--wood);background:rgba(201,181,154,.18);padding:2px 7px;border-radius:8px;letter-spacing:1px}
+</style>
+</head>
+<body>
+<div class="phone"><div class="screen">
+  <div class="p-course-list">
+    <div class="statusbar"><span>14:32</span><span class="right"><span class="dot"></span><span class="dot"></span></span></div>
+    <div class="nav"><a href="p10-shore.html" class="back" style="text-decoration:none">‹</a><span class="title">课 程 与 工 作 坊</span><span class="ic">⊝</span></div>
+    <div class="cl-cats">
+      <span class="cl-cat active">全 部</span>
+      <span class="cl-cat">录 播</span>
+      <span class="cl-cat">直 播</span>
+      <span class="cl-cat">线 下</span>
+    </div>
+    <div class="cl-list">
+      <a class="cl-card" href="p18-course-detail.html">
+        <div class="cover" style="background:linear-gradient(135deg,#5B7B8A,#3F5E5A)"></div>
+        <div class="info"><div class="t">冥想初阶 · 21 天入门</div><div class="m">林一沐 · 21 课时 · 录播</div><div class="b"><span class="p">¥ 199</span><span class="tag">录 播</span></div></div>
+      </a>
+      <a class="cl-card" href="p18-course-detail.html">
+        <div class="cover" style="background:linear-gradient(135deg,#C9B59A,#8a7558)"></div>
+        <div class="info"><div class="t">艺术疗愈 · 曼陀罗绘画</div><div class="m">陈知微 · 8 课时 · 录播+直播</div><div class="b"><span class="p">¥ 299</span><span class="tag">直 播</span></div></div>
+      </a>
+      <a class="cl-card" href="p18-course-detail.html">
+        <div class="cover" style="background:linear-gradient(135deg,#3F5E5A,#2B3A42)"></div>
+        <div class="info"><div class="t">哲学话疗 · 关系里的自己</div><div class="m">周临川 · 6 课时 · 线下工作坊</div><div class="b"><span class="p">¥ 588</span><span class="tag">线 下</span></div></div>
+      </a>
+      <a class="cl-card" href="p18-course-detail.html">
+        <div class="cover" style="background:linear-gradient(135deg,#B8746A,#7a4a42)"></div>
+        <div class="info"><div class="t">亲密关系 · 七日共修</div><div class="m">苏砚 · 7 课时 · 直播</div><div class="b"><span class="p">¥ 159</span><span class="tag">直 播</span></div></div>
+      </a>
+    </div>
+  </div>
+  <div class="tabbar">
+    <a class="tab" href="p02-discover.html"><span class="ti">潮</span><span>发现</span></a>
+    <a class="tab" href="p03-practice.html"><span class="ti">海</span><span>练习</span></a>
+    <a class="tab active" href="p10-shore.html"><span class="ti">岸</span><span>连接</span></a>
+    <a class="tab" href="p06-me.html"><span class="ti">岛</span><span>我的</span></a>
+  </div>
+</div></div>
+</body>
+</html>

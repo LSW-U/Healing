@@ -1,0 +1,25 @@
+<view class="ec-page">
+  <view class="ec-month">
+    <text class="ec-arr" bindtap="onPrev">‹</text>
+    <view class="ec-m">{{month}}<text class="ec-term">{{solarTerms}}</text></view>
+    <text class="ec-arr" bindtap="onNext">›</text>
+  </view>
+  <view class="ec-week">
+    <text wx:for="{{weeks}}" wx:key="*this">{{item}}</text>
+  </view>
+  <view class="ec-grid">
+    <view class="ec-cell {{item.empty?'empty':''}} {{item.today?'today':''}} {{item.selected?'sel':''}}" wx:for="{{cells}}" wx:key="day" data-idx="{{index}}" bindtap="onDay">
+      <text wx:if="{{!item.empty}}">{{item.day}}</text>
+      <view class="ec-dot" wx:if="{{item.hasEvent}}"></view>
+      <text class="ec-solar" wx:if="{{item.solar}}">{{item.solar}}</text>
+    </view>
+  </view>
+  <view class="ec-event" wx:if="{{currentEvent}}">
+    <view class="ee-date">{{currentEvent.date}}</view>
+    <view class="ee-title">{{currentEvent.title}}</view>
+    <view class="ee-meta"><text>{{currentEvent.time}}</text><text>·</text><text>{{currentEvent.location}}</text></view>
+    <view class="ee-quota">潮 将 满 · 余 {{currentEvent.remaining}} 席</view>
+    <button class="ee-sign" bindtap="onSignup">立 即 报 名</button>
+  </view>
+  <view class="ec-empty" wx:else>点击有圆点的日期查看活动</view>
+</view>

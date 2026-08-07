@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P25 设置 · 共时海</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.p-settings{padding:0 18px 62px;height:100%;display:flex;flex-direction:column;overflow:hidden}
+.st-list{flex:1;overflow-y:auto}
+.st-group{font-family:var(--serif);font-size:11px;color:var(--smoke);letter-spacing:2px;margin:20px 2px 8px}
+.st-group:first-child{margin-top:6px}
+.st-item{display:flex;justify-content:space-between;align-items:center;padding:15px 4px;border-bottom:1px solid var(--mist);cursor:pointer;text-decoration:none}
+.st-item:last-child{border-bottom:none}
+.st-item .l{font-size:13px;color:var(--ink);letter-spacing:1px}
+.st-item .r{color:var(--mist-deep);font-size:12px;display:flex;align-items:center;gap:6px}
+.st-exit{text-align:center;padding:20px;color:var(--dusk);font-size:13px;cursor:pointer;letter-spacing:2px;font-family:var(--serif)}
+</style>
+</head>
+<body>
+<div class="phone"><div class="screen">
+  <div class="p-settings">
+    <div class="statusbar"><span>22:15</span><span class="right"><span class="dot"></span><span class="dot"></span></span></div>
+    <div class="nav"><a href="p06-me.html" class="back" style="text-decoration:none">‹</a><span class="title">设 置</span><span class="ic"></span></div>
+    <div class="st-list">
+      <div class="st-group">账 号</div>
+      <a class="st-item" href="p27-profile.html"><span class="l">个 人 资 料</span><span class="r">›</span></a>
+      <div class="st-item"><span class="l">账 号 与 安 全</span><span class="r">›</span></div>
+      <div class="st-group">通 知</div>
+      <a class="st-item" href="p28-messages.html"><span class="l">消 息 中 心</span><span class="r">›</span></a>
+      <a class="st-item" href="p23-reminder.html"><span class="l">定 时 提 醒</span><span class="r">›</span></a>
+      <div class="st-group">隐 私</div>
+      <div class="st-item"><span class="l">导 出 我 的 数 据</span><span class="r">›</span></div>
+      <div class="st-item"><span class="l">删 除 我 的 数 据</span><span class="r">›</span></div>
+      <div class="st-group">播 放</div>
+      <div class="st-item"><span class="l">默 认 音 量</span><span class="r">70%</span></div>
+      <div class="st-item"><span class="l">睡 眠 暗 屏</span><span class="r">开 ›</span></div>
+      <div class="st-group">其 他</div>
+      <a class="st-item" href="p26-about.html"><span class="l">关 于 共 时 海</span><span class="r">v1.0 ›</span></a>
+      <div class="st-item"><span class="l">帮 助 与 反 馈</span><span class="r">›</span></div>
+    </div>
+    <div class="st-exit">退 出 登 录</div>
+  </div>
+  <div class="tabbar">
+    <a class="tab" href="p02-discover.html"><span class="ti">潮</span><span>发现</span></a>
+    <a class="tab" href="p03-practice.html"><span class="ti">海</span><span>练习</span></a>
+    <a class="tab" href="p10-shore.html"><span class="ti">岸</span><span>连接</span></a>
+    <a class="tab active" href="p06-me.html"><span class="ti">岛</span><span>我的</span></a>
+  </div>
+</div></div>
+</body>
+</html>

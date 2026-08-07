@@ -1,0 +1,11 @@
+.ss-page{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:120rpx 48rpx 60rpx;background:var(--moonwhite)}
+.ss-icon{width:120rpx;height:120rpx;border-radius:50%;background:var(--tidal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:56rpx;margin-bottom:40rpx}
+.ss-title{font-family:"Songti SC",serif;font-size:36rpx;font-weight:500;letter-spacing:4rpx;color:var(--ink)}
+.ss-sub{font-size:24rpx;color:var(--smoke);margin-top:12rpx;letter-spacing:2rpx}
+.ss-info{margin-top:56rpx;width:100%;background:#fff;border-radius:24rpx;padding:32rpx;border:2rpx solid var(--mist)}
+.si-row{display:flex;justify-content:space-between;padding:16rpx 0;font-size:26rpx;color:var(--ink)}
+.si-label{color:var(--smoke);font-family:"Songti SC",serif;letter-spacing:2rpx}
+.ss-actions{margin-top:48rpx;width:100%;display:flex;flex-direction:column;gap:20rpx}
+.ss-btn{width:100%;background:var(--tidal);color:#fff;border:none;padding:28rpx;border-radius:48rpx;font-size:28rpx;letter-spacing:4rpx}
+.ss-ghost{background:transparent;border:2rpx solid var(--tidal);color:var(--tidal)}
+.ss-back{margin-top:40rpx;font-size:24rpx;color:var(--smoke);letter-spacing:2rpx}

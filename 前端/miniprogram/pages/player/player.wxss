@@ -1,0 +1,24 @@
+.player-page{height:100vh;display:flex;flex-direction:column;padding:0 44rpx;
+  background:linear-gradient(180deg,#EFE9DF 0%,var(--moonwhite) 40%)}
+.p-top{position:relative;display:flex;justify-content:space-between;align-items:center;padding:24rpx 0;color:var(--smoke);font-size:26rpx}
+.p-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:24rpx;letter-spacing:6rpx}
+.p-mid{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.p-cover{width:320rpx;height:320rpx;border-radius:40rpx;
+  background:linear-gradient(150deg,var(--tidal) 0%,var(--tidal-deep) 60%,#2B3A42 100%);
+  box-shadow:0 24rpx 60rpx rgba(91,123,138,.25);
+  display:flex;align-items:center;justify-content:center;margin-bottom:48rpx}
+.p-symbol{font-family:"Songti SC",serif;font-size:80rpx;color:rgba(245,243,239,.85);letter-spacing:8rpx}
+.p-title{font-family:"Songti SC",serif;font-size:36rpx;text-align:center;font-weight:500;letter-spacing:2rpx;color:var(--ink)}
+.p-sub{font-size:22rpx;color:var(--smoke);text-align:center;margin-top:12rpx;letter-spacing:2rpx}
+.p-controls{margin-top:auto}
+.p-progress{height:4rpx;background:var(--mist-deep);border-radius:4rpx;position:relative;margin-bottom:16rpx}
+.p-fill{position:absolute;left:0;top:0;height:100%;background:var(--tidal);border-radius:4rpx}
+.p-knob{position:absolute;top:50%;width:20rpx;height:20rpx;background:#fff;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 2rpx 8rpx rgba(0,0,0,.2)}
+.p-time{display:flex;justify-content:space-between;font-size:20rpx;color:var(--smoke);margin-bottom:48rpx}
+.p-buttons{display:flex;align-items:center;justify-content:center;gap:56rpx}
+.p-ctrl{color:var(--smoke);font-size:32rpx}
+.p-play{width:116rpx;height:116rpx;border-radius:50%;background:var(--tidal);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:40rpx;
+  box-shadow:0 12rpx 32rpx rgba(91,123,138,.3)}
+.p-extras{display:flex;justify-content:center;gap:36rpx;font-size:22rpx;color:var(--smoke);padding-bottom:40rpx;margin-top:24rpx}
+.p-extra{display:flex;align-items:center;gap:8rpx}

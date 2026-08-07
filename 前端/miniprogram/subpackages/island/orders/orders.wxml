@@ -1,0 +1,8 @@
+<view class="od-page">
+  <view class="od-card" wx:for="{{orders}}" wx:key="id">
+    <view class="od-top"><text class="od-title">{{item.title}}</text><text class="od-status {{item.status}}">{{item.statusText}}</text></view>
+    <view class="od-meta">{{item.date}} · {{item.location}}</view>
+    <view class="od-price">{{item.price}}</view>
+  </view>
+  <view class="od-empty" wx:if="{{orders.length===0}}">暂无报名记录</view>
+</view>

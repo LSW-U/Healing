@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P04 呼吸练习进行中 · 共时海</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.p-breathing{height:100%;background:linear-gradient(160deg,#1a2530 0%,#2B3A42 50%,#3F5E5A 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#EAE6DF;text-align:center}
+.label{font-family:var(--serif);font-size:12px;letter-spacing:6px;opacity:.6;margin-bottom:60px}
+.big-ring{position:relative;width:200px;height:200px;display:flex;align-items:center;justify-content:center}
+.big-ring .core{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,rgba(201,181,154,.5) 0%,rgba(91,123,138,.3) 60%,transparent 100%);animation:bigbreath 8s ease-in-out infinite}
+.big-ring .ring{position:absolute;inset:30px;border-radius:50%;border:1.5px solid rgba(201,181,154,.5);animation:bighalo 8s ease-in-out infinite}
+.big-ring .txt{position:relative;z-index:2;font-family:var(--serif);font-size:18px;letter-spacing:4px;animation:fade 8s ease-in-out infinite}
+@keyframes bigbreath{0%,100%{transform:scale(.7);opacity:.6}50%{transform:scale(1.05);opacity:1}}
+@keyframes bighalo{0%,100%{transform:scale(.85);opacity:.4}50%{transform:scale(1.1);opacity:.8}}
+@keyframes fade{0%,100%{opacity:.6}50%{opacity:1}}
+.count{margin-top:56px;font-family:var(--serif);font-size:13px;opacity:.7;letter-spacing:2px}
+.stop{margin-top:24px;font-size:11px;opacity:.6;border:1px solid rgba(234,230,223,.3);padding:7px 20px;border-radius:20px;letter-spacing:2px;cursor:pointer}
+.stop:active{opacity:1}
+</style>
+</head>
+<body>
+<div class="phone"><div class="screen">
+  <div class="p-breathing">
+    <div class="label">呼 吸 练 习 · 第 2 轮</div>
+    <div class="big-ring">
+      <div class="core"></div>
+      <div class="ring"></div>
+      <div class="txt">吸 气</div>
+    </div>
+    <div class="count">已 练 习 3 分 12 秒</div>
+    <div class="stop"><a href="p13-feedback.html">轻 触 结 束</a></div>
+  </div>
+</div></div>
+</body>
+</html>

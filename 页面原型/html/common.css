@@ -1,0 +1,39 @@
+/* 共时海 · 页面原型公共样式 */
+:root{
+  --moonwhite:#F5F3EF;
+  --mist:#EAE6DF;
+  --mist-deep:#DDD8CF;
+  --tidal:#5B7B8A;
+  --tidal-deep:#4A6B7A;
+  --wood:#C9B59A;
+  --ink-green:#3F5E5A;
+  --ink:#2B2B2B;
+  --smoke:#8A8A8A;
+  --dusk:#B8746A;
+  --serif:'Songti SC','STSong','Source Han Serif SC',serif;
+  --sans:-apple-system,BlinkMacSystemFont,'PingFang SC','Helvetica Neue',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;scrollbar-width:none;-ms-overflow-style:none}
+::-webkit-scrollbar{width:0;height:0;display:none}
+body{font-family:var(--sans);background:#E8E4DD;display:flex;justify-content:center;align-items:flex-start;min-height:100vh;padding:30px 20px;-webkit-font-smoothing:antialiased}
+.phone{width:375px;background:var(--moonwhite);border-radius:40px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.15);border:8px solid #1a1a1a;height:667px;position:relative;flex-shrink:0}
+.screen{height:100%;overflow:hidden;position:relative}
+
+/* 状态栏 */
+.statusbar{display:flex;justify-content:space-between;align-items:center;padding:14px 24px 6px;font-size:12px;color:var(--ink)}
+.statusbar .right{display:flex;gap:5px;align-items:center}
+.dot{width:4px;height:4px;border-radius:50%;background:var(--ink)}
+
+/* 导航栏 */
+.nav{position:relative;display:flex;justify-content:space-between;align-items:center;padding:8px 16px 14px}
+.nav .brand{font-family:var(--serif);font-size:17px;letter-spacing:3px;color:var(--ink)}
+.nav .title{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:var(--serif);font-size:15px;letter-spacing:2px;color:var(--ink)}
+.nav .ic{display:flex;gap:14px;color:var(--smoke);font-size:15px}
+.nav .back{color:var(--smoke);font-size:18px}
+
+/* 底部 Tab 栏 */
+.tabbar{position:absolute;bottom:0;left:0;right:0;height:62px;background:rgba(245,243,239,.95);backdrop-filter:blur(10px);border-top:1px solid var(--mist);display:flex;justify-content:space-around;align-items:center;padding-bottom:6px}
+.tab{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:var(--smoke);letter-spacing:1px;cursor:pointer}
+.tab .ti{font-family:var(--serif);font-size:15px}
+.tab.active{color:var(--tidal-deep)}
+.tab.active .ti{color:var(--tidal-deep)}

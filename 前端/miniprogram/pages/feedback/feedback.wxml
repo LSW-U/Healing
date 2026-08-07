@@ -1,0 +1,46 @@
+<!-- 练习完成反馈页 P13 -->
+<view class="fb-page">
+  <view class="fb-icon-wrap">
+    <view class="fb-ring"></view>
+  </view>
+
+  <view class="fb-title">今 天 的 潮 汐<text>\n</text>已 被 你 记 下</view>
+  <view class="fb-sub">{{exerciseName}} · {{duration}} · 已练习</view>
+
+  <!-- 此刻心情 -->
+  <view class="fb-section">
+    <view class="fb-lab">此 刻 心 情</view>
+    <view class="fb-moods">
+      <view
+        class="fb-mood {{moodIndex === idx ? 'active' : ''}}"
+        wx:for="{{moods}}"
+        wx:key="*this"
+        wx:for-index="idx"
+        data-idx="{{idx}}"
+        bindtap="onMood"
+      >{{item}}</view>
+    </view>
+  </view>
+
+  <!-- 一句话记录 -->
+  <view class="fb-section">
+    <view class="fb-lab">一 句 话（可 选）</view>
+    <view class="fb-input" catchtap="onInputFocus">
+      <textarea
+        value="{{note}}"
+        placeholder="今晨的呼吸很慢，海好像也停了一下…"
+        placeholder-class="fb-ph"
+        bindinput="onNoteInput"
+        maxlength="120"
+        auto-height
+      ></textarea>
+    </view>
+  </view>
+
+  <view class="fb-related">关联练习：<text class="fb-rel-name">{{exerciseName}}</text></view>
+
+  <view class="fb-actions">
+    <button class="fb-again" bindtap="onAgain">再 练 一 次</button>
+    <button class="fb-done" bindtap="onDone">完 成 · 记 下</button>
+  </view>
+</view>

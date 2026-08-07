@@ -1,0 +1,14 @@
+<view class="ss-page">
+  <view class="ss-icon">✓</view>
+  <view class="ss-title">报 名 成 功</view>
+  <view class="ss-sub">{{event.title}}</view>
+  <view class="ss-info">
+    <view class="si-row"><view class="si-label">时 间</view><view>{{event.time}}</view></view>
+    <view class="si-row"><view class="si-label">地 点</view><view>{{event.location}}</view></view>
+  </view>
+  <view class="ss-actions">
+    <button class="ss-btn ss-ghost" bindtap="onCalendar">加 入 日 历 提 醒</button>
+    <button class="ss-btn" bindtap="onView">查 看 我 的 报 名</button>
+  </view>
+  <view class="ss-back" bindtap="onBack">返 回 发 现 页</view>
+</view>

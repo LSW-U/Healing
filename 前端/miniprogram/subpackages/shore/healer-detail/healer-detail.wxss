@@ -1,0 +1,19 @@
+.hd-page{height:100vh;background:var(--moonwhite)}
+.hd-head{height:380rpx;background:linear-gradient(150deg,var(--tidal),var(--tidal-deep));
+  display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--moonwhite)}
+.hd-avatar{width:144rpx;height:144rpx;border-radius:50%;border:4rpx solid rgba(245,243,239,.5);margin-bottom:24rpx}
+.hd-name{font-family:"Songti SC",serif;font-size:40rpx;font-weight:500;letter-spacing:4rpx}
+.hd-role{font-size:22rpx;opacity:.85;margin-top:10rpx;letter-spacing:2rpx}
+.hd-body{padding:40rpx 44rpx 200rpx}
+.hd-tags{display:flex;gap:16rpx;flex-wrap:wrap;margin-bottom:16rpx}
+.hd-tag{font-size:20rpx;padding:8rpx 22rpx;border-radius:24rpx;letter-spacing:2rpx;background:rgba(91,123,138,.12);color:var(--tidal-deep)}
+.hd-sec{margin-top:40rpx}
+.hd-lab{font-family:"Songti SC",serif;font-size:24rpx;color:var(--smoke);letter-spacing:4rpx;margin-bottom:20rpx}
+.hd-txt{font-size:26rpx;color:var(--ink);line-height:1.8;letter-spacing:1rpx}
+.hd-srv{background:#fff;border-radius:24rpx;border:2rpx solid var(--mist);padding:26rpx 30rpx;display:flex;justify-content:space-between;align-items:center;margin-bottom:16rpx}
+.hs-title{font-size:26rpx;color:var(--ink);font-weight:500}
+.hs-desc{font-size:20rpx;color:var(--smoke);margin-top:6rpx}
+.hs-price{font-family:"Songti SC",serif;color:var(--tidal-deep);font-size:26rpx;font-weight:500}
+.hd-notice{margin-top:40rpx;padding:24rpx 28rpx;background:rgba(184,116,106,.08);border-left:4rpx solid var(--dusk);border-radius:12rpx;font-size:22rpx;color:#7a4a42;line-height:1.7}
+.hd-actions{position:fixed;bottom:0;left:0;right:0;background:rgba(245,243,239,.96);backdrop-filter:blur(20rpx);-webkit-backdrop-filter:blur(20rpx);border-top:2rpx solid var(--mist);padding:24rpx 44rpx;padding-bottom:calc(24rpx + env(safe-area-inset-bottom))}
+.hd-btn{width:100%;background:var(--tidal);color:#fff;border:none;padding:28rpx;border-radius:48rpx;font-size:28rpx;letter-spacing:4rpx}

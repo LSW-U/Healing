@@ -1,0 +1,11 @@
+<view class="list-row" bindtap="onTap">
+  <view class="list-thumb" style="background:{{item.color||'linear-gradient(135deg,#5B7B8A,#3F5E5A)'}}">
+    <text class="thumb-icon" wx:if="{{item.icon}}">{{item.icon}}</text>
+    <image class="thumb-img" wx:elif="{{item.cover}}" src="{{item.cover}}" mode="aspectFill"></image>
+  </view>
+  <view class="list-info">
+    <view class="lt">{{item.title}}</view>
+    <view class="lm">{{item.subtitle}}</view>
+  </view>
+  <view class="list-arrow" wx:if="{{showArrow !== false}}">›</view>
+</view>

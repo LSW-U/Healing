@@ -1,0 +1,6 @@
+.fe-page{padding:40rpx 36rpx;min-height:100vh;background:var(--moonwhite)}
+.fe-moods{display:flex;gap:16rpx;margin-bottom:36rpx}
+.fe-mood{flex:1;text-align:center;padding:22rpx 8rpx;background:#fff;border-radius:24rpx;border:2rpx solid var(--mist);font-family:"Songti SC",serif;font-size:24rpx;color:var(--ink)}
+.fe-mood.active{background:rgba(91,123,138,.12);border-color:var(--tidal);color:var(--tidal-deep)}
+.fe-textarea{width:100%;min-height:200rpx;background:#fff;border-radius:24rpx;border:2rpx solid var(--mist);padding:28rpx;font-size:26rpx;color:var(--ink);line-height:1.6}
+.fe-btn{margin-top:36rpx;background:var(--tidal);color:#fff;padding:28rpx;border-radius:48rpx;font-size:28rpx;letter-spacing:4rpx;border:none;width:100%}

@@ -1,0 +1,7 @@
+.cg-page{display:flex;flex-direction:column;align-items:center;padding:60rpx 36rpx;min-height:100vh;background:var(--moonwhite)}
+.cg-card{width:100%;background:linear-gradient(150deg,#2B3A42,#3F5E5A,#4A6B7A);border-radius:32rpx;padding:56rpx 48rpx;color:var(--moonwhite);text-align:center}
+.cg-season{font-family:"Songti SC",serif;font-size:24rpx;letter-spacing:4rpx;opacity:.7}
+.cg-quote{font-family:"Songti SC",serif;font-size:32rpx;line-height:1.6;margin:32rpx 0;letter-spacing:2rpx}
+.cg-practice{font-size:22rpx;opacity:.8;letter-spacing:2rpx;margin-bottom:40rpx}
+.cg-brand{font-family:"Songti SC",serif;font-size:28rpx;letter-spacing:8rpx;opacity:.6}
+.cg-btn{margin-top:48rpx;background:var(--tidal);color:#fff;padding:28rpx 80rpx;border-radius:48rpx;font-size:28rpx;letter-spacing:4rpx;border:none}

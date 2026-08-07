@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P10 岸·连接 · 共时海</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.p-shore{padding:0 18px 62px;height:100%;display:flex;flex-direction:column;overflow:hidden}
+.sh-nav{position:relative;display:flex;justify-content:space-between;align-items:center;padding:8px 2px 4px}
+.sh-nav .title{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:var(--serif);font-size:15px;letter-spacing:3px;color:var(--ink)}
+.sh-nav .ic{color:var(--smoke);font-size:14px;cursor:pointer}
+.sh-greet{font-family:var(--serif);font-size:13px;color:var(--smoke);padding:6px 2px 16px;letter-spacing:1px}
+.sh-greet b{color:var(--ink);font-weight:500}
+.sh-circle-card{background:linear-gradient(150deg,#5B7B8A 0%,#3F5E5A 100%);border-radius:16px;padding:16px 18px;color:#F5F3EF;margin-bottom:18px;position:relative;cursor:pointer}
+.sh-circle-card .go{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:18px;opacity:.6}
+.sh-circle-card .tag{font-size:9px;letter-spacing:2px;opacity:.8;font-family:var(--serif)}
+.sh-circle-card .name{font-family:var(--serif);font-size:14px;margin:6px 0 10px;letter-spacing:1px;font-weight:500}
+.sh-circle-card .prog-row{display:flex;justify-content:space-between;align-items:center;font-size:9px;opacity:.85;letter-spacing:1px}
+.sh-circle-card .prog{flex:1;height:3px;background:rgba(245,243,239,.25);border-radius:3px;margin:0 10px;position:relative}
+.sh-circle-card .prog .bar{position:absolute;left:0;top:0;height:100%;width:66%;background:#C9B59A;border-radius:3px}
+.sh-sec-title{font-family:var(--serif);font-size:11px;color:var(--smoke);letter-spacing:2px;margin:0 2px 10px}
+.sh-entries{display:flex;flex-direction:column}
+.sh-entry{display:flex;align-items:center;gap:13px;padding:15px 4px;border-bottom:1px solid var(--mist);cursor:pointer}
+.sh-entry:last-child{border-bottom:none}
+.sh-entry .ico{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:17px;flex-shrink:0;font-weight:500}
+.sh-entry .info{flex:1}
+.sh-entry .info .t{font-family:var(--serif);font-size:14px;color:var(--ink);letter-spacing:1px;font-weight:500}
+.sh-entry .info .s{font-size:10px;color:var(--smoke);margin-top:3px;letter-spacing:1px}
+.sh-entry .r{display:flex;align-items:center;gap:8px;color:var(--mist-deep);font-size:13px}
+.sh-entry .r .badge{background:var(--wood);color:#fff;font-size:8px;padding:2px 7px;border-radius:8px;letter-spacing:1px;font-family:var(--sans)}
+</style>
+</head>
+<body>
+<div class="phone"><div class="screen">
+  <div class="p-shore">
+    <div class="statusbar"><span>13:08</span><span class="right"><span class="dot"></span><span class="dot"></span></span></div>
+    <div class="sh-nav"><span class="title">岸 · 连 接</span><span class="ic">⊝</span></div>
+    <div class="sh-greet">在 这 里，<b>与 人 相 遇</b></div>
+    <a href="p09-circle.html" class="sh-circle-card" style="display:block;text-decoration:none">
+      <div class="go">›</div>
+      <div class="tag">我 的 共 修 圈</div>
+      <div class="name">21 天 晨 间 呼 吸 共 修 圈</div>
+      <div class="prog-row"><span>共 同 潮 汐</span><span class="prog"><span class="bar"></span></span><span>第 14 日</span></div>
+    </a>
+    <div class="sh-sec-title">连 接 · 同 修 · 场 域</div>
+    <div class="sh-entries">
+      <a class="sh-entry" href="p15-healer-list.html">
+        <div class="ico" style="background:#E4D9C9;color:#8a7558">师</div>
+        <div class="info"><div class="t">疗 愈 师</div><div class="s">颂钵 · 正念 · 艺术疗愈</div></div>
+        <div class="r">›</div>
+      </a>
+      <a class="sh-entry" href="p17-course-list.html">
+        <div class="ico" style="background:#D9E2E4;color:#4A6B7A">课</div>
+        <div class="info"><div class="t">课 程 与 工 作 坊</div><div class="s">录播 · 直播 · 线下</div></div>
+        <div class="r">›</div>
+      </a>
+      <a class="sh-entry" href="p07-calendar.html">
+        <div class="ico" style="background:#DCE6DE;color:#3F5E5A">场</div>
+        <div class="info"><div class="t">线 下 活 动</div><div class="s">本月 6 场相聚 · 立秋茶会</div></div>
+        <div class="r"><span class="badge">近 期</span>›</div>
+      </a>
+      <a class="sh-entry" href="p26-about.html">
+        <div class="ico" style="background:#EAE6DF;color:#8A8A8A">共</div>
+        <div class="info"><div class="t">关 于 共 时 海</div><div class="s">品牌故事 · 团队 · 合作</div></div>
+        <div class="r">›</div>
+      </a>
+    </div>
+  </div>
+  <div class="tabbar">
+    <a class="tab" href="p02-discover.html"><span class="ti">潮</span><span>发现</span></a>
+    <a class="tab" href="p03-practice.html"><span class="ti">海</span><span>练习</span></a>
+    <a class="tab active" href="p10-shore.html"><span class="ti">岸</span><span>连接</span></a>
+    <a class="tab" href="p06-me.html"><span class="ti">岛</span><span>我的</span></a>
+  </div>
+</div></div>
+</body>
+</html>

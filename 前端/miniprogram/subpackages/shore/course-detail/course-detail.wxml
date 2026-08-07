@@ -1,0 +1,18 @@
+<scroll-view class="cd-page" scroll-y enhanced show-scrollbar="{{false}}">
+  <view class="cd-cover"><view class="cd-symbol">冥</view></view>
+  <view class="cd-body">
+    <view class="cd-title">{{course.title}}</view>
+    <view class="cd-meta"><text>{{course.instructor}}</text><text>·</text><text>{{course.lessons}}</text><text>·</text><text>{{course.typeName}}</text></view>
+    <view class="cd-price"><text class="cd-p">{{course.price}}</text><text class="cd-o" wx:if="{{course.origPrice}}">{{course.origPrice}}</text></view>
+    <view class="cd-sec"><view class="cd-lab">课 程 介 绍</view><view class="cd-txt">{{course.intro}}</view></view>
+    <view class="cd-sec"><view class="cd-lab">适 合 人 群</view><view class="cd-suits"><text class="cd-suit" wx:for="{{course.suits}}" wx:key="*this">{{item}}</text></view></view>
+    <view class="cd-sec"><view class="cd-lab">课 程 大 纲</view>
+      <view class="cd-ol-item" wx:for="{{course.outline}}" wx:key="t"><text class="cd-no">{{item.no}}</text><text class="cd-ot">{{item.t}}</text><text class="cd-od">{{item.d}}</text></view>
+    </view>
+    <view class="cd-notice">{{course.notice}}</view>
+  </view>
+</scroll-view>
+<view class="cd-actions">
+  <view class="ca-fav" bindtap="onFav"><text>♡</text><text>收藏</text></view>
+  <button class="ca-btn" bindtap="onSignup">立 即 报 名</button>
+</view>

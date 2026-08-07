@@ -1,0 +1,18 @@
+<scroll-view class="ed-page" scroll-y enhanced show-scrollbar="{{false}}">
+  <view class="ed-cover"><text class="ed-symbol">{{event.symbol}}</text></view>
+  <view class="ed-body">
+    <view class="ed-title">{{event.title}}</view>
+    <view class="ed-guide">{{event.guide}}</view>
+    <view class="ed-info">
+      <view class="ei-item"><text class="ei-label">时 间</text><text>{{event.time}}</text></view>
+      <view class="ei-item"><text class="ei-label">地 点</text><text>{{event.location}}</text></view>
+      <view class="ei-item"><text class="ei-label">名 额</text><text>余 {{event.remaining}} / {{event.total}}</text></view>
+      <view class="ei-item"><text class="ei-label">费 用</text><text>{{event.fee}}</text></view>
+    </view>
+    <view class="ed-desc"><view wx:for="{{event.description}}" wx:key="*this">{{item}}</view></view>
+    <view class="ed-notice">{{event.refund}}</view>
+  </view>
+</scroll-view>
+<view class="ed-actions">
+  <button class="ed-btn" bindtap="onSignup">立 即 报 名</button>
+</view>

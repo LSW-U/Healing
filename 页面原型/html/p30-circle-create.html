@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P30 共修圈创建 · 共时海</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.p-create{padding:0 22px;height:100%;display:flex;flex-direction:column;overflow:hidden}
+.cr-form{flex:1;overflow-y:auto}
+.cr-sec{margin-top:22px}
+.cr-sec .lab{font-family:var(--serif);font-size:12px;color:var(--smoke);letter-spacing:2px;margin-bottom:10px}
+.cr-input{background:#fff;border-radius:12px;border:1px solid var(--mist);padding:14px 16px;font-size:13px;color:var(--ink)}
+.cr-input .ph{color:var(--mist-deep)}
+.cr-periods{display:flex;gap:10px}
+.cr-period{flex:1;text-align:center;padding:14px 4px;background:#fff;border-radius:12px;border:1px solid var(--mist);cursor:pointer;font-family:var(--serif);font-size:13px;color:var(--ink)}
+.cr-period.active{border-color:var(--tidal);background:rgba(91,123,138,.08);color:var(--tidal-deep)}
+.cr-period .d{font-size:9px;color:var(--smoke);margin-top:4px;letter-spacing:1px}
+.cr-rule{background:rgba(91,123,138,.06);border-radius:8px;padding:12px 14px;font-size:11px;color:var(--smoke);line-height:1.8;font-family:var(--serif);letter-spacing:.5px}
+.cr-actions{padding:16px 0 20px}
+.cr-btn{display:block;width:100%;background:var(--tidal);color:#fff;border:none;padding:14px;border-radius:24px;font-size:13px;letter-spacing:2px;cursor:pointer;font-family:var(--sans);text-align:center;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="phone"><div class="screen">
+  <div class="p-create">
+    <div class="statusbar"><span>16:00</span><span class="right"><span class="dot"></span><span class="dot"></span></span></div>
+    <div class="nav"><a href="p09-circle.html" class="back" style="text-decoration:none">‹</a><span class="title">创 建 共 修 圈</span><span class="ic"></span></div>
+    <div class="cr-form">
+      <div class="cr-sec">
+        <div class="lab">圈 名</div>
+        <div class="cr-input"><span class="ph">如：21 天晨间呼吸共修圈</span></div>
+      </div>
+      <div class="cr-sec">
+        <div class="lab">共 修 周 期</div>
+        <div class="cr-periods">
+          <div class="cr-period active">21 天<div class="d">三 周</div></div>
+          <div class="cr-period">49 天<div class="d">七 周</div></div>
+          <div class="cr-period">自定义<div class="d">自 选</div></div>
+        </div>
+      </div>
+      <div class="cr-sec">
+        <div class="lab">主 题</div>
+        <div class="cr-input"><span class="ph">如：晨间冥想 / 睡前助眠 / 绘画疗愈</span></div>
+      </div>
+      <div class="cr-sec">
+        <div class="lab">圈 内 规 则</div>
+        <div class="cr-rule">· 圈内只能发"打卡 + 感受"，不能发任意内容<br>· 不显示打卡天数排名，只表达"一起在"<br>· 互相温暖用预设词（也在 / 陪你）<br>· 周期结束生成"共修潮汐"纪念</div>
+      </div>
+    </div>
+    <div class="cr-actions"><a class="cr-btn" href="p09-circle.html">创 建 共 修 圈</a></div>
+  </div>
+</div></div>
+</body>
+</html>

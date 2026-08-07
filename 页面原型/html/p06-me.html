@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P06 岛·我的 · 共时海</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.p-me{padding:0 18px;height:100%;display:flex;flex-direction:column;overflow:hidden}
+.me-head{padding:14px 4px 18px}
+.me-head .nm{font-family:var(--serif);font-size:18px;font-weight:500;letter-spacing:1px;color:var(--ink)}
+.me-head .sg{font-size:11px;color:var(--smoke);margin-top:4px;font-family:var(--serif)}
+.me-stat{background:#fff;border-radius:16px;padding:16px 18px;display:flex;justify-content:space-around;text-align:center;border:1px solid var(--mist)}
+.me-stat .num{font-family:var(--serif);font-size:22px;color:var(--tidal-deep);font-weight:500}
+.me-stat .lab{font-size:10px;color:var(--smoke);margin-top:4px}
+.me-nav{display:flex;flex-direction:column;gap:2px;margin-top:16px}
+.me-nav-item{display:flex;align-items:center;justify-content:space-between;padding:14px 4px;border-bottom:1px solid var(--mist);cursor:pointer}
+.me-nav-item:last-child{border-bottom:none}
+.me-nav-item .l{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--ink)}
+.me-nav-item .l .ico{width:22px;text-align:center;color:var(--tidal);font-size:14px}
+.me-nav-item .r{color:var(--mist-deep);font-size:12px;display:flex;align-items:center}
+.me-nav-item .badge{background:var(--wood);color:#fff;font-size:9px;padding:1px 7px;border-radius:8px;margin-left:8px}
+</style>
+</head>
+<body>
+<div class="phone"><div class="screen">
+  <div class="p-me">
+    <div class="statusbar"><span>21:46</span><span class="right"><span class="dot"></span><span class="dot"></span></span></div>
+    <div class="me-head"><div class="nm">潮 ·</div><div class="sg">"今夜，让海浪替你守着时间"</div></div>
+    <a href="p33-annual-report.html" class="me-stat">
+      <div><div class="num">12</div><div class="lab">累计小时</div></div>
+      <div><div class="num">7</div><div class="lab">连续天数</div></div>
+      <div><div class="num">38</div><div class="lab">练习次数</div></div>
+    </a>
+    <div class="me-nav">
+      <a class="me-nav-item" href="p21-journal.html"><div class="l"><span class="ico">✎</span>疗愈日记</div><div class="r">今日已记 ›</div></a>
+      <a class="me-nav-item" href="p22-favorites.html"><div class="l"><span class="ico">♡</span>我的收藏</div><div class="r">3 组 ›</div></a>
+      <a class="me-nav-item" href="p23-reminder.html"><div class="l"><span class="ico">◷</span>定时提醒</div><div class="r">睡前 22:30 ›</div></a>
+      <a class="me-nav-item" href="p24-orders.html"><div class="l"><span class="ico">▤</span>课程与报名</div><div class="r"><span class="badge">1</span>›</div></a>
+    </div>
+  </div>
+  <div class="tabbar">
+    <a class="tab" href="p02-discover.html"><span class="ti">潮</span><span>发现</span></a>
+    <a class="tab" href="p03-practice.html"><span class="ti">海</span><span>练习</span></a>
+    <a class="tab" href="p10-shore.html"><span class="ti">岸</span><span>连接</span></a>
+    <a class="tab active" href="p06-me.html"><span class="ti">岛</span><span>我的</span></a>
+  </div>
+</div></div>
+</body>
+</html>

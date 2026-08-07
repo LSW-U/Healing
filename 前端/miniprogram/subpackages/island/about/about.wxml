@@ -1,0 +1,17 @@
+<view class="ab-page">
+  <view class="ab-logo">共 时 海</view>
+  <view class="ab-sub">潮起潮落 · 你都在</view>
+  <view class="ab-sec">
+    <view class="ab-lab">关 于</view>
+    <view class="ab-txt">共时海是一个将艺术疗愈、正念冥想与东方美学相融合的数字疗愈空间。我们在成都有一个线下工作室，也在数字世界里建了一片安静的海。</view>
+  </view>
+  <view class="ab-sec">
+    <view class="ab-lab">团 队</view>
+    <view class="ab-txt">一群相信「慢下来」的人。疗愈师、艺术工作者、正念实修者，以及很多在海里与你相遇的人。</view>
+  </view>
+  <view class="ab-sec">
+    <view class="ab-lab">联 系</view>
+    <view class="ab-txt" bindtap="onCopy">公众号：共时海</view>
+  </view>
+  <view class="ab-notice">本产品提供身心放松与艺术表达内容，不替代专业医疗诊断与心理治疗。如有需要，请拨打心理援助热线 010-82951332。</view>
+</view>

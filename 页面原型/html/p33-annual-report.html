@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P33 年度潮汐报告 · 共时海</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.p-report{height:100%;display:flex;flex-direction:column;overflow:hidden}
+.rp-scroll{flex:1;overflow-y:auto;padding:0 22px}
+.rp-top{padding:14px 0 6px;color:var(--smoke);font-size:13px}
+.rp-top a{color:var(--smoke);text-decoration:none}
+.rp-hero{text-align:center;padding:24px 0 16px}
+.rp-hero .y{font-family:var(--serif);font-size:30px;letter-spacing:6px;color:var(--ink)}
+.rp-hero .t{font-family:var(--serif);font-size:12px;color:var(--smoke);margin-top:8px;letter-spacing:2px}
+.rp-stat{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.rp-stat .item{background:#fff;border-radius:14px;border:1px solid var(--mist);padding:18px 14px;text-align:center}
+.rp-stat .item .num{font-family:var(--serif);font-size:28px;color:var(--tidal-deep);font-weight:500}
+.rp-stat .item .lab{font-size:10px;color:var(--smoke);margin-top:6px;letter-spacing:1px;font-family:var(--serif)}
+.rp-tide{background:#fff;border-radius:14px;border:1px solid var(--mist);padding:16px;margin:14px 0}
+.rp-tide .tt{font-family:var(--serif);font-size:12px;color:var(--smoke);letter-spacing:2px;margin-bottom:12px;text-align:center}
+.rp-quote{text-align:center;margin:24px 0;font-family:var(--serif);font-size:15px;color:var(--ink);line-height:2.2;letter-spacing:2px}
+.rp-share{margin:10px 0 28px}
+.rp-btn{display:block;width:100%;background:var(--tidal);color:#fff;border:none;padding:14px;border-radius:24px;font-size:13px;letter-spacing:2px;cursor:pointer;font-family:var(--sans);text-align:center;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="phone"><div class="screen">
+  <div class="p-report">
+    <div class="rp-scroll">
+      <div class="rp-top"><a href="p06-me.html">‹ 返回</a></div>
+      <div class="rp-hero">
+        <div class="y">2 0 2 6</div>
+        <div class="t">你 的 年 度 潮 汐</div>
+      </div>
+      <div class="rp-stat">
+        <div class="item"><div class="num">86</div><div class="lab">累 计 小 时</div></div>
+        <div class="item"><div class="num">213</div><div class="lab">练 习 次 数</div></div>
+        <div class="item"><div class="num">42</div><div class="lab">连 续 最 长</div></div>
+        <div class="item"><div class="num">3</div><div class="lab">完 成 课 程</div></div>
+      </div>
+      <div class="rp-tide">
+        <div class="tt">这 一 年 的 潮 汐</div>
+        <svg viewBox="0 0 280 70" width="100%" preserveAspectRatio="none">
+          <line x1="4" y1="8" x2="276" y2="8" stroke="#5B7B8A" stroke-width="0.5" stroke-dasharray="3 3" opacity="0.4"/>
+          <path d="M4,60 L20,55 L36,48 L52,52 L68,40 L84,30 L100,35 L116,22 L132,28 L148,18 L164,25 L180,15 L196,20 L212,12 L228,18 L244,10 L260,14 L276,8 L276,64 L4,64 Z" fill="#E6F1FB"/>
+          <path d="M4,60 L20,55 L36,48 L52,52 L68,40 L84,30 L100,35 L116,22 L132,28 L148,18 L164,25 L180,15 L196,20 L212,12 L228,18 L244,10 L260,14 L276,8" fill="none" stroke="#5B7B8A" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+          <line x1="4" y1="64" x2="276" y2="64" stroke="#DDD8CF" stroke-width="0.5"/>
+          <text x="4" y="70" font-size="7" fill="#8A8A8A">1月</text>
+          <text x="140" y="70" font-size="7" fill="#8A8A8A">6月</text>
+          <text x="262" y="70" font-size="7" fill="#8A8A8A">12月</text>
+        </svg>
+      </div>
+      <div class="rp-quote">这一年，海来过 213 次<br>每一次，你都在<br>潮起潮落，你都在</div>
+      <div class="rp-share"><a class="rp-btn" href="p06-me.html">分 享 我 的 年 度 潮 汐</a></div>
+    </div>
+  </div>
+</div></div>
+</body>
+</html>

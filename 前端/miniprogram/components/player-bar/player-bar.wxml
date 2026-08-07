@@ -1,0 +1,4 @@
+<!-- 全局播放器浮窗（二期实现） -->
+<view class="player-bar-wrap" wx:if="{{show}}">
+  <text>{{title}}</text>
+</view>

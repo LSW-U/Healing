@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>P32 感受记录编辑器 · 共时海</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.p-editor{height:100%;display:flex;flex-direction:column;padding:0 22px;overflow:hidden}
+.ed-top{padding:14px 0 6px;color:var(--smoke);font-size:13px}
+.ed-top a{color:var(--smoke);text-decoration:none}
+.ed-moods{display:flex;justify-content:space-between;gap:6px;margin:18px 0}
+.ed-mood{flex:1;text-align:center;padding:13px 2px;background:#fff;border-radius:12px;border:1px solid var(--mist);cursor:pointer;font-family:var(--serif);font-size:12px;color:var(--ink)}
+.ed-mood.active{background:rgba(91,123,138,.12);border-color:var(--tidal);color:var(--tidal-deep)}
+.ed-lab{font-family:var(--serif);font-size:12px;color:var(--smoke);letter-spacing:2px;margin:18px 0 10px}
+.ed-input{background:#fff;border-radius:12px;border:1px solid var(--mist);padding:14px;font-size:13px;color:var(--ink);min-height:70px;line-height:1.7}
+.ed-input .ph{color:var(--mist-deep)}
+.ed-voice{margin-top:12px;background:#fff;border-radius:12px;border:1px solid var(--mist);padding:16px;text-align:center;color:var(--tidal);font-size:12px;letter-spacing:2px;cursor:pointer;font-family:var(--serif)}
+.ed-rel{margin-top:14px;font-size:11px;color:var(--smoke);font-family:var(--serif);letter-spacing:1px}
+.ed-rel b{color:var(--tidal-deep);font-weight:500}
+.ed-privacy{margin-top:10px;font-size:10px;color:var(--smoke);font-family:var(--serif);letter-spacing:1px}
+.ed-privacy b{color:var(--ink-green)}
+.ed-actions{margin-top:auto;padding:16px 0 20px}
+.ed-btn{display:block;width:100%;background:var(--tidal);color:#fff;border:none;padding:14px;border-radius:24px;font-size:13px;letter-spacing:2px;cursor:pointer;font-family:var(--sans);text-align:center;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="phone"><div class="screen">
+  <div class="p-editor">
+    <div class="ed-top"><a href="p08-tide-checkin.html">‹ 取消</a></div>
+    <div class="ed-lab">此 刻 心 情</div>
+    <div class="ed-moods">
+      <div class="ed-mood">起 伏</div>
+      <div class="ed-mood active">沉 静</div>
+      <div class="ed-mood">微 光</div>
+      <div class="ed-mood">澄 澈</div>
+      <div class="ed-mood">温 暖</div>
+    </div>
+    <div class="ed-lab">一 句 话</div>
+    <div class="ed-input"><span class="ph">今晨的呼吸很慢，海好像也停了一下…</span></div>
+    <div class="ed-voice">◉ 按 住 说 话</div>
+    <div class="ed-rel">关联练习：<b>晨间苏醒 · 跟随海的呼吸</b></div>
+    <div class="ed-privacy">隐私：<b>仅自己可见</b> · 可选择分享到共修圈</div>
+    <div class="ed-actions"><a class="ed-btn" href="p08-tide-checkin.html">保 存 记 录</a></div>
+  </div>
+</div></div>
+</body>
+</html>

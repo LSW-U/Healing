@@ -1,0 +1,11 @@
+<view class="cc-page">
+  <view class="cc-item"><view class="cc-label">圈名</view><input class="cc-input" placeholder="给共修圈取个名字"/></view>
+  <view class="cc-item"><view class="cc-label">周期</view>
+    <view class="cc-opts">
+      <view class="cc-opt active">21 天</view>
+      <view class="cc-opt">49 天</view>
+    </view>
+  </view>
+  <view class="cc-item"><view class="cc-label">主题</view><input class="cc-input" placeholder="比如：晨间呼吸"/></view>
+  <button class="cc-btn">创 建 共 修 圈</button>
+</view>
