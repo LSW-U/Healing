@@ -7,9 +7,10 @@ Page({
     greeting: '下午好，',
     highlight: '潮汐将至',
     suffix: '留 5 分钟给自己',
-    recommend: { title: '晨间苏醒 ·\n跟随海的呼吸', duration: '8 分钟', typeName: '冥想引导', id: 1 },
+    recommend: { title: '晨间苏醒 ·\n跟随海的呼吸', duration: '8 分钟', typeName: '冥想引导', id: null },
     columns: [],
-    contents: []
+    contents: [],
+    apiFailed: false
   },
 
   onLoad () {
@@ -49,13 +50,20 @@ Page({
       request(api.contents + '?sort=hot', { auth: false }).catch(() => null),
       request(api.recommendToday, { auth: false }).catch(() => null)
     ]).then(([cols, contents, rec]) => {
-      if (rec && rec.content) {
+      // 三接口全挂：温和提示（静态数据仍显示，不阻塞）
+      if (!cols && !contents && !rec) {
+        this.setData({ apiFailed: true })
+        return
+      }
+      this.setData({ apiFailed: false })
+      // 后端 recommendToday 返回 { hero, list }，取 hero 作今日推荐
+      if (rec && rec.hero) {
         this.setData({
           recommend: {
-            title: rec.content.title || '今日共时推荐',
-            duration: util.formatDuration(rec.content.duration || 480),
-            typeName: typeLabel(rec.content.type),
-            id: rec.content.id
+            title: rec.hero.title || '今日共时推荐',
+            duration: util.formatDuration(rec.hero.duration || 480),
+            typeName: typeLabel(rec.hero.type),
+            id: rec.hero.id
           }
         })
       }
@@ -69,7 +77,13 @@ Page({
   },
 
   onHeroTap () {
-    wx.navigateTo({ url: '/pages/content-detail/content-detail?id=' + this.data.recommend.id })
+    const id = this.data.recommend.id
+    if (!id) {
+      // API 还没回来，避免跳到错误的 id=1
+      wx.showToast({ title: '推荐内容加载中', icon: 'none' })
+      return
+    }
+    wx.navigateTo({ url: '/pages/content-detail/content-detail?id=' + id })
   },
 
   onColumnTap (e) {

@@ -1,6 +1,8 @@
 {
   "usingComponents": {
-    "player-bar": "components/player-bar/player-bar"
+    "player-bar": "components/player-bar/player-bar",
+    "content-card": "components/content-card/content-card",
+    "bottom-sheet": "components/bottom-sheet/bottom-sheet"
   },
   "pages": [
     "pages/greet/greet",
@@ -60,7 +62,7 @@
   "preloadRule": {
     "pages/discover/discover": {
       "network": "all",
-      "packages": ["shore"]
+      "packages": ["shore", "phase3"]
     },
     "pages/me/me": {
       "network": "all",

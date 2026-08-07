@@ -11,7 +11,8 @@ Component({
   methods: {
     switchTab (e) {
       const { path, index } = e.currentTarget.dataset
-      this.setData({ selected: index })
+      // selected 统一由目标页 onShow 设置，不在本地 setData，避免快速切 tab 时高亮错乱
+      if (this.data.selected === index) return  // 已在当前 tab，不重复跳
       wx.switchTab({ url: path })
     }
   }
