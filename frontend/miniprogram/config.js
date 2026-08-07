@@ -2,7 +2,7 @@
 const env = 'dev'
 
 const config = {
-  dev:  { baseUrl: 'http://localhost:3000' },
+  dev:  { baseUrl: 'http://localhost:3300' },
   prod: { baseUrl: 'https://你的域名.com' }
 }
 
