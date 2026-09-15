@@ -10,8 +10,8 @@ module.exports = async function auth(ctx, next) {
   try {
     const payload = jwt.verify(token);
     ctx.state.user = { uid: payload.uid, openid: payload.openid };
-    await next();
   } catch (e) {
     ctx.throw(401, '登录已过期，请重新登录');
   }
+  await next();
 };

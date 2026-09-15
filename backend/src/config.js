@@ -4,7 +4,7 @@ const path = require('path');
 const devMode = !process.env.WX_APPID;
 
 module.exports = {
-  port: Number(process.env.PORT) || 3000,
+  port: Number(process.env.PORT) || 3300,
   jwtSecret: process.env.JWT_SECRET || 'gongsihai-dev-secret-change-me',
   jwtExpiresIn: '30d',
   // 未配置微信 appid 时进入开发模式：用模拟 code 即可登录，便于本地联调

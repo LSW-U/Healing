@@ -22,7 +22,7 @@ Page({
       confirmText: '提交请求',
       success: (r) => {
         if (!r.confirm) return
-        request(api.userExport, { method: 'POST' }).then(() => {
+        request(api.userExport, { method: 'GET' }).then(() => {
           wx.showToast({ title: '请求已提交', icon: 'success' })
         }).catch((err) => {
           wx.showToast({ title: (err && err.message) || '提交失败', icon: 'none' })
