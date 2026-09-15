@@ -70,6 +70,15 @@ tr:hover{background:rgba(91,123,138,.04)}
 .badge-red{background:var(--danger)}.badge-green{background:var(--green)}.badge-gray{background:var(--text-light)}
 td .actions{display:flex;gap:4px}
 .settings-sub{display:none}.settings-sub.active{display:block}
+.login-mask{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);z-index:300;display:flex;justify-content:center;align-items:center}
+.login-card{background:var(--white);border-radius:12px;padding:36px 32px;width:360px;max-width:90vw;box-shadow:0 8px 30px rgba(0,0,0,.1)}
+.login-card h2{font-size:20px;font-weight:700;color:var(--primary);margin-bottom:4px}
+.login-card .sub{font-size:12px;color:var(--text-light);margin-bottom:22px}
+.login-card .form-group input{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:6px;font-size:14px;outline:none}
+.login-card .form-group input:focus{border-color:var(--primary)}
+.login-card .btn{width:100%;justify-content:center;padding:10px}
+.login-err{color:var(--danger);font-size:13px;min-height:18px;margin:10px 0}
+.login-dev{margin-top:6px}
 </style>
 </head>
 <body>
@@ -153,17 +162,36 @@ td .actions{display:flex;gap:4px}
 
 </div><!-- /main -->
 
+<div class="login-mask" id="login-mask" style="display:none">
+  <div class="login-card">
+    <h2>共时海</h2><div class="sub">后台管理 · 请登录</div>
+    <div class="form-group"><label>用户名</label><input id="login-user" autocomplete="username"></div>
+    <div class="form-group"><label>密码</label><input id="login-pass" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <div class="login-err" id="login-err"></div>
+    <button class="btn btn-primary" onclick="doLogin()">登 录</button>
+    <button class="btn btn-outline login-dev" onclick="doDevLogin()">开发模式快捷入口</button>
+  </div>
+</div>
+
 <div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
   <div class="modal" id="modal-box"><div class="modal-header"><span id="modal-title"></span><button class="close" onclick="closeModal()">✕</button></div><div class="modal-body" id="modal-body"></div><div class="modal-footer" id="modal-footer"></div></div>
 </div>
 
 <script>
 const API='/api';let tk=localStorage.getItem('a_tk')||'';function ah(){return tk?{Authorization:'Bearer '+tk,'Content-Type':'application/json'}:{'Content-Type':'application/json'}}
-async function ag(p){let r=await fetch(API+p,{headers:ah()});let d=await r.json();if(d.code===0)return d.data;throw d.message}
-async function ap(p,b){let r=await fetch(API+p,{method:'POST',headers:ah(),body:JSON.stringify(b)});let d=await r.json();if(d.code===0)return d.data;throw d.message}
-async function au(p,b){let r=await fetch(API+p,{method:'PUT',headers:ah(),body:JSON.stringify(b)});let d=await r.json();if(d.code===0)return d.data;throw d.message}
-async function ad(p){let r=await fetch(API+p,{method:'DELETE',headers:ah()});let d=await r.json();if(d.code===0)return d.data;throw d.message}
-async function login(){try{let r=await fetch('/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:'admin-dev'})});let d=await r.json();if(d.code===0){tk=d.data.token;localStorage.setItem('a_tk',tk);console.log('✅ 登录成功')}else{console.log('❌ 登录失败:',d.message)}}catch(e){console.log('❌ 登录异常:',e)}}
+// 401：token 失效 → 清 token 回登录卡；403：无权限 → 提示但不登出（01-D5）
+function showLogin(){tk='';localStorage.removeItem('a_tk');document.getElementById('login-mask').style.display='flex'}
+function handleAuthErr(code){if(code===401){showLogin();return true}if(code===403){alert('无权限');return true}return false}
+async function ag(p){let r=await fetch(API+p,{headers:ah()});let d=await r.json();if(d.code===0)return d.data;if(handleAuthErr(d.code))throw new Error('AUTH');throw d.message}
+async function ap(p,b){let r=await fetch(API+p,{method:'POST',headers:ah(),body:JSON.stringify(b)});let d=await r.json();if(d.code===0)return d.data;if(handleAuthErr(d.code))throw new Error('AUTH');throw d.message}
+async function au(p,b){let r=await fetch(API+p,{method:'PUT',headers:ah(),body:JSON.stringify(b)});let d=await r.json();if(d.code===0)return d.data;if(handleAuthErr(d.code))throw new Error('AUTH');throw d.message}
+async function ad(p){let r=await fetch(API+p,{method:'DELETE',headers:ah()});let d=await r.json();if(d.code===0)return d.data;if(handleAuthErr(d.code))throw new Error('AUTH');throw d.message}
+// 登录卡：账密 / devCode 快捷入口（均走 POST /api/admin/login，01-D5/D8）
+async function adminLogin(body,btn){let err=document.getElementById('login-err');err.textContent='';try{let r=await fetch(API+'/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});let d=await r.json();if(d.code===0){tk=d.data.token;localStorage.setItem('a_tk',tk);document.getElementById('login-mask').style.display='none';if(btn)btn.disabled=false;rd();return}err.textContent=d.message||('登录失败('+d.code+')')}catch(e){err.textContent='网络异常，请重试';if(btn)btn.disabled=false}}
+async function doLogin(){let b=event&&event.target;let u=document.getElementById('login-user').value.trim(),p=document.getElementById('login-pass').value;if(!u||!p){document.getElementById('login-err').textContent='请输入用户名和密码';return}if(b)b.disabled=true;adminLogin({username:u,password:p},b)}
+async function doDevLogin(){let b=event&&event.target;if(b)b.disabled=true;adminLogin({devCode:'admin-dev'},b)}
+// 启动探测：有旧 token 则调一个 admin GET 验证，401/403 → 清 token 显示登录卡
+async function boot(){if(tk){try{await ag('/users');document.getElementById('login-mask').style.display='none';rd();return}catch(e){}}showLogin()}
 const M={contents:[{id:1,title:'冥想初级·呼吸锚定',type:'meditation',duration:600,play_count:0,is_free:1,subtitle:'给第一次冥想的人'},{id:2,title:'晨间唤醒冥想',type:'meditation',duration:600,play_count:0,is_free:1,subtitle:'用10分钟开启一天'},{id:3,title:'颂钵深度放松',type:'sound',duration:1200,play_count:0,is_free:1},{id:4,title:'雨声白噪音',type:'sound',duration:1800,play_count:0,is_free:1},{id:5,title:'4-7-8助眠引导',type:'sleep',duration:480,play_count:0,is_free:1}],healers:[{id:1,name:'林一沐',title:'颂钵疗愈师·从业8年',intro:'让声音带你沉入深海',is_contracted:0},{id:2,name:'苏砚',title:'正念冥想引导师·从业6年',intro:'呼吸是最小的舟',is_contracted:0},{id:3,name:'陈知微',title:'艺术疗愈师·从业5年',intro:'画笔下藏着你还没说出口的话',is_contracted:1},{id:4,name:'周临川',title:'哲学话疗师·从业7年',intro:'有些困惑说出来海就宽了',is_contracted:1}],events:[{id:1,title:'中秋·满月冥想圈',start_time:'2026-09-25T19:30',total_slots:20,remaining_slots:18,fee:0,status:'open'},{id:2,title:'秋分·节气茶会',start_time:'2026-09-23T15:00',total_slots:12,remaining_slots:9,fee:6800,status:'open'}],signups:[{id:1,name:'测试用户',event_title:'中秋·满月冥想圈',amount:0,status:'paid',created_at:'2026-08-07'}],users:[{id:1,nickname:'测试用户',total_practice_seconds:600,checkin_streak:1,tide_level:1}],circles:[],quotes:[{id:1,text:'海有自己的节奏，你也是。',source:'共时海'},{id:2,text:'此刻，你只需要好好呼吸。',source:'共时海'}],crisis:[{id:1,name:'北京心理危机研究与干预中心',phone:'010-82951332',description:'24小时热线',priority:1}],breathing:[{id:1,name:'4-7-8助眠呼吸',inhale:4,hold_in:7,exhale:8,hold_out:0,cycles:4},{id:2,name:'盒式呼吸4-4-4-4',inhale:4,hold_in:4,exhale:4,hold_out:4,cycles:4}],solar:[{id:1,name:'小寒',date:'2026-01-05'},{id:2,name:'大寒',date:'2026-01-20'},{id:3,name:'立春',date:'2026-02-04'},{id:4,name:'雨水',date:'2026-02-18'},{id:5,name:'惊蛰',date:'2026-03-05'},{id:6,name:'春分',date:'2026-03-20'},{id:7,name:'清明',date:'2026-04-05'},{id:8,name:'谷雨',date:'2026-04-20'},{id:9,name:'立夏',date:'2026-05-05'},{id:10,name:'小满',date:'2026-05-21'},{id:11,name:'芒种',date:'2026-06-05'},{id:12,name:'夏至',date:'2026-06-21'},{id:13,name:'小暑',date:'2026-07-07'},{id:14,name:'大暑',date:'2026-07-22'},{id:15,name:'立秋',date:'2026-08-07'},{id:16,name:'处暑',date:'2026-08-23'},{id:17,name:'白露',date:'2026-09-07'},{id:18,name:'秋分',date:'2026-09-23'},{id:19,name:'寒露',date:'2026-10-08'},{id:20,name:'霜降',date:'2026-10-23'},{id:21,name:'立冬',date:'2026-11-07'},{id:22,name:'小雪',date:'2026-11-22'},{id:23,name:'大雪',date:'2026-12-07'},{id:24,name:'冬至',date:'2026-12-22'}]};
 async function sg(g,f){try{return await g()}catch(e){return f}}
 async function ss(s,m){try{await s();if(m)alert(m)}catch(e){alert('后端未连')}}
@@ -171,11 +199,11 @@ async function sd(d,c){try{await d();c()}catch(e){alert('后端未连')}}
 let cp='dashboard',cs='quotes';
 document.querySelectorAll('.sidebar nav a').forEach(a=>{a.addEventListener('click',function(){document.querySelectorAll('.sidebar nav a').forEach(x=>x.classList.remove('active'));this.classList.add('active');sw(this.dataset.panel)})});
 function sw(p){cp=p;document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));let e=document.getElementById('panel-'+p);if(e)e.classList.add('active');document.getElementById('panel-title').textContent={dashboard:'仪表盘',contents:'内容管理',healers:'疗愈师管理',events:'活动管理',signups:'订单管理',users:'用户管理',circles:'共修圈',settings:'基础配置'}[p]||'';let f={dashboard:rd,contents:rc,healers:rh,events:re,signups:rs,users:ru,circles:rci,settings:rset};if(f[p])f[p]()}
-async function rd(){let[cc,ec,sc]=await Promise.all([sg(()=>ag('/contents'),M.contents),sg(()=>ag('/events'),M.events),sg(()=>ag('/signups'),M.signups)]);document.getElementById('stat-users').textContent=M.users.length;document.getElementById('stat-contents').textContent=cc.length;document.getElementById('stat-events').textContent=ec.length;document.getElementById('stat-signups').textContent=sc.length;let list=sc;document.getElementById('recent-signups').innerHTML=list.length?list.slice(0,5).map(s=>'<tr><td>'+(s.name||'-')+'</td><td>'+(s.event_title||'-')+'</td><td>¥'+((s.amount||0)/100).toFixed(2)+'</td><td><span class="tag tag-active">'+(s.status||'paid')+'</span></td><td>'+(s.created_at||'')+'</td></tr>').join(''):'<tr><td colspan="5" class="empty">暂无报名</td></tr>'}
+async function rd(){let[cc,ec,sc,uc]=await Promise.all([sg(()=>ag('/contents'),M.contents),sg(()=>ag('/events'),M.events),sg(()=>ag('/signups/all'),M.signups),sg(()=>ag('/users'),M.users)]);document.getElementById('stat-users').textContent=uc.length;document.getElementById('stat-contents').textContent=cc.length;document.getElementById('stat-events').textContent=ec.length;document.getElementById('stat-signups').textContent=sc.length;let list=sc;document.getElementById('recent-signups').innerHTML=list.length?list.slice(0,5).map(s=>'<tr><td>'+(s.name||'-')+'</td><td>'+(s.event_title||'-')+'</td><td>¥'+((s.amount||0)/100).toFixed(2)+'</td><td><span class="tag tag-active">'+(s.status||'paid')+'</span></td><td>'+(s.created_at||'')+'</td></tr>').join(''):'<tr><td colspan="5" class="empty">暂无报名</td></tr>'}
 async function rc(){let q=(document.getElementById('content-search')?.value||'').toLowerCase(),t=document.getElementById('content-type')?.value||'',list=await sg(()=>ag('/contents'),M.contents);D.contents=list;if(q)list=list.filter(c=>c.title.toLowerCase().includes(q));if(t)list=list.filter(c=>c.type===t);let m={meditation:'冥想',sound:'声音',sleep:'助眠',breathing:'呼吸',music:'音乐'};document.getElementById('contents-table').innerHTML=list.length?list.map(c=>'<tr><td>'+c.id+'</td><td><strong>'+c.title+'</strong><br><small style="color:#8A8A8A">'+(c.subtitle||'')+'</small></td><td><span class="tag tag-'+(c.type||'')+'">'+(m[c.type]||c.type)+'</span></td><td>'+Math.floor((c.duration||0)/60)+'分'+(c.duration||0)%60+'秒</td><td>'+(c.play_count||0)+'</td><td>'+(c.is_free?'<span class="tag tag-free">免费</span>':'<span class="tag tag-paid">付费</span>')+'</td><td><div class="actions"><button class="btn-ghost" onclick="ec('+c.id+')">编辑</button><button class="btn-ghost" style="color:var(--danger)" onclick="di(\'content\','+c.id+')">删除</button></div></td></tr>').join(''):'<tr><td colspan="7" class="empty">暂无内容</td></tr>'}
 async function rh(){let list=await sg(()=>ag('/healers'),M.healers);D.healers=list;document.getElementById('healers-table').innerHTML=list.length?list.map(h=>'<tr><td>'+h.id+'</td><td><strong>'+h.name+'</strong></td><td>'+(h.title||'')+'</td><td>'+(h.intro||'')+'</td><td>'+(h.is_contracted?'<span class="tag tag-paid">签约</span>':'<span class="tag tag-free">自有</span>')+'</td><td><div class="actions"><button class="btn-ghost" onclick="eh('+h.id+')">编辑</button><button class="btn-ghost" style="color:var(--danger)" onclick="di(\'healer\','+h.id+')">删除</button></div></td></tr>').join(''):'<tr><td colspan="6" class="empty">暂无疗愈师</td></tr>'}
 async function re(){let q=(document.getElementById('event-search')?.value||'').toLowerCase(),s=document.getElementById('event-status')?.value||'',list=await sg(()=>ag('/events'),M.events);D.events=list;if(q)list=list.filter(e=>e.title.toLowerCase().includes(q));if(s)list=list.filter(e=>e.status===s);let m={open:'报名中',closed:'截止',ended:'结束'};document.getElementById('events-table').innerHTML=list.length?list.map(e=>'<tr><td>'+e.id+'</td><td><strong>'+e.title+'</strong></td><td>'+(e.start_time||'').replace('T',' ')+'</td><td>'+(e.remaining_slots||0)+'/'+(e.total_slots||0)+'</td><td>'+((e.fee||0)===0?'免费':('¥'+((e.fee||0)/100).toFixed(2)))+'</td><td><span class="tag tag-'+(e.status||'')+'">'+(m[e.status]||e.status)+'</span></td><td><div class="actions"><button class="btn-ghost" onclick="ee('+e.id+')">编辑</button><button class="btn-ghost" style="color:var(--danger)" onclick="di(\'event\','+e.id+')">删除</button></div></td></tr>').join(''):'<tr><td colspan="7" class="empty">暂无活动</td></tr>'}
-async function rs(){let list=await sg(()=>ag('/signups'),M.signups);document.getElementById('signups-table').innerHTML=list.length?list.map(s=>'<tr><td>'+s.id+'</td><td>'+(s.name||'-')+'</td><td>'+(s.event_title||'-')+'</td><td>¥'+((s.amount||0)/100).toFixed(2)+'</td><td><span class="tag tag-active">'+(s.status||'paid')+'</span></td><td><small>'+(s.wx_order_id||'-')+'</small></td><td>'+(s.created_at||'')+'</td><td><button class="btn-ghost" style="color:var(--danger)" onclick="di(\'signup\','+s.id+')">删除</button></td></tr>').join(''):'<tr><td colspan="8" class="empty">暂无订单</td></tr>'}
+async function rs(){let list=await sg(()=>ag('/signups/all'),M.signups);document.getElementById('signups-table').innerHTML=list.length?list.map(s=>'<tr><td>'+s.id+'</td><td>'+(s.name||'-')+'</td><td>'+(s.event_title||'-')+'</td><td>¥'+((s.amount||0)/100).toFixed(2)+'</td><td><span class="tag tag-active">'+(s.status||'paid')+'</span></td><td><small>'+(s.wx_order_id||'-')+'</small></td><td>'+(s.created_at||'')+'</td><td><button class="btn-ghost" style="color:var(--danger)" onclick="di(\'signup\','+s.id+')">删除</button></td></tr>').join(''):'<tr><td colspan="8" class="empty">暂无订单</td></tr>'}
 async function ru(){let list=await sg(()=>ag('/users'),M.users);document.getElementById('users-table').innerHTML=list.length?list.map(u=>'<tr><td>'+u.id+'</td><td>'+(u.nickname||'-')+'</td><td>'+(u.phone||'-')+'</td><td>'+Math.floor((u.total_practice_seconds||0)/60)+'分钟</td><td>'+(u.checkin_streak||0)+'天</td><td>'+(u.tide_level||0)+'/7</td><td>'+(u.created_at||'')+'</td></tr>').join(''):'<tr><td colspan="7" class="empty">暂无用户</td></tr>'}
 async function rci(){let list=await sg(()=>ag('/circles'),M.circles);document.getElementById('circles-table').innerHTML=list.length?list.map(c=>'<tr><td>'+c.id+'</td><td>'+c.name+'</td><td>'+(c.cycle_days||21)+'天</td><td>'+(c.theme||'-')+'</td><td>-</td><td><span class="tag tag-active">active</span></td><td>'+(c.start_date||'-')+'</td></tr>').join(''):'<tr><td colspan="7" class="empty">暂无共修圈</td></tr>'}
 function rset(){sts('quotes')}
@@ -193,7 +221,7 @@ function ff(t,r){let v=(id,val)=>{let el=document.getElementById('f-'+id);if(el)
 function di(t,i){if(!confirm('确定删除？'))return;let m={content:'/contents/',healer:'/healers/',event:'/events/',signup:'/signups/',quote:'/quotes/',crisis:'/crisis/'};let p=m[t]||'';if(p)sd(()=>ad(p+i),()=>sw(cp))}
 function ec(i){openModal('contentEdit',i)}function eh(i){openModal('healerEdit',i)}function ee(i){openModal('eventEdit',i)}
 function eq(i){openModal('quoteEdit',i)}function ecr(i){openModal('crisisEdit',i)}function eb(i){openModal('breathingEdit',i)}function es(i){openModal('solarEdit',i)}
-login().then(()=>rd())
+boot()
 </script>
 </body>
 </html>
