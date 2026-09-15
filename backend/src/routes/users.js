@@ -1,9 +1,26 @@
 const Router = require('koa-router');
 const db = require('../db');
 const auth = require('../middleware/auth');
+const requireAdmin = require('../middleware/admin');
 const { ok } = require('../utils/response');
 
 const router = new Router({ prefix: '/api/users' });
+
+// 用户列表（管理后台用户面板，仅 admin；支持 ?q= 模糊搜昵称/手机号）
+router.get('/', auth, requireAdmin, async (ctx) => {
+  const { q } = ctx.query;
+  const where = [];
+  const params = [];
+  if (q) {
+    where.push('(nickname LIKE ? OR phone LIKE ?)');
+    params.push('%' + q + '%', '%' + q + '%');
+  }
+  const sql =
+    'SELECT id, openid, nickname, avatar, phone, role, created_at FROM users' +
+    (where.length ? ' WHERE ' + where.join(' AND ') : '') +
+    ' ORDER BY id DESC';
+  ok(ctx, db.prepare(sql).all(...params));
+});
 
 // 更新个人资料（昵称/头像/签名/手机）
 router.put('/profile', auth, async (ctx) => {

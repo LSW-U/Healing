@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS users (
   total_practice_seconds INTEGER DEFAULT 0,  -- 累计练习秒数
   checkin_streak        INTEGER DEFAULT 0,   -- 连续打卡天数
   tide_level            INTEGER DEFAULT 0,   -- 潮汐图潮位（0~7）
+  role                  TEXT NOT NULL DEFAULT 'user', -- 角色：user / admin
   created_at            TEXT DEFAULT (datetime('now')),
   updated_at            TEXT DEFAULT (datetime('now'))
 );
@@ -237,9 +238,10 @@ CREATE TABLE IF NOT EXISTS breathing_patterns (
   description TEXT
 );
 
--- 二十四节气（用于启动问候 / 活动日历标注）
+-- 二十四节气（用于启动问候 / 活动日历标注 / 后台节气面板）
 CREATE TABLE IF NOT EXISTS solar_terms (
-  id   INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT,
-  date TEXT                       -- YYYY-MM-DD
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  name        TEXT,
+  date        TEXT,                       -- YYYY-MM-DD
+  description TEXT
 );

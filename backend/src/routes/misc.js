@@ -1,5 +1,7 @@
 const Router = require('koa-router');
 const db = require('../db');
+const auth = require('../middleware/auth');
+const requireAdmin = require('../middleware/admin');
 const { ok } = require('../utils/response');
 
 const router = new Router();
@@ -7,6 +9,26 @@ const router = new Router();
 // 呼吸法配置列表
 router.get('/api/breathing-patterns', async (ctx) => {
   ok(ctx, db.prepare('SELECT * FROM breathing_patterns').all());
+});
+
+// 更新呼吸法配置（仅 admin，管理后台呼吸配置面板）
+router.put('/api/breathing-patterns/:id', auth, requireAdmin, async (ctx) => {
+  const p = db.prepare('SELECT * FROM breathing_patterns WHERE id = ?').get(ctx.params.id);
+  if (!p) ctx.throw(404, '呼吸法不存在');
+  const b = ctx.request.body || {};
+  db.prepare(
+    'UPDATE breathing_patterns SET name = ?, inhale = ?, hold_in = ?, exhale = ?, hold_out = ?, cycles = ?, description = ? WHERE id = ?'
+  ).run(
+    b.name !== undefined ? b.name : p.name,
+    b.inhale !== undefined ? b.inhale : p.inhale,
+    b.hold_in !== undefined ? b.hold_in : p.hold_in,
+    b.exhale !== undefined ? b.exhale : p.exhale,
+    b.hold_out !== undefined ? b.hold_out : p.hold_out,
+    b.cycles !== undefined ? b.cycles : p.cycles,
+    b.description !== undefined ? b.description : p.description,
+    p.id
+  );
+  ok(ctx, db.prepare('SELECT * FROM breathing_patterns WHERE id = ?').get(p.id));
 });
 
 // 启动问候：节气 + 每日一语

@@ -1,6 +1,7 @@
 const Router = require('koa-router');
 const db = require('../db');
 const auth = require('../middleware/auth');
+const requireAdmin = require('../middleware/admin');
 const { ok, parseJson } = require('../utils/response');
 
 const router = new Router({ prefix: '/api/healers' });
@@ -21,7 +22,7 @@ router.get('/:id', async (ctx) => {
   ok(ctx, parseJson(h, ['tags', 'services']));
 });
 
-router.post('/', auth, async (ctx) => {
+router.post('/', auth, requireAdmin, async (ctx) => {
   const { name, title, intro, bio, tags, services, is_contracted } = ctx.request.body;
   if (!name) ctx.throw(400, '姓名不能为空');
   const r = db.prepare(
@@ -30,7 +31,7 @@ router.post('/', auth, async (ctx) => {
   ok(ctx, db.prepare('SELECT * FROM healers WHERE id = ?').get(r.lastInsertRowid));
 });
 
-router.put('/:id', auth, async (ctx) => {
+router.put('/:id', auth, requireAdmin, async (ctx) => {
   const h = db.prepare('SELECT * FROM healers WHERE id = ?').get(ctx.params.id);
   if (!h) ctx.throw(404, '疗愈师不存在');
   const b = ctx.request.body;
@@ -49,7 +50,7 @@ router.put('/:id', auth, async (ctx) => {
   ok(ctx, db.prepare('SELECT * FROM healers WHERE id = ?').get(h.id));
 });
 
-router.delete('/:id', auth, async (ctx) => {
+router.delete('/:id', auth, requireAdmin, async (ctx) => {
   const h = db.prepare('SELECT * FROM healers WHERE id = ?').get(ctx.params.id);
   if (!h) ctx.throw(404, '疗愈师不存在');
   db.prepare('DELETE FROM healers WHERE id = ?').run(h.id);

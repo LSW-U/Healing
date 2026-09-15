@@ -1,6 +1,7 @@
 const Router = require('koa-router');
 const db = require('../db');
 const auth = require('../middleware/auth');
+const requireAdmin = require('../middleware/admin');
 const { ok, parseJson } = require('../utils/response');
 
 const router = new Router();
@@ -71,7 +72,7 @@ router.get('/api/columns/:id', async (ctx) => {
 
 // ---- POST/PUT/DELETE（需登录） ----
 
-router.post('/api/contents', auth, async (ctx) => {
+router.post('/api/contents', auth, requireAdmin, async (ctx) => {
   const { title, subtitle, type, duration, audio_url, description, is_free, healer_id } = ctx.request.body;
   if (!title) ctx.throw(400, '标题不能为空');
   const r = db.prepare(
@@ -81,7 +82,7 @@ router.post('/api/contents', auth, async (ctx) => {
   ok(ctx, db.prepare('SELECT * FROM contents WHERE id = ?').get(r.lastInsertRowid));
 });
 
-router.put('/api/contents/:id', auth, async (ctx) => {
+router.put('/api/contents/:id', auth, requireAdmin, async (ctx) => {
   const c = db.prepare('SELECT * FROM contents WHERE id = ?').get(ctx.params.id);
   if (!c) ctx.throw(404, '内容不存在');
   const b = ctx.request.body;
@@ -93,7 +94,7 @@ router.put('/api/contents/:id', auth, async (ctx) => {
   ok(ctx, db.prepare('SELECT * FROM contents WHERE id = ?').get(c.id));
 });
 
-router.delete('/api/contents/:id', auth, async (ctx) => {
+router.delete('/api/contents/:id', auth, requireAdmin, async (ctx) => {
   const c = db.prepare('SELECT * FROM contents WHERE id = ?').get(ctx.params.id);
   if (!c) ctx.throw(404, '内容不存在');
   db.prepare('DELETE FROM contents WHERE id = ?').run(c.id);

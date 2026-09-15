@@ -1,6 +1,7 @@
 const Router = require('koa-router');
 const db = require('../db');
 const auth = require('../middleware/auth');
+const requireAdmin = require('../middleware/admin');
 const { ok, parseJson } = require('../utils/response');
 
 const router = new Router();
@@ -79,7 +80,7 @@ router.get('/api/signups', auth, async (ctx) => {
 
 // ---- 活动 CRUD（需登录） ----
 
-router.post('/api/events', auth, async (ctx) => {
+router.post('/api/events', auth, requireAdmin, async (ctx) => {
   const { title, start_time, end_time, location, total_slots, remaining_slots, fee, status, description } = ctx.request.body;
   if (!title) ctx.throw(400, '标题不能为空');
   const r = db.prepare(
@@ -89,7 +90,7 @@ router.post('/api/events', auth, async (ctx) => {
   ok(ctx, db.prepare('SELECT * FROM events WHERE id = ?').get(r.lastInsertRowid));
 });
 
-router.put('/api/events/:id', auth, async (ctx) => {
+router.put('/api/events/:id', auth, requireAdmin, async (ctx) => {
   const e = db.prepare('SELECT * FROM events WHERE id = ?').get(ctx.params.id);
   if (!e) ctx.throw(404, '活动不存在');
   const b = ctx.request.body;
@@ -100,15 +101,15 @@ router.put('/api/events/:id', auth, async (ctx) => {
   ok(ctx, db.prepare('SELECT * FROM events WHERE id = ?').get(e.id));
 });
 
-router.delete('/api/events/:id', auth, async (ctx) => {
+router.delete('/api/events/:id', auth, requireAdmin, async (ctx) => {
   const e = db.prepare('SELECT * FROM events WHERE id = ?').get(ctx.params.id);
   if (!e) ctx.throw(404, '活动不存在');
   db.prepare('DELETE FROM events WHERE id = ?').run(e.id);
   ok(ctx, { deleted: true });
 });
 
-// 管理端全部报名列表
-router.get('/api/signups/all', auth, async (ctx) => {
+// 管理端全部报名列表（敏感读：仅 admin）
+router.get('/api/signups/all', auth, requireAdmin, async (ctx) => {
   ok(ctx, db.prepare('SELECT s.*, e.title AS event_title FROM signups s LEFT JOIN events e ON s.event_id = e.id ORDER BY s.created_at DESC').all());
 });
 
