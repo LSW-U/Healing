@@ -12,6 +12,32 @@ router.get('/api/breathing-patterns', async (ctx) => {
 });
 
 // 更新呼吸法配置（仅 admin，管理后台呼吸配置面板）
+// 新增呼吸法配置（仅 admin）
+router.post('/api/breathing-patterns', auth, requireAdmin, async (ctx) => {
+  const b = ctx.request.body || {};
+  if (!b.name) ctx.throw(400, '呼吸法名称不能为空');
+  const r = db.prepare(
+    'INSERT INTO breathing_patterns (name, inhale, hold_in, exhale, hold_out, cycles, description) VALUES (?,?,?,?,?,?,?)'
+  ).run(
+    b.name,
+    b.inhale || 0,
+    b.hold_in || 0,
+    b.exhale || 0,
+    b.hold_out || 0,
+    b.cycles || 0,
+    b.description || ''
+  );
+  ok(ctx, db.prepare('SELECT * FROM breathing_patterns WHERE id = ?').get(r.lastInsertRowid));
+});
+
+// 删除呼吸法配置（仅 admin）
+router.delete('/api/breathing-patterns/:id', auth, requireAdmin, async (ctx) => {
+  const p = db.prepare('SELECT * FROM breathing_patterns WHERE id = ?').get(ctx.params.id);
+  if (!p) ctx.throw(404, '呼吸法不存在');
+  db.prepare('DELETE FROM breathing_patterns WHERE id = ?').run(p.id);
+  ok(ctx, { deleted: true });
+});
+
 router.put('/api/breathing-patterns/:id', auth, requireAdmin, async (ctx) => {
   const p = db.prepare('SELECT * FROM breathing_patterns WHERE id = ?').get(ctx.params.id);
   if (!p) ctx.throw(404, '呼吸法不存在');

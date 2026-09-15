@@ -25,4 +25,22 @@ router.put('/:id', auth, requireAdmin, async (ctx) => {
   ok(ctx, db.prepare('SELECT * FROM solar_terms WHERE id = ?').get(s.id));
 });
 
+// 新增节气（仅 admin）
+router.post('/', auth, requireAdmin, async (ctx) => {
+  const { name, date, description } = ctx.request.body || {};
+  if (!name) ctx.throw(400, '节气名称不能为空');
+  const r = db.prepare('INSERT INTO solar_terms (name, date, description) VALUES (?,?,?)').run(
+    name, date || null, description || ''
+  );
+  ok(ctx, db.prepare('SELECT * FROM solar_terms WHERE id = ?').get(r.lastInsertRowid));
+});
+
+// 删除节气（仅 admin）
+router.delete('/:id', auth, requireAdmin, async (ctx) => {
+  const s = db.prepare('SELECT * FROM solar_terms WHERE id = ?').get(ctx.params.id);
+  if (!s) ctx.throw(404, '节气不存在');
+  db.prepare('DELETE FROM solar_terms WHERE id = ?').run(s.id);
+  ok(ctx, { deleted: true });
+});
+
 module.exports = router;

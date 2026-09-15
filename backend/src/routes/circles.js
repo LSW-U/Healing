@@ -5,9 +5,12 @@ const { ok } = require('../utils/response');
 
 const router = new Router({ prefix: '/api/circles' });
 
-// 共修圈列表
+// 共修圈列表（含成员数，供管理后台共修圈面板消费）
 router.get('/', async (ctx) => {
-  ok(ctx, db.prepare('SELECT * FROM circles WHERE status = \'active\' ORDER BY id DESC').all());
+  ok(ctx, db.prepare(
+    `SELECT c.*, (SELECT COUNT(*) FROM circle_members m WHERE m.circle_id = c.id) AS member_count
+     FROM circles c WHERE c.status = 'active' ORDER BY c.id DESC`
+  ).all());
 });
 
 // 创建共修圈

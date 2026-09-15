@@ -81,24 +81,38 @@ router.get('/api/signups', auth, async (ctx) => {
 // ---- 活动 CRUD（需登录） ----
 
 router.post('/api/events', auth, requireAdmin, async (ctx) => {
-  const { title, start_time, end_time, location, total_slots, remaining_slots, fee, status, description } = ctx.request.body;
+  const { title, start_time, end_time, location, total_slots, remaining_slots, fee, status, description,
+          cover, guide_text, latitude, longitude, refund_policy, suitable_tags, is_solar_term, solar_term } = ctx.request.body;
   if (!title) ctx.throw(400, '标题不能为空');
+  let tags = null;
+  if (suitable_tags !== undefined && suitable_tags !== '') {
+    if (!Array.isArray(suitable_tags)) ctx.throw(400, 'suitable_tags 须为数组');
+    tags = JSON.stringify(suitable_tags);
+  }
   const r = db.prepare(
-    `INSERT INTO events (title, start_time, end_time, location, total_slots, remaining_slots, fee, status, description)
-     VALUES (?,?,?,?,?,?,?,?,?)`
-  ).run(title, start_time || null, end_time || null, location || '', total_slots || 0, remaining_slots !== undefined ? remaining_slots : (total_slots || 0), fee || 0, status || 'open', description || '');
-  ok(ctx, db.prepare('SELECT * FROM events WHERE id = ?').get(r.lastInsertRowid));
+    `INSERT INTO events (title, start_time, end_time, location, total_slots, remaining_slots, fee, status, description,
+                         cover, guide_text, latitude, longitude, refund_policy, suitable_tags, is_solar_term, solar_term)
+     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
+  ).run(title, start_time || null, end_time || null, location || '', total_slots || 0, remaining_slots !== undefined ? remaining_slots : (total_slots || 0), fee || 0, status || 'open', description || '',
+        cover || '', guide_text || '', latitude || null, longitude || null, refund_policy || '', tags, is_solar_term ? 1 : 0, solar_term || null);
+  ok(ctx, parseJson(db.prepare('SELECT * FROM events WHERE id = ?').get(r.lastInsertRowid), ['suitable_tags']));
 });
 
 router.put('/api/events/:id', auth, requireAdmin, async (ctx) => {
   const e = db.prepare('SELECT * FROM events WHERE id = ?').get(ctx.params.id);
   if (!e) ctx.throw(404, '活动不存在');
   const b = ctx.request.body;
-  const fields = ['title','start_time','end_time','location','total_slots','remaining_slots','fee','status','description'];
-  const sets = fields.filter(f => b[f] !== undefined).map(f => `${f}=?`).join(',');
-  const vals = fields.filter(f => b[f] !== undefined).map(f => b[f]);
+  const fields = ['title','start_time','end_time','location','total_slots','remaining_slots','fee','status','description',
+                  'cover','guide_text','latitude','longitude','refund_policy','is_solar_term','solar_term'];
+  let sets = fields.filter(f => b[f] !== undefined).map(f => `${f}=?`).join(',');
+  let vals = fields.filter(f => b[f] !== undefined).map(f => f === 'is_solar_term' ? (b[f] ? 1 : 0) : b[f]);
+  if (b.suitable_tags !== undefined) {
+    if (!Array.isArray(b.suitable_tags)) ctx.throw(400, 'suitable_tags 须为数组');
+    sets += (sets ? ',' : '') + 'suitable_tags=?';
+    vals.push(JSON.stringify(b.suitable_tags));
+  }
   if (sets) db.prepare(`UPDATE events SET ${sets} WHERE id=?`).run(...vals, e.id);
-  ok(ctx, db.prepare('SELECT * FROM events WHERE id = ?').get(e.id));
+  ok(ctx, parseJson(db.prepare('SELECT * FROM events WHERE id = ?').get(e.id), ['suitable_tags']));
 });
 
 router.delete('/api/events/:id', auth, requireAdmin, async (ctx) => {
@@ -106,6 +120,25 @@ router.delete('/api/events/:id', auth, requireAdmin, async (ctx) => {
   if (!e) ctx.throw(404, '活动不存在');
   db.prepare('DELETE FROM events WHERE id = ?').run(e.id);
   ok(ctx, { deleted: true });
+});
+
+// 删除报名（仅 admin）
+router.delete('/api/signups/:id', auth, requireAdmin, async (ctx) => {
+  const s = db.prepare('SELECT * FROM signups WHERE id = ?').get(ctx.params.id);
+  if (!s) ctx.throw(404, '报名记录不存在');
+  db.prepare('DELETE FROM signups WHERE id = ?').run(s.id);
+  ok(ctx, { deleted: true });
+});
+
+// 更新报名状态（仅 admin；status ∈ pending/paid/refunded/cancelled）
+router.put('/api/signups/:id/status', auth, requireAdmin, async (ctx) => {
+  const s = db.prepare('SELECT * FROM signups WHERE id = ?').get(ctx.params.id);
+  if (!s) ctx.throw(404, '报名记录不存在');
+  const { status } = ctx.request.body || {};
+  const valid = ['pending', 'paid', 'refunded', 'cancelled'];
+  if (!valid.includes(status)) ctx.throw(400, '状态非法，须为 pending/paid/refunded/cancelled');
+  db.prepare('UPDATE signups SET status = ? WHERE id = ?').run(status, s.id);
+  ok(ctx, db.prepare('SELECT * FROM signups WHERE id = ?').get(s.id));
 });
 
 // 管理端全部报名列表（敏感读：仅 admin）

@@ -16,7 +16,7 @@ router.get('/', auth, requireAdmin, async (ctx) => {
     params.push('%' + q + '%', '%' + q + '%');
   }
   const sql =
-    'SELECT id, openid, nickname, avatar, phone, role, created_at FROM users' +
+    'SELECT id, nickname, avatar, phone, role, created_at FROM users' +
     (where.length ? ' WHERE ' + where.join(' AND ') : '') +
     ' ORDER BY id DESC';
   ok(ctx, db.prepare(sql).all(...params));

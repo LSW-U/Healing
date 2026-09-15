@@ -72,26 +72,67 @@ router.get('/api/columns/:id', async (ctx) => {
 
 // ---- POST/PUT/DELETE（需登录） ----
 
+// sections 宽松校验（Q5）：须为数组且每项含 start/label；空串视为清空；返回入库字符串或 undefined（不更新）
+function encodeSections(v) {
+  if (v === undefined || v === null) return undefined;
+  if (v === '') return '[]';
+  if (!Array.isArray(v)) throw new Error('sections 须为数组');
+  for (const s of v) {
+    if (!s || typeof s !== 'object' || s.start === undefined || s.label === undefined) {
+      throw new Error('sections 每项须含 start 和 label 字段');
+    }
+  }
+  return JSON.stringify(v);
+}
+
+// scene_tags / form_tags 宽松校验：非数组 → 400
+function encodeTags(v) {
+  if (v === undefined || v === null) return undefined;
+  if (v === '') return '[]';
+  if (!Array.isArray(v)) throw new Error('标签字段须为数组');
+  return JSON.stringify(v);
+}
+
 router.post('/api/contents', auth, requireAdmin, async (ctx) => {
-  const { title, subtitle, type, duration, audio_url, description, is_free, healer_id } = ctx.request.body;
+  const { title, subtitle, type, duration, audio_url, description, is_free, healer_id,
+          cover, scene_tags, form_tags, sections } = ctx.request.body;
   if (!title) ctx.throw(400, '标题不能为空');
+  let st, ft, sec;
+  try {
+    st = encodeTags(scene_tags);
+    ft = encodeTags(form_tags);
+    sec = encodeSections(sections);
+  } catch (e) {
+    ctx.throw(400, e.message);
+  }
   const r = db.prepare(
-    `INSERT INTO contents (title, subtitle, type, duration, audio_url, description, is_free, healer_id)
-     VALUES (?,?,?,?,?,?,?,?)`
-  ).run(title, subtitle || '', type || 'meditation', duration || 0, audio_url || '', description || '', is_free ? 1 : 0, healer_id || null);
-  ok(ctx, db.prepare('SELECT * FROM contents WHERE id = ?').get(r.lastInsertRowid));
+    `INSERT INTO contents (title, subtitle, type, duration, audio_url, description, is_free, healer_id, cover, scene_tags, form_tags, sections)
+     VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`
+  ).run(title, subtitle || '', type || 'meditation', duration || 0, audio_url || '', description || '', is_free ? 1 : 0, healer_id || null,
+        cover || '', st || null, ft || null, sec || null);
+  ok(ctx, parseJson(db.prepare('SELECT * FROM contents WHERE id = ?').get(r.lastInsertRowid), ['scene_tags', 'form_tags', 'sections']));
 });
 
 router.put('/api/contents/:id', auth, requireAdmin, async (ctx) => {
   const c = db.prepare('SELECT * FROM contents WHERE id = ?').get(ctx.params.id);
   if (!c) ctx.throw(404, '内容不存在');
   const b = ctx.request.body;
-  const fields = ['title','subtitle','type','duration','audio_url','description','healer_id'];
-  const sets = fields.filter(f => b[f] !== undefined).map(f => `${f}=?`).join(',');
-  const vals = fields.filter(f => b[f] !== undefined).map(f => f === 'is_free' ? (b[f] ? 1 : 0) : b[f]);
-  if (b.is_free !== undefined) { sets += (sets ? ',' : '') + 'is_free=?'; vals.push(b.is_free ? 1 : 0); }
+  let st, ft, sec;
+  try {
+    st = encodeTags(b.scene_tags);
+    ft = encodeTags(b.form_tags);
+    sec = encodeSections(b.sections);
+  } catch (e) {
+    ctx.throw(400, e.message);
+  }
+  const fields = ['title','subtitle','type','duration','audio_url','description','healer_id','cover','is_free'];
+  let sets = fields.filter(f => b[f] !== undefined).map(f => `${f}=?`).join(',');
+  let vals = fields.filter(f => b[f] !== undefined).map(f => f === 'is_free' ? (b[f] ? 1 : 0) : b[f]);
+  if (st !== undefined) { sets += (sets ? ',' : '') + 'scene_tags=?'; vals.push(st); }
+  if (ft !== undefined) { sets += (sets ? ',' : '') + 'form_tags=?'; vals.push(ft); }
+  if (sec !== undefined) { sets += (sets ? ',' : '') + 'sections=?'; vals.push(sec); }
   if (sets) db.prepare(`UPDATE contents SET ${sets} WHERE id=?`).run(...vals, c.id);
-  ok(ctx, db.prepare('SELECT * FROM contents WHERE id = ?').get(c.id));
+  ok(ctx, parseJson(db.prepare('SELECT * FROM contents WHERE id = ?').get(c.id), ['scene_tags', 'form_tags', 'sections']));
 });
 
 router.delete('/api/contents/:id', auth, requireAdmin, async (ctx) => {

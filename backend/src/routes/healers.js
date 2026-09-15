@@ -23,11 +23,11 @@ router.get('/:id', async (ctx) => {
 });
 
 router.post('/', auth, requireAdmin, async (ctx) => {
-  const { name, title, intro, bio, tags, services, is_contracted } = ctx.request.body;
+  const { name, title, intro, bio, tags, services, is_contracted, avatar } = ctx.request.body;
   if (!name) ctx.throw(400, '姓名不能为空');
   const r = db.prepare(
-    'INSERT INTO healers (name, title, intro, bio, tags, services, is_contracted) VALUES (?,?,?,?,?,?,?)'
-  ).run(name, title || '', intro || '', bio || '', tags || '[]', services || '[]', is_contracted ? 1 : 0);
+    'INSERT INTO healers (name, title, intro, bio, tags, services, is_contracted, avatar) VALUES (?,?,?,?,?,?,?,?)'
+  ).run(name, title || '', intro || '', bio || '', tags || '[]', services || '[]', is_contracted ? 1 : 0, avatar || '');
   ok(ctx, db.prepare('SELECT * FROM healers WHERE id = ?').get(r.lastInsertRowid));
 });
 
@@ -36,7 +36,7 @@ router.put('/:id', auth, requireAdmin, async (ctx) => {
   if (!h) ctx.throw(404, '疗愈师不存在');
   const b = ctx.request.body;
   db.prepare(
-    `UPDATE healers SET name=?, title=?, intro=?, bio=?, tags=?, services=?, is_contracted=? WHERE id=?`
+    `UPDATE healers SET name=?, title=?, intro=?, bio=?, tags=?, services=?, is_contracted=?, avatar=? WHERE id=?`
   ).run(
     b.name !== undefined ? b.name : h.name,
     b.title !== undefined ? b.title : h.title,
@@ -45,6 +45,7 @@ router.put('/:id', auth, requireAdmin, async (ctx) => {
     b.tags !== undefined ? b.tags : h.tags,
     b.services !== undefined ? b.services : h.services,
     b.is_contracted !== undefined ? (b.is_contracted ? 1 : 0) : h.is_contracted,
+    b.avatar !== undefined ? b.avatar : h.avatar,
     h.id
   );
   ok(ctx, db.prepare('SELECT * FROM healers WHERE id = ?').get(h.id));
