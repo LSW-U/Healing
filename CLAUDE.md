@@ -28,7 +28,7 @@
 ## 接口契约
 
 - 前缀 `/api`，统一 `{ code, data, message }`，`code:0` 成功
-- 登录 `POST /api/auth/login`，开发模式任意 code（如 `"dev"`）可登录
+- 登录 `POST /login`（auth 路由无 `/api` 前缀；`/me` 同理），开发模式任意 code（如 `"dev"`）可登录
 - **接口清单以代码为准**：`backend/src/routes/*.js`
 
 ## 文档与知识库
