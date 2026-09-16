@@ -11,7 +11,6 @@ router.get('/api/breathing-patterns', async (ctx) => {
   ok(ctx, db.prepare('SELECT * FROM breathing_patterns').all());
 });
 
-// 更新呼吸法配置（仅 admin，管理后台呼吸配置面板）
 // 新增呼吸法配置（仅 admin）
 router.post('/api/breathing-patterns', auth, requireAdmin, async (ctx) => {
   const b = ctx.request.body || {};

@@ -107,9 +107,13 @@ router.put('/api/events/:id', auth, requireAdmin, async (ctx) => {
   let sets = fields.filter(f => b[f] !== undefined).map(f => `${f}=?`).join(',');
   let vals = fields.filter(f => b[f] !== undefined).map(f => f === 'is_solar_term' ? (b[f] ? 1 : 0) : b[f]);
   if (b.suitable_tags !== undefined) {
-    if (!Array.isArray(b.suitable_tags)) ctx.throw(400, 'suitable_tags 须为数组');
-    sets += (sets ? ',' : '') + 'suitable_tags=?';
-    vals.push(JSON.stringify(b.suitable_tags));
+    // 空串视为清空，与 POST 口径一致（批 2 P3-1）
+    if (b.suitable_tags === '') { sets += (sets ? ',' : '') + 'suitable_tags=?'; vals.push(null); }
+    else {
+      if (!Array.isArray(b.suitable_tags)) ctx.throw(400, 'suitable_tags 须为数组');
+      sets += (sets ? ',' : '') + 'suitable_tags=?';
+      vals.push(JSON.stringify(b.suitable_tags));
+    }
   }
   if (sets) db.prepare(`UPDATE events SET ${sets} WHERE id=?`).run(...vals, e.id);
   ok(ctx, parseJson(db.prepare('SELECT * FROM events WHERE id = ?').get(e.id), ['suitable_tags']));
