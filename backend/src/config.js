@@ -37,4 +37,8 @@ module.exports = {
   dbPath:
     process.env.DB_PATH ||
     path.join(__dirname, '..', 'data', 'gongsihai.db'),
+  // 公网基础地址（如 https://api.example.com），用于拼接上传文件 / 相对 audio_url 的完整 URL
+  publicBaseUrl: process.env.PUBLIC_BASE_URL || '',
+  // 上传文件存储目录（默认 backend/uploads）
+  uploadDir: process.env.UPLOAD_DIR || path.join(__dirname, '..', 'uploads'),
 };

@@ -8,6 +8,10 @@
 *.db-shm
 *.db-wal
 
+# 上传的音频 / 图片文件（本地资源不提交，目录用 .gitkeep 保留）
+backend/uploads/*
+!backend/uploads/.gitkeep
+
 # 系统文件
 .DS_Store
 Thumbs.db

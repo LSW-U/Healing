@@ -3,6 +3,13 @@ const db = require('../db');
 const auth = require('../middleware/auth');
 const requireAdmin = require('../middleware/admin');
 const { ok, parseJson } = require('../utils/response');
+const { resolveMediaUrl } = require('../utils/url');
+
+// audio_url 双口径（Q4）：相对路径拼成完整 URL（PUBLIC_BASE_URL），外链直用；纯输出层拼接，不改存量字段语义
+function withAudioUrl(row) {
+  if (!row) return row;
+  return { ...row, audio_url: resolveMediaUrl(row.audio_url) };
+}
 
 const router = new Router();
 
@@ -31,7 +38,7 @@ router.get('/api/contents', async (ctx) => {
   const list = db
     .prepare(sql)
     .all(...params, Number(limit), (Number(page) - 1) * Number(limit))
-    .map((r) => parseJson(r, ['scene_tags', 'form_tags', 'sections']));
+    .map((r) => withAudioUrl(parseJson(r, ['scene_tags', 'form_tags', 'sections'])));
   ok(ctx, list);
 });
 
@@ -40,7 +47,7 @@ router.get('/api/contents/:id', async (ctx) => {
   const c = db.prepare('SELECT * FROM contents WHERE id = ?').get(ctx.params.id);
   if (!c) ctx.throw(404, '内容不存在');
   db.prepare('UPDATE contents SET play_count = play_count + 1 WHERE id = ?').run(c.id);
-  ok(ctx, parseJson(c, ['scene_tags', 'form_tags', 'sections']));
+  ok(ctx, withAudioUrl(parseJson(c, ['scene_tags', 'form_tags', 'sections'])));
 });
 
 // 今日共时推荐
@@ -52,8 +59,8 @@ router.get('/api/contents/recommend/today', async (ctx) => {
   const hero = db.prepare('SELECT * FROM contents ORDER BY play_count DESC LIMIT 1').get();
   const list = db.prepare('SELECT * FROM contents WHERE type = ? LIMIT 3').all(type);
   ok(ctx, {
-    hero: hero ? parseJson(hero, ['scene_tags', 'form_tags']) : null,
-    list: list.map((r) => parseJson(r, ['scene_tags', 'form_tags'])),
+    hero: hero ? withAudioUrl(parseJson(hero, ['scene_tags', 'form_tags'])) : null,
+    list: list.map((r) => withAudioUrl(parseJson(r, ['scene_tags', 'form_tags']))),
   });
 });
 
@@ -66,7 +73,7 @@ router.get('/api/columns/:id', async (ctx) => {
   if (!col) ctx.throw(404, '专栏不存在');
   const items = db
     .prepare(`SELECT c.* FROM contents c JOIN column_contents cc ON c.id = cc.content_id WHERE cc.column_id = ? ORDER BY cc.sort`)
-    .all(col.id).map((r) => parseJson(r, ['scene_tags', 'form_tags', 'sections']));
+    .all(col.id).map((r) => withAudioUrl(parseJson(r, ['scene_tags', 'form_tags', 'sections'])));
   ok(ctx, { ...col, contents: items });
 });
 
@@ -110,7 +117,7 @@ router.post('/api/contents', auth, requireAdmin, async (ctx) => {
      VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`
   ).run(title, subtitle || '', type || 'meditation', duration || 0, audio_url || '', description || '', is_free ? 1 : 0, healer_id || null,
         cover || '', st || null, ft || null, sec || null);
-  ok(ctx, parseJson(db.prepare('SELECT * FROM contents WHERE id = ?').get(r.lastInsertRowid), ['scene_tags', 'form_tags', 'sections']));
+  ok(ctx, withAudioUrl(parseJson(db.prepare('SELECT * FROM contents WHERE id = ?').get(r.lastInsertRowid), ['scene_tags', 'form_tags', 'sections'])));
 });
 
 router.put('/api/contents/:id', auth, requireAdmin, async (ctx) => {
@@ -132,7 +139,7 @@ router.put('/api/contents/:id', auth, requireAdmin, async (ctx) => {
   if (ft !== undefined) { sets += (sets ? ',' : '') + 'form_tags=?'; vals.push(ft); }
   if (sec !== undefined) { sets += (sets ? ',' : '') + 'sections=?'; vals.push(sec); }
   if (sets) db.prepare(`UPDATE contents SET ${sets} WHERE id=?`).run(...vals, c.id);
-  ok(ctx, parseJson(db.prepare('SELECT * FROM contents WHERE id = ?').get(c.id), ['scene_tags', 'form_tags', 'sections']));
+  ok(ctx, withAudioUrl(parseJson(db.prepare('SELECT * FROM contents WHERE id = ?').get(c.id), ['scene_tags', 'form_tags', 'sections'])));
 });
 
 router.delete('/api/contents/:id', auth, requireAdmin, async (ctx) => {

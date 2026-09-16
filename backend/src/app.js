@@ -2,6 +2,7 @@ const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
 const cors = require('@koa/cors');
 const serve = require('koa-static');
+const mount = require('koa-mount');
 const path = require('path');
 const config = require('./config');
 const errorHandler = require('./middleware/error');
@@ -20,6 +21,7 @@ const reminderRoutes = require('./routes/reminders');
 const crisisRoutes = require('./routes/crisis');
 const miscRoutes = require('./routes/misc');
 const adminRoutes = require('./routes/admin');
+const uploadRoutes = require('./routes/upload');
 const quotesRoutes = require('./routes/quotes');
 const solarRoutes = require('./routes/solar');
 
@@ -31,11 +33,14 @@ app.use(bodyParser());
 // 静态资源：后台管理页面
 app.use(serve(path.join(__dirname, '../admin')));
 
+// 静态资源：上传的音频 / 图片托管（/uploads/...）
+app.use(mount('/uploads', serve(config.uploadDir)));
+
 const routers = [
   authRoutes, userRoutes, contentRoutes, healerRoutes, eventRoutes,
   checkinRoutes, feelingRoutes, circleRoutes, favoriteRoutes,
   messageRoutes, reminderRoutes, crisisRoutes, miscRoutes,
-  adminRoutes, quotesRoutes, solarRoutes,
+  adminRoutes, quotesRoutes, solarRoutes, uploadRoutes,
 ];
 routers.forEach((r) => app.use(r.routes()).use(r.allowedMethods()));
 
