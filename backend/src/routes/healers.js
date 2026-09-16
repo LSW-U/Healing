@@ -25,9 +25,11 @@ router.get('/:id', async (ctx) => {
 router.post('/', auth, requireAdmin, async (ctx) => {
   const { name, title, intro, bio, tags, services, is_contracted, avatar } = ctx.request.body;
   if (!name) ctx.throw(400, '姓名不能为空');
+  // 数组入库前序列化
+  const encTags = (v) => (Array.isArray(v) ? JSON.stringify(v) : (v || '[]'));
   const r = db.prepare(
     'INSERT INTO healers (name, title, intro, bio, tags, services, is_contracted, avatar) VALUES (?,?,?,?,?,?,?,?)'
-  ).run(name, title || '', intro || '', bio || '', tags || '[]', services || '[]', is_contracted ? 1 : 0, avatar || '');
+  ).run(name, title || '', intro || '', bio || '', encTags(tags), encTags(services), is_contracted ? 1 : 0, avatar || '');
   ok(ctx, db.prepare('SELECT * FROM healers WHERE id = ?').get(r.lastInsertRowid));
 });
 
@@ -35,6 +37,8 @@ router.put('/:id', auth, requireAdmin, async (ctx) => {
   const h = db.prepare('SELECT * FROM healers WHERE id = ?').get(ctx.params.id);
   if (!h) ctx.throw(404, '疗愈师不存在');
   const b = ctx.request.body;
+  // tags/services 数组入库前序列化（宽松口径：非数组原样传给 SQLite 报错）
+  const encTags = (v) => (v !== undefined && Array.isArray(v) ? JSON.stringify(v) : v);
   db.prepare(
     `UPDATE healers SET name=?, title=?, intro=?, bio=?, tags=?, services=?, is_contracted=?, avatar=? WHERE id=?`
   ).run(
@@ -42,8 +46,8 @@ router.put('/:id', auth, requireAdmin, async (ctx) => {
     b.title !== undefined ? b.title : h.title,
     b.intro !== undefined ? b.intro : h.intro,
     b.bio !== undefined ? b.bio : h.bio,
-    b.tags !== undefined ? b.tags : h.tags,
-    b.services !== undefined ? b.services : h.services,
+    encTags(b.tags) !== undefined ? encTags(b.tags) : h.tags,
+    encTags(b.services) !== undefined ? encTags(b.services) : h.services,
     b.is_contracted !== undefined ? (b.is_contracted ? 1 : 0) : h.is_contracted,
     b.avatar !== undefined ? b.avatar : h.avatar,
     h.id
