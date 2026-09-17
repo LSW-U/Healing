@@ -52,6 +52,7 @@ tr:hover{background:rgba(91,123,138,.04)}
 .tag-meditation{background:#e8f0f3;color:#4A6B7A}.tag-sound{background:#e6efe8;color:#3F5E5A}.tag-sleep{background:#f0e8f0;color:#6B4A7A}
 .tag-free{background:#e8f0e8;color:#3F5E5A}.tag-paid{background:#f5eee6;color:#8A6B4A}
 .tag-active{background:#e8f0e8;color:#3F5E5A}.tag-ended{background:#f0f0f0;color:#8A8A8A}.tag-open{background:#e8f0e8;color:#3F5E5A}
+.tag-ongoing{background:#e8f0f3;color:#4A6B7A}.tag-cancelled{background:#f3e6e6;color:#8A4A4A}
 .tag-st-pending{background:#f5eee6;color:#8A6B4A}.tag-st-paid{background:#e8f0e8;color:#3F5E5A}.tag-st-refunded{background:#f3e6e6;color:#8A4A4A}.tag-st-cancelled{background:#f0f0f0;color:#8A8A8A}
 .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.35);z-index:200;justify-content:center;align-items:center}
 .modal-overlay.show{display:flex}
@@ -96,6 +97,22 @@ td .actions{display:flex;gap:4px}
 .btn:disabled{opacity:.6;cursor:not-allowed}
 @keyframes spin{to{transform:rotate(360deg)}}
 @media(max-width:560px){.upload-row{grid-template-columns:1fr}.upload-row .btn{justify-content:center}}
+/* 地址搜索选点（批3b） */
+.addr-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
+.addr-row .btn{min-height:34px;padding:8px 14px;white-space:nowrap}
+.addr-status{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-light);margin:6px 2px 0;min-height:16px}
+.addr-status.is-ok{color:var(--green)}.addr-status.is-error{color:var(--danger)}
+.map-search{position:relative}
+.map-search input{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:6px;font-size:13px;outline:none}
+.map-search input:focus{border-color:var(--primary)}
+.map-suggest{position:absolute;top:100%;left:0;right:0;background:var(--white);border:1px solid var(--border);border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.08);z-index:10;max-height:260px;overflow-y:auto}
+.map-suggest .sg-item{padding:8px 12px;cursor:pointer;font-size:13px}
+.map-suggest .sg-item:hover,.map-suggest .sg-item.sel{background:rgba(91,123,138,.08)}
+.map-suggest .sg-item .sg-title{font-weight:500;display:block}
+.map-suggest .sg-item .sg-addr{font-size:12px;color:var(--text-light);display:block;margin-top:2px}
+.addr-result{margin-top:12px;font-size:13px;color:var(--text);min-height:20px}
+.addr-result .addr-pick{margin-top:8px;color:var(--danger);cursor:pointer}
+.addr-result .addr-pick:hover{text-decoration:underline}
 </style>
 </head>
 <body>
@@ -143,7 +160,7 @@ td .actions{display:flex;gap:4px}
 
 <div class="panel" id="panel-events">
   <div class="card"><div class="card-header">活动列表 <button class="btn btn-primary btn-sm" onclick="openModal('event')">+ 新增活动</button></div>
-  <div class="card-body"><div class="toolbar"><input type="text" placeholder="搜索活动…" id="event-search" oninput="renderEvents()"><select id="event-status" onchange="renderEvents()"><option value="">全部状态</option><option value="open">报名中</option><option value="closed">已截止</option><option value="ended">已结束</option></select></div>
+  <div class="card-body"><div class="toolbar"><input type="text" placeholder="搜索活动…" id="event-search" oninput="renderEvents()"><select id="event-status" onchange="renderEvents()"><option value="">全部状态</option><option value="open">报名中</option><option value="ongoing">进行中</option><option value="ended">已结束</option><option value="cancelled">已取消</option></select></div>
   <table><thead><tr><th>ID</th><th>标题</th><th>时间</th><th>名额</th><th>费用</th><th>状态</th><th>操作</th></tr></thead><tbody id="events-table"><tr><td colspan="7" class="empty">加载中…</td></tr></tbody></table></div></div>
 </div>
 
@@ -194,6 +211,23 @@ td .actions{display:flex;gap:4px}
   <div class="modal" id="modal-box"><div class="modal-header"><span id="modal-title"></span><button class="close" onclick="closeModal()">✕</button></div><div class="modal-body" id="modal-body"></div><div class="modal-footer" id="modal-footer"></div></div>
 </div>
 
+<div class="modal-overlay map-overlay" id="map-overlay" onclick="if(event.target===this)closeAddrModal()">
+  <div class="modal">
+    <div class="modal-header"><span>搜索地址</span><button class="close" onclick="closeAddrModal()">✕</button></div>
+    <div class="modal-body">
+      <div class="map-search">
+        <input id="addr-query" placeholder="输入地址或地点名称" autocomplete="off">
+        <div class="map-suggest" id="addr-suggest" hidden></div>
+      </div>
+      <div class="addr-result" id="addr-result">搜索联想结果将显示在这里</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeAddrModal()">取消</button>
+      <button class="btn btn-primary" onclick="useAddr()">使用该地址</button>
+    </div>
+  </div>
+</div>
+
 <script>
 const API='/api';let tk=localStorage.getItem('a_tk')||'';function ah(){return tk?{Authorization:'Bearer '+tk,'Content-Type':'application/json'}:{'Content-Type':'application/json'}}
 // 401：token 失效 → 清 token 回登录卡；403：无权限 → 提示但不登出（01-D5）
@@ -222,7 +256,7 @@ function sw(p){cp=p;document.querySelectorAll('.panel').forEach(p=>p.classList.r
 async function rd(){let cc=await safeLoad('rd',()=>ag('/contents')),ec=await safeLoad('rd',()=>ag('/events')),sc=await safeLoad('rd',()=>ag('/signups/all')),uc=await safeLoad('rd',()=>ag('/users'));if(cc===null||ec===null||sc===null||uc===null)return;document.getElementById('stat-users').textContent=uc.length;document.getElementById('stat-contents').textContent=cc.length;document.getElementById('stat-events').textContent=ec.length;document.getElementById('stat-signups').textContent=sc.length;let list=sc;document.getElementById('recent-signups').innerHTML=list.length?list.slice(0,5).map(s=>'<tr><td>'+(s.name||'-')+'</td><td>'+(s.event_title||'-')+'</td><td>¥'+((s.amount||0)/100).toFixed(2)+'</td><td><span class="tag '+stTag(s.status)+'">'+(stName(s.status)||'-')+'</span></td><td>'+(s.created_at||'')+'</td></tr>').join(''):'<tr><td colspan="5" class="empty">暂无报名</td></tr>'}
 async function rc(){let q=(document.getElementById('content-search')?.value||'').toLowerCase(),t=document.getElementById('content-type')?.value||'',all=await safeLoad('rc',()=>ag('/contents'));if(all===null)return;D.contents=all;let list=all.slice();if(q)list=list.filter(c=>c.title.toLowerCase().includes(q));if(t)list=list.filter(c=>c.type===t);let m={meditation:'冥想',sound:'声音',sleep:'助眠',breathing:'呼吸',music:'音乐'};document.getElementById('contents-table').innerHTML=list.length?list.map(c=>'<tr><td>'+c.id+'</td><td><strong>'+c.title+'</strong><br><small style="color:#8A8A8A">'+(c.subtitle||'')+'</small></td><td><span class="tag tag-'+(c.type||'')+'">'+(m[c.type]||c.type)+'</span></td><td>'+Math.floor((c.duration||0)/60)+'分'+(c.duration||0)%60+'秒</td><td>'+(c.play_count||0)+'</td><td>'+(c.is_free?'<span class="tag tag-free">免费</span>':'<span class="tag tag-paid">付费</span>')+'</td><td><div class="actions"><button class="btn-ghost" onclick="ec('+c.id+')">编辑</button><button class="btn-ghost" style="color:var(--danger)" onclick="di(\'content\','+c.id+')">删除</button></div></td></tr>').join(''):'<tr><td colspan="7" class="empty">暂无内容</td></tr>'}
 async function rh(){let all=await safeLoad('rh',()=>ag('/healers'));if(all===null)return;D.healers=all;document.getElementById('healers-table').innerHTML=all.length?all.map(h=>'<tr><td>'+h.id+'</td><td><strong>'+h.name+'</strong></td><td>'+(h.title||'')+'</td><td>'+(h.intro||'')+'</td><td>'+(h.is_contracted?'<span class="tag tag-paid">签约</span>':'<span class="tag tag-free">自有</span>')+'</td><td><div class="actions"><button class="btn-ghost" onclick="eh('+h.id+')">编辑</button><button class="btn-ghost" style="color:var(--danger)" onclick="di(\'healer\','+h.id+')">删除</button></div></td></tr>').join(''):'<tr><td colspan="6" class="empty">暂无疗愈师</td></tr>'}
-async function re(){let q=(document.getElementById('event-search')?.value||'').toLowerCase(),s=document.getElementById('event-status')?.value||'',all=await safeLoad('re',()=>ag('/events'));if(all===null)return;D.events=all;let list=all.slice();if(q)list=list.filter(e=>e.title.toLowerCase().includes(q));if(s)list=list.filter(e=>e.status===s);let m={open:'报名中',closed:'截止',ended:'结束'};document.getElementById('events-table').innerHTML=list.length?list.map(e=>'<tr><td>'+e.id+'</td><td><strong>'+e.title+'</strong></td><td>'+(e.start_time||'').replace('T',' ')+'</td><td>'+(e.remaining_slots||0)+'/'+(e.total_slots||0)+'</td><td>'+((e.fee||0)===0?'免费':('¥'+((e.fee||0)/100).toFixed(2)))+'</td><td><span class="tag tag-'+(e.status||'')+'">'+(m[e.status]||e.status)+'</span></td><td><div class="actions"><button class="btn-ghost" onclick="ee('+e.id+')">编辑</button><button class="btn-ghost" style="color:var(--danger)" onclick="di(\'event\','+e.id+')">删除</button></div></td></tr>').join(''):'<tr><td colspan="7" class="empty">暂无活动</td></tr>'}
+async function re(){let q=(document.getElementById('event-search')?.value||'').toLowerCase(),s=document.getElementById('event-status')?.value||'',all=await safeLoad('re',()=>ag('/events'));if(all===null)return;D.events=all;let list=all.slice();if(q)list=list.filter(e=>e.title.toLowerCase().includes(q));if(s)list=list.filter(e=>e.status===s);let m={open:'报名中',ongoing:'进行中',ended:'已结束',cancelled:'已取消'};document.getElementById('events-table').innerHTML=list.length?list.map(e=>'<tr><td>'+e.id+'</td><td><strong>'+e.title+'</strong></td><td>'+(e.start_time||'').replace('T',' ')+'</td><td>'+(e.remaining_slots||0)+'/'+(e.total_slots||0)+'</td><td>'+((e.fee||0)===0?'免费':('¥'+((e.fee||0)/100).toFixed(2)))+'</td><td><span class="tag tag-'+(e.status||'')+'">'+(m[e.status]||e.status)+'</span></td><td><div class="actions"><button class="btn-ghost" onclick="ee('+e.id+')">编辑</button><button class="btn-ghost" style="color:var(--danger)" onclick="di(\'event\','+e.id+')">删除</button></div></td></tr>').join(''):'<tr><td colspan="7" class="empty">暂无活动</td></tr>'}
 const stName=s=>({pending:'待支付',paid:'已支付',refunded:'已退款',cancelled:'已取消'}[s]||s);
 const stTag=s=>({pending:'tag-st-pending',paid:'tag-st-paid',refunded:'tag-st-refunded',cancelled:'tag-st-cancelled'}[s]||'tag-ended');
 async function rs(){let s=document.getElementById('signup-status')?.value||'',all=await safeLoad('rs',()=>ag('/signups/all'));if(all===null)return;let list=s?all.filter(x=>x.status===s):all;document.getElementById('signups-table').innerHTML=list.length?list.map(x=>'<tr><td>'+x.id+'</td><td>'+(x.name||'-')+'</td><td>'+(x.event_title||'-')+'</td><td>¥'+((x.amount||0)/100).toFixed(2)+'</td><td><span class="tag '+stTag(x.status)+'">'+(stName(x.status)||'-')+'</span></td><td><small>'+(x.wx_order_id||'-')+'</small></td><td>'+(x.created_at||'')+'</td><td><div class="actions"><button class="btn-ghost" onclick="esu('+x.id+',\''+(x.status||'')+'\')">改状态</button><button class="btn-ghost" style="color:var(--danger)" onclick="di(&#39;signup&#39;,'+x.id+')">删除</button></div></td></tr>').join(''):'<tr><td colspan="8" class="empty">暂无订单</td></tr>'}
@@ -235,17 +269,22 @@ async function rq(){let list=await safeLoad('rq',()=>ag('/quotes'));if(list===nu
 async function rcr(){let list=await safeLoad('rcr',()=>ag('/crisis'));if(list===null)return;D.crisis=list;document.getElementById('crisis-table').innerHTML=list.map(c=>'<tr><td>'+c.id+'</td><td>'+c.name+'</td><td>'+c.phone+'</td><td>'+c.description+'</td><td>'+c.priority+'</td><td><div class="actions"><button class="btn-ghost" onclick="ecr('+c.id+')">编辑</button><button class="btn-ghost" style="color:var(--danger)" onclick="di(\'crisis\','+c.id+')">删除</button></div></td></tr>').join('')||'<tr><td colspan="6" class="empty">暂无</td></tr>'}
 async function rb(){let list=await safeLoad('rb',()=>ag('/breathing-patterns'));if(list===null)return;D.breathing=list;document.getElementById('breathing-table').innerHTML=list.map(b=>'<tr><td>'+b.id+'</td><td>'+b.name+'</td><td>'+b.inhale+'</td><td>'+b.hold_in+'</td><td>'+b.exhale+'</td><td>'+b.hold_out+'</td><td>'+(b.cycles||'不限')+'</td><td><div class="actions"><button class="btn-ghost" onclick="eb('+b.id+')">编辑</button><button class="btn-ghost" style="color:var(--danger)" onclick="di(\'breathing\','+b.id+')">删除</button></div></td></tr>').join('')||'<tr><td colspan="8" class="empty">暂无</td></tr>'}
 async function rsl(){let list=await safeLoad('rsl',()=>ag('/solar'));if(list===null)return;D.solar=list;document.getElementById('solar-table').innerHTML=list.map(s=>'<tr><td>'+s.id+'</td><td>'+s.name+'</td><td>'+s.date+'</td><td><div class="actions"><button class="btn-ghost" onclick="es('+s.id+')">编辑</button><button class="btn-ghost" style="color:var(--danger)" onclick="di(\'solar\','+s.id+')">删除</button></div></td></tr>').join('')}
-let ei=null,mt='',D={},E={up:null}; // E.up：上传双通道状态（方案03批2），upInit 在 openModal 时重建
+let ei=null,mt='',D={},E={up:null,map:null}; // E.up：上传双通道状态；E.map：地址搜索状态（批3b）
 // HTML 静态 onchange/oninput 引用的公开别名（审查 P1-1/P2-1：render*/switchSettingsTab 均须可寻址）
 const renderContents=rc,renderEvents=re,renderSignups=rs,renderUsers=ru,switchSettingsTab=sts;
 function openModal(t,i){mt=t;ei=i;document.getElementById('modal-overlay').classList.add('show');document.getElementById('modal-title').textContent={content:'新增内容',contentEdit:'编辑内容',healer:'新增疗愈师',healerEdit:'编辑疗愈师',event:'新增活动',eventEdit:'编辑活动',quote:'新增每日一语',quoteEdit:'编辑每日一语',crisis:'新增危机热线',crisisEdit:'编辑危机热线',breathing:'新增呼吸法',breathingEdit:'编辑呼吸法',solar:'新增节气',solarEdit:'编辑节气'}[t]||'';gf(t,i);document.getElementById('modal-footer').innerHTML='<button class="btn btn-outline" onclick="closeModal()">取消</button><button class="btn btn-primary" onclick="sm()">保存</button>'}
-function closeModal(){if(upHasPending()&&!confirm('音频或封面已上传但未保存，关闭将丢失，确定关闭？'))return;upCancelAll();document.getElementById('modal-overlay').classList.remove('show')}
+function addrChanged(){return !!(E.map&&E.map.changed&&mt&&mt.startsWith('event')&&(document.getElementById('f-location')||{}).value!==(E.map.baseLoc===undefined?'':E.map.baseLoc))}
+function closeModal(){if(upHasPending()&&!confirm('音频或封面已上传但未保存，关闭将丢失，确定关闭？'))return;if(addrChanged()&&!confirm('地址已用搜索选择但未保存，关闭将丢失，确定关闭？'))return;if(E.map)E.map.changed=false;upCancelAll();document.getElementById('modal-overlay').classList.remove('show')}
 function g(i,l){return'<div class="form-group"><label>'+l+'</label><input id="f-'+i+'"></div>'}
 // 上传双通道字段（方案03批2）：文本框 + 行内上传按钮 + 状态行；保留 f-<field> id，ff()/sm() 无需改动
 function gu(field,label,accept,hint){return'<div class="form-group upload-group" data-field="'+field+'"><label>'+label+'</label><div class="upload-row"><input id="f-'+field+'" placeholder="'+hint+'"><div class="upload-actions"><input type="file" id="fu-'+field+'" accept="'+accept+'" hidden><button type="button" class="btn btn-outline" id="bu-'+field+'" data-field="'+field+'">上传'+(UP_FIELD[field]?UP_FIELD[field].btn:'文件')+'</button></div></div><div class="upload-status" id="us-'+field+'" role="status" aria-live="polite"></div></div>'}
 function gt(i,l){return'<div class="form-group"><label>'+l+'</label><textarea id="f-'+i+'"></textarea></div>'}
-function gf(t,i){let f='';if(t.startsWith('content')){f=g('title','标题')+g('subtitle','副标题')+g('type','类型')+g('duration','时长(秒)')+gu('audio_url','音频URL','.mp3,.m4a,.aac,audio/*','/uploads/audio/... 或 https://...')+gu('cover','封面URL','.jpg,.jpeg,.png,.webp,image/*','/uploads/images/... 或 https://...')+gt('description','描述')+gt('scene_tags','场景标签(顿号分隔，如：睡前、放松)')+gt('form_tags','形式标签(顿号分隔，如：冥想、呼吸)')+gt('sections','章节(每行一条，格式：开始秒,名称，如：0,导入)')+'<label style="font-size:13px"><input type="checkbox" id="f-is_free" checked> 免费</label>'}else if(t.startsWith('healer')){f=g('name','姓名')+g('title','资质/流派')+g('intro','一句话')+gu('avatar','头像URL','.jpg,.jpeg,.png,.webp,image/*','/uploads/images/... 或 https://...')+gt('bio','简介')+gt('tags','标签(顿号分隔，如：正念、疗愈)')+gt('services','服务方式(顿号分隔，如：一对一、团体)')+'<label style="font-size:13px"><input type="checkbox" id="f-contracted"> 签约</label>'}else if(t.startsWith('event')){f=g('title','标题')+g('start','开始时间')+g('end','结束时间')+g('location','地点')+g('total','总名额')+g('remaining','剩余名额')+g('fee','费用(分)')+gt('desc','描述')+g('status','状态')+gu('cover','封面URL','.jpg,.jpeg,.png,.webp,image/*','/uploads/images/... 或 https://...')+gt('guide_text','参与指南')+g('latitude','纬度')+g('longitude','经度')+gt('refund_policy','退款政策')+gt('suitable_tags','适宜人群(顿号分隔，如：失眠人群、高压职场)')+'<label style="font-size:13px"><input type="checkbox" id="f-solar_flag"> 节气活动</label>'+g('solar_term','节气名')}else if(t.startsWith('quote')){f='<div class="form-group"><label>正文</label><textarea id="f-text"></textarea></div>'+g('source','来源')}else if(t.startsWith('crisis')){f=g('name','名称')+g('phone','电话')+g('desc','说明')+g('priority','优先级')}else if(t.startsWith('breathing')){f=g('name','名称')+g('inhale','吸气(s)')+g('hold_in','屏息(s)')+g('exhale','呼气(s)')+g('hold_out','屏息(s)')+g('cycles','循环')+gt('description','描述')}else if(t.startsWith('solar')){f=g('name','节气名')+g('date','日期')+gt('description','描述')}document.getElementById('modal-body').innerHTML=f;if(t.startsWith('content')||t.startsWith('healer')||t.startsWith('event'))upInit();if(i){let k={content:'contents',healer:'healers',event:'events',quote:'quotes',crisis:'crisis',breathing:'breathing',solar:'solar'}[t.replace(/Edit$/,'')];let r=(D[k]||[]).find(x=>x.id===i);if(r)ff(t,r)}}
-function ff(t,r){let v=(id,val)=>{let el=document.getElementById('f-'+id);if(el)el.value=val==null?'':val};let ck=(id,val)=>{let el=document.getElementById('f-'+id);if(el)el.checked=!!val};let jv=(id,val)=>{let el=document.getElementById('f-'+id);if(el)el.value=val==null?'':JSON.stringify(val)};let tv=(id,val)=>{let el=document.getElementById('f-'+id);if(el)el.value=(val||[]).join('、')};let sv=(id,val)=>{let el=document.getElementById('f-'+id);if(el)el.value=(val||[]).map(s=>s.start+','+s.label).join('\n')};if(t.startsWith('content')){v('title',r.title);v('subtitle',r.subtitle);v('type',r.type);v('duration',r.duration);v('audio_url',r.audio_url);v('cover',r.cover);v('description',r.description);tv('scene_tags',r.scene_tags);tv('form_tags',r.form_tags);sv('sections',r.sections);ck('is_free',r.is_free)}else if(t.startsWith('healer')){v('name',r.name);v('title',r.title);v('intro',r.intro);v('avatar',r.avatar);v('bio',r.bio);tv('tags',r.tags);tv('services',r.services);ck('contracted',r.is_contracted)}else if(t.startsWith('event')){v('title',r.title);v('start',r.start_time);v('end',r.end_time);v('location',r.location);v('total',r.total_slots);v('remaining',r.remaining_slots);v('fee',r.fee);v('desc',r.description);v('status',r.status);v('cover',r.cover);v('guide_text',r.guide_text);v('latitude',r.latitude);v('longitude',r.longitude);v('refund_policy',r.refund_policy);tv('suitable_tags',r.suitable_tags);ck('solar_flag',r.is_solar_term);v('solar_term',r.solar_term)}else if(t.startsWith('quote')){v('text',r.text);v('source',r.source)}else if(t.startsWith('crisis')){v('name',r.name);v('phone',r.phone);v('desc',r.description);v('priority',r.priority)}else if(t.startsWith('breathing')){v('name',r.name);v('inhale',r.inhale);v('hold_in',r.hold_in);v('exhale',r.exhale);v('hold_out',r.hold_out);v('cycles',r.cycles);v('description',r.description)}else if(t.startsWith('solar')){v('name',r.name);v('date',r.date);v('description',r.description)}}
+// 地址字段（批3b，设计 §5）：地点输入 + 搜索按钮 + 状态行；经纬度转 hidden 槽位（f-* id 保留，ff()/sm() 透传不动）
+function gmAddr(){return'<div class="form-group"><label>地点 / 地址</label><div class="addr-row"><input id="f-location" placeholder="输入地址或地点名称，如：徐汇滨江"><button type="button" class="btn btn-outline" id="b-addr-search" disabled title="需配置 MAP_KEY">搜索地址</button></div><div class="addr-status" id="addr-status">可手输，或搜索地址后选择</div></div><input type="hidden" id="f-latitude"><input type="hidden" id="f-longitude">'}
+// 状态下拉四态（批3b，设计 §9）：open/ongoing/ended/cancelled；f-status id 保留，ff()/sm() 透传不动
+function gmStatus(){return'<div class="form-group"><label>状态</label><select id="f-status"><option value="open">报名中</option><option value="ongoing">进行中</option><option value="ended">已结束</option><option value="cancelled">已取消</option></select></div>'}
+function gf(t,i){let f='';if(t.startsWith('content')){f=g('title','标题')+g('subtitle','副标题')+g('type','类型')+g('duration','时长(秒)')+gu('audio_url','音频URL','.mp3,.m4a,.aac,audio/*','/uploads/audio/... 或 https://...')+gu('cover','封面URL','.jpg,.jpeg,.png,.webp,image/*','/uploads/images/... 或 https://...')+gt('description','描述')+gt('scene_tags','场景标签(顿号分隔，如：睡前、放松)')+gt('form_tags','形式标签(顿号分隔，如：冥想、呼吸)')+gt('sections','章节(每行一条，格式：开始秒,名称，如：0,导入)')+'<label style="font-size:13px"><input type="checkbox" id="f-is_free" checked> 免费</label>'}else if(t.startsWith('healer')){f=g('name','姓名')+g('title','资质/流派')+g('intro','一句话')+gu('avatar','头像URL','.jpg,.jpeg,.png,.webp,image/*','/uploads/images/... 或 https://...')+gt('bio','简介')+gt('tags','标签(顿号分隔，如：正念、疗愈)')+gt('services','服务方式(顿号分隔，如：一对一、团体)')+'<label style="font-size:13px"><input type="checkbox" id="f-contracted"> 签约</label>'}else if(t.startsWith('event')){f=g('title','标题')+g('start','开始时间')+g('end','结束时间')+g('total','总名额')+g('remaining','剩余名额')+g('fee','费用(分)')+gt('desc','描述')+gmStatus()+gmAddr()+gu('cover','封面URL','.jpg,.jpeg,.png,.webp,image/*','/uploads/images/... 或 https://...')+gt('guide_text','参与指南')+gt('refund_policy','退款政策')+gt('suitable_tags','适宜人群(顿号分隔，如：失眠人群、高压职场)')+'<label style="font-size:13px"><input type="checkbox" id="f-solar_flag"> 节气活动</label>'+g('solar_term','节气名')}else if(t.startsWith('quote')){f='<div class="form-group"><label>正文</label><textarea id="f-text"></textarea></div>'+g('source','来源')}else if(t.startsWith('crisis')){f=g('name','名称')+g('phone','电话')+g('desc','说明')+g('priority','优先级')}else if(t.startsWith('breathing')){f=g('name','名称')+g('inhale','吸气(s)')+g('hold_in','屏息(s)')+g('exhale','呼气(s)')+g('hold_out','屏息(s)')+g('cycles','循环')+gt('description','描述')}else if(t.startsWith('solar')){f=g('name','节气名')+g('date','日期')+gt('description','描述')}document.getElementById('modal-body').innerHTML=f;if(t.startsWith('content')||t.startsWith('healer')||t.startsWith('event'))upInit();if(t.startsWith('event'))addrInit();if(i){let k={content:'contents',healer:'healers',event:'events',quote:'quotes',crisis:'crisis',breathing:'breathing',solar:'solar'}[t.replace(/Edit$/,'')];let r=(D[k]||[]).find(x=>x.id===i);if(r)ff(t,r)}}
+function ff(t,r){let v=(id,val)=>{let el=document.getElementById('f-'+id);if(el)el.value=val==null?'':val};let ck=(id,val)=>{let el=document.getElementById('f-'+id);if(el)el.checked=!!val};let jv=(id,val)=>{let el=document.getElementById('f-'+id);if(el)el.value=val==null?'':JSON.stringify(val)};let tv=(id,val)=>{let el=document.getElementById('f-'+id);if(el)el.value=(val||[]).join('、')};let sv=(id,val)=>{let el=document.getElementById('f-'+id);if(el)el.value=(val||[]).map(s=>s.start+','+s.label).join('\n')};if(t.startsWith('content')){v('title',r.title);v('subtitle',r.subtitle);v('type',r.type);v('duration',r.duration);v('audio_url',r.audio_url);v('cover',r.cover);v('description',r.description);tv('scene_tags',r.scene_tags);tv('form_tags',r.form_tags);sv('sections',r.sections);ck('is_free',r.is_free)}else if(t.startsWith('healer')){v('name',r.name);v('title',r.title);v('intro',r.intro);v('avatar',r.avatar);v('bio',r.bio);tv('tags',r.tags);tv('services',r.services);ck('contracted',r.is_contracted)}else if(t.startsWith('event')){v('title',r.title);v('start',r.start_time);v('end',r.end_time);v('location',r.location);v('total',r.total_slots);v('remaining',r.remaining_slots);v('fee',r.fee);v('desc',r.description);v('status',r.status||'open');v('cover',r.cover);v('guide_text',r.guide_text);v('latitude',r.latitude);v('longitude',r.longitude);v('refund_policy',r.refund_policy);tv('suitable_tags',r.suitable_tags);ck('solar_flag',r.is_solar_term);v('solar_term',r.solar_term)}else if(t.startsWith('quote')){v('text',r.text);v('source',r.source)}else if(t.startsWith('crisis')){v('name',r.name);v('phone',r.phone);v('desc',r.description);v('priority',r.priority)}else if(t.startsWith('breathing')){v('name',r.name);v('inhale',r.inhale);v('hold_in',r.hold_in);v('exhale',r.exhale);v('hold_out',r.hold_out);v('cycles',r.cycles);v('description',r.description)}else if(t.startsWith('solar')){v('name',r.name);v('date',r.date);v('description',r.description)}}
 // 标签分隔输入解析：顿号/逗号分隔纯文本 → 数组（空串→[]，规避后端 P3-1 空串口径）
 function pt(id){let s=(document.getElementById('f-'+id)?.value||'').trim();if(s==='')return[];return s.split(/[、,，]/).map(x=>x.trim()).filter(Boolean)}
 // 章节文本解析：每行一条「开始秒,名称」→ [{start,label}]（空串→[]，非法行→null 报错）
@@ -336,6 +375,156 @@ function upUpload(f,file){
   };
   xhr.onerror=xhr.ontimeout=()=>{btn.disabled=false;btn.textContent='上传'+cfg.label;E.up.xhr[f]=null;upSetState(f,'net')};
   xhr.send(fd);
+}
+// ---------------- 地址搜索选点（批3b，设计 §4-§8/§10-§11） ----------------
+// 纪律：建议/地址文本一律 textContent（841f4ad 引号 + XSS）；无新增模板串拼 HTML
+const ADDR_MSG={
+  idle:'可手输，或搜索地址后选择',
+  noKey:'地址搜索需配置 MAP_KEY 后可用',
+  open:'搜索联想结果将显示在这里',
+  searching:'搜索中…',
+  ok:'地址已选择，保存后生效',
+};
+function addrSetState(state,extra){
+  let st=document.getElementById('addr-status');if(!st)return;
+  st.className='addr-status';st.innerHTML='';
+  if(state==='ok'){st.className+=' is-ok';st.textContent=ADDR_MSG.ok;return}
+  if(state==='noKey'){st.textContent=ADDR_MSG.noKey;return}
+  if(state==='srv'){st.className+=' is-error';st.textContent='操作失败：'+extra;return}
+  st.textContent=ADDR_MSG.idle;
+}
+// /api/map-key 同会话一次探测（§11）：结果缓存 E.mapKey，key 空则按钮 disabled
+async function probeMapKey(){
+  if(E.mapKey!==undefined)return E.mapKey;
+  try{let r=await fetch(API+'/map-key',{headers:ah()});let d=await r.json();E.mapKey=(d&&d.code===0&&d.data)?(d.data.key||''):''}
+  catch(e){E.mapKey=''}
+  return E.mapKey;
+}
+// gf() 事件分支渲染后调用：复位 changed、探测 key、决定按钮可用性
+function addrInit(){
+  E.map={changed:false,baseLoc:(document.getElementById('f-location')||{}).value||'',sel:null};
+  let btn=document.getElementById('b-addr-search');
+  if(!btn)return;
+  probeMapKey().then(key=>{
+    if(!key){btn.disabled=true;btn.title='需配置 MAP_KEY';addrSetState('noKey');return}
+    btn.disabled=false;btn.title='';
+    btn.addEventListener('click',openAddrModal);
+  });
+}
+// SDK 懒加载（§8）：Promise 缓存不重复注入；失败可重试（清缓存）
+function loadTMap(){
+  E.mapSdk=E.mapSdk||new Promise((res,rej)=>{
+    let sc=document.createElement('script');
+    sc.src='https://map.qq.com/api/gljs?v=1.exp&key='+encodeURIComponent(E.mapKey);
+    sc.onload=()=>res();
+    sc.onerror=()=>{sc.remove();E.mapSdk=null;rej(new Error('SDK_LOAD_FAIL'))};
+    document.head.appendChild(sc);
+  });
+  return E.mapSdk;
+}
+let addrDebounce=null,addrSeq=0;
+function openAddrModal(){
+  if(!E.mapKey)return;
+  document.getElementById('addr-query').value='';
+  document.getElementById('addr-suggest').hidden=true;
+  document.getElementById('addr-result').textContent=ADDR_MSG.open;
+  E.map.sel=null;
+  document.getElementById('map-overlay').classList.add('show');
+  let q=document.getElementById('addr-query');
+  q.oninput=()=>{
+    clearTimeout(addrDebounce);
+    addrDebounce=setTimeout(()=>{addrSeq++;runSuggest(q.value.trim(),addrSeq)},300);
+  };
+  loadTMap().catch(()=>{
+    document.getElementById('addr-result').textContent='地图服务加载失败，可直接手输地址';
+  });
+}
+function closeAddrModal(){
+  // 关闭销毁：建议 DOM 清空 + 实例引用释放（§10 连续开关防内存残留）
+  clearTimeout(addrDebounce);addrSeq++;
+  document.getElementById('addr-suggest').innerHTML='';
+  document.getElementById('addr-suggest').hidden=true;
+  if(E.map){E.map.suggest=null;E.map.geocoder=null;E.map.sel=null}
+  document.getElementById('map-overlay').classList.remove('show');
+}
+function runSuggest(kw,seq){
+  let box=document.getElementById('addr-suggest'),res=document.getElementById('addr-result');
+  if(!kw){box.hidden=true;box.innerHTML='';res.textContent=ADDR_MSG.open;return}
+  res.textContent=ADDR_MSG.searching;
+  try{
+    E.map.suggest=E.map.suggest||new TMap.service.Suggestion({pageSize:8,region:'全国'});
+    E.map.suggest.getSuggestions(kw,{
+      onComplete:r=>{
+        if(seq!==addrSeq)return; // 旧请求丢弃
+        renderSuggest(r&&r.data?r.data:[],kw);
+      },
+      onError:()=>{
+        if(seq!==addrSeq)return;
+        box.hidden=true;box.innerHTML='';
+        renderNoResult(kw);
+      }
+    });
+  }catch(e){renderNoResult(kw)}
+}
+function renderSuggest(list,kw){
+  let box=document.getElementById('addr-suggest'),res=document.getElementById('addr-result');
+  box.innerHTML='';
+  if(!list.length){box.hidden=true;renderNoResult(kw);return}
+  box.hidden=false;
+  list.forEach(item=>{
+    let div=document.createElement('div');div.className='sg-item';
+    let t=document.createElement('span');t.className='sg-title';t.textContent=item.title||'';
+    let a=document.createElement('span');a.className='sg-addr';a.textContent=item.address||'';
+    div.appendChild(t);div.appendChild(a);
+    div.addEventListener('click',()=>pickSuggest(item,div));
+    box.appendChild(div);
+  });
+  res.textContent='共 '+list.length+' 条联想结果，点选即选中';
+}
+function renderNoResult(kw){
+  let res=document.getElementById('addr-result');
+  res.innerHTML='';
+  let span=document.createElement('span');span.textContent='未找到「'+kw+'」';
+  res.appendChild(span);
+  let pick=document.createElement('span');pick.className='addr-pick';pick.textContent='添加为新地点';
+  pick.addEventListener('click',()=>{
+    document.getElementById('f-location').value=kw;
+    document.getElementById('f-latitude').value='';
+    document.getElementById('f-longitude').value='';
+    E.map.sel={title:kw,manual:true};E.map.changed=true;
+    addrSetState('ok');
+    closeAddrModal();
+  });
+  res.appendChild(pick);
+}
+function pickSuggest(item,div){
+  document.querySelectorAll('.map-suggest .sg-item').forEach(x=>x.classList.remove('sel'));
+  div.classList.add('sel');
+  E.map.sel={title:item.title||'',loc:item.location||null};
+  let res=document.getElementById('addr-result');
+  res.innerHTML='';
+  let span=document.createElement('span');span.textContent='已选中：'+(item.title||''); // textContent 纪律
+  res.appendChild(span);
+  // Geocoder 静默反查坐标（§8）；失败地址仍可用，坐标留空
+  try{
+    E.map.geocoder=E.map.geocoder||new TMap.service.Geocoder();
+    E.map.geocoder.getLocation({address:item.title||''},{
+      onComplete:r=>{
+        let p=r&&r.result&&r.result.location;
+        if(p){document.getElementById('f-latitude').value=p.lat;document.getElementById('f-longitude').value=p.lng}
+      },
+      onError:()=>{}
+    });
+  }catch(e){}
+}
+// 「使用该地址」：统一回填（§11 useAddr）——选中建议时 Geocoder 已写 hidden，手动添加清空坐标
+function useAddr(){
+  if(!E.map||!E.map.sel)return;
+  document.getElementById('f-location').value=E.map.sel.title;
+  if(E.map.sel.manual){document.getElementById('f-latitude').value='';document.getElementById('f-longitude').value=''}
+  E.map.changed=true;
+  addrSetState('ok');
+  closeAddrModal();
 }
 boot()
 </script>

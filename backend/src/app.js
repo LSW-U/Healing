@@ -24,6 +24,7 @@ const adminRoutes = require('./routes/admin');
 const uploadRoutes = require('./routes/upload');
 const quotesRoutes = require('./routes/quotes');
 const solarRoutes = require('./routes/solar');
+const mapRoutes = require('./routes/map');
 
 const app = new Koa();
 app.use(errorHandler);
@@ -40,7 +41,7 @@ const routers = [
   authRoutes, userRoutes, contentRoutes, healerRoutes, eventRoutes,
   checkinRoutes, feelingRoutes, circleRoutes, favoriteRoutes,
   messageRoutes, reminderRoutes, crisisRoutes, miscRoutes,
-  adminRoutes, quotesRoutes, solarRoutes, uploadRoutes,
+  adminRoutes, quotesRoutes, solarRoutes, uploadRoutes, mapRoutes,
 ];
 routers.forEach((r) => app.use(r.routes()).use(r.allowedMethods()));
 

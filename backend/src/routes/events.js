@@ -84,6 +84,9 @@ router.post('/api/events', auth, requireAdmin, async (ctx) => {
   const { title, start_time, end_time, location, total_slots, remaining_slots, fee, status, description,
           cover, guide_text, latitude, longitude, refund_policy, suitable_tags, is_solar_term, solar_term } = ctx.request.body;
   if (!title) ctx.throw(400, '标题不能为空');
+  // 状态白名单（批3b）：写入时校验，读取放行（老数据不拦截）
+  const STATUSES = ['open', 'ongoing', 'ended', 'cancelled'];
+  if (status !== undefined && !STATUSES.includes(status)) ctx.throw(400, '状态非法，须为 open/ongoing/ended/cancelled');
   let tags = null;
   if (suitable_tags !== undefined && suitable_tags !== '') {
     if (!Array.isArray(suitable_tags)) ctx.throw(400, 'suitable_tags 须为数组');
@@ -102,6 +105,9 @@ router.put('/api/events/:id', auth, requireAdmin, async (ctx) => {
   const e = db.prepare('SELECT * FROM events WHERE id = ?').get(ctx.params.id);
   if (!e) ctx.throw(404, '活动不存在');
   const b = ctx.request.body;
+  // 状态白名单（批3b）：写入时校验，读取放行（老数据不拦截）
+  const STATUSES = ['open', 'ongoing', 'ended', 'cancelled'];
+  if (b.status !== undefined && !STATUSES.includes(b.status)) ctx.throw(400, '状态非法，须为 open/ongoing/ended/cancelled');
   const fields = ['title','start_time','end_time','location','total_slots','remaining_slots','fee','status','description',
                   'cover','guide_text','latitude','longitude','refund_policy','is_solar_term','solar_term'];
   let sets = fields.filter(f => b[f] !== undefined).map(f => `${f}=?`).join(',');

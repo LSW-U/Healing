@@ -41,4 +41,6 @@ module.exports = {
   publicBaseUrl: process.env.PUBLIC_BASE_URL || '',
   // 上传文件存储目录（默认 backend/uploads）
   uploadDir: process.env.UPLOAD_DIR || path.join(__dirname, '..', 'uploads'),
+  // 腾讯位置服务 JS API key（活动地址搜索选点用；空 = admin 搜索按钮禁用，回退手输）
+  mapKey: process.env.MAP_KEY || '',
 };
