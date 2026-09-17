@@ -86,7 +86,7 @@ const seed = db.transaction(() => {
       'INSERT INTO contents (title, subtitle, cover, healer_id, type, duration, audio_url, description, scene_tags, form_tags, is_free, sections) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)'
     );
     const contents = [
-      ['冥想初级 · 呼吸锚定', '给第一次冥想的人', '', 2, 'meditation', 600, '/audio/冥想初级新手包/01-呼吸锚定.mp3', '从觉察呼吸开始，把散乱的念头轻轻放下。', JSON.stringify(['放松', '自我探索']), JSON.stringify(['冥想引导']), 1, JSON.stringify([{ name: '准备', t: 0 }, { name: '引导', t: 60 }, { name: '收束', t: 540 }])],
+      ['冥想初级 · 呼吸锚定', '给第一次冥想的人', '', 2, 'meditation', 600, '/audio/冥想初级新手包/01-呼吸锚定.mp3', '从觉察呼吸开始，把散乱的念头轻轻放下。', JSON.stringify(['放松', '自我探索']), JSON.stringify(['冥想引导']), 1, JSON.stringify([{ start: 0, label: '准备' }, { start: 60, label: '引导' }, { start: 540, label: '收束' }])],
       ['晨间唤醒冥想', '用 10 分钟开启一天', '', 2, 'meditation', 600, '/audio/冥想初级新手包/02-晨间唤醒.mp3', '温和的晨间引导，让身体慢慢苏醒。', JSON.stringify(['专注', '放松']), JSON.stringify(['冥想引导']), 1, null],
       ['颂钵深度放松', '让声音带走紧绷', '', 3, 'sound', 1200, '/audio/冥想礼包及音频/颂钵深度放松.mp3', '颂钵与泛音交织，适合睡前或深度放松。', JSON.stringify(['助眠', '放松']), JSON.stringify(['声音疗愈', '自然声']), 1, null],
       ['雨声白噪音', '雨夜里的安心', '', 3, 'sound', 1800, '/audio/冥想礼包及音频/雨声白噪音.mp3', '自然雨声，陪你专注或入眠。', JSON.stringify(['助眠', '专注']), JSON.stringify(['自然声']), 1, null],

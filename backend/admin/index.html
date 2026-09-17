@@ -80,6 +80,22 @@ td .actions{display:flex;gap:4px}
 .login-card .btn{width:100%;justify-content:center;padding:10px}
 .login-err{color:var(--danger);font-size:13px;min-height:18px;margin:10px 0}
 .login-dev{margin-top:6px}
+/* 上传双通道（方案03批2）：行内按钮 + 状态行，仅用现有变量 */
+.upload-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
+.upload-row .btn{min-height:34px;padding:8px 14px;white-space:nowrap}
+.upload-actions input[type=file]{display:none}
+.upload-status{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-light);margin:6px 2px 0;min-height:16px;flex-wrap:wrap}
+.upload-status .us-main{display:inline-flex;align-items:center;gap:6px;min-width:0}
+.upload-status.is-ok{color:var(--green)}.upload-status.is-error{color:var(--danger)}
+.upload-status .us-sub{margin-left:2px;opacity:.9}
+.spinner{width:12px;height:12px;border:2px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
+.upload-track{height:3px;flex:0 0 96px;background:var(--border);border-radius:2px;overflow:hidden}
+.upload-fill{height:100%;background:var(--primary);transition:width .2s}
+.cover-thumb{width:36px;height:36px;object-fit:cover;border-radius:4px;border:1px solid var(--border);flex-shrink:0;background:var(--bg)}
+.btn.has-pending::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--green);margin-left:6px}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:560px){.upload-row{grid-template-columns:1fr}.upload-row .btn{justify-content:center}}
 </style>
 </head>
 <body>
@@ -223,10 +239,12 @@ let ei=null,mt='',D={};
 // HTML 静态 onchange/oninput 引用的公开别名（审查 P1-1/P2-1：render*/switchSettingsTab 均须可寻址）
 const renderContents=rc,renderEvents=re,renderSignups=rs,renderUsers=ru,switchSettingsTab=sts;
 function openModal(t,i){mt=t;ei=i;document.getElementById('modal-overlay').classList.add('show');document.getElementById('modal-title').textContent={content:'新增内容',contentEdit:'编辑内容',healer:'新增疗愈师',healerEdit:'编辑疗愈师',event:'新增活动',eventEdit:'编辑活动',quote:'新增每日一语',quoteEdit:'编辑每日一语',crisis:'新增危机热线',crisisEdit:'编辑危机热线',breathing:'新增呼吸法',breathingEdit:'编辑呼吸法',solar:'新增节气',solarEdit:'编辑节气'}[t]||'';gf(t,i);document.getElementById('modal-footer').innerHTML='<button class="btn btn-outline" onclick="closeModal()">取消</button><button class="btn btn-primary" onclick="sm()">保存</button>'}
-function closeModal(){document.getElementById('modal-overlay').classList.remove('show')}
+function closeModal(){if(upHasPending()&&!confirm('音频或封面已上传但未保存，关闭将丢失，确定关闭？'))return;upCancelAll();document.getElementById('modal-overlay').classList.remove('show')}
 function g(i,l){return'<div class="form-group"><label>'+l+'</label><input id="f-'+i+'"></div>'}
+// 上传双通道字段（方案03批2）：文本框 + 行内上传按钮 + 状态行；保留 f-<field> id，ff()/sm() 无需改动
+function gu(field,label,accept,hint){return'<div class="form-group upload-group" data-field="'+field+'"><label>'+label+'</label><div class="upload-row"><input id="f-'+field+'" placeholder="'+hint+'"><div class="upload-actions"><input type="file" id="fu-'+field+'" accept="'+accept+'" hidden><button type="button" class="btn btn-outline" id="bu-'+field+'" data-field="'+field+'">上传'+(field==='audio_url'?'音频':'封面')+'</button></div></div><div class="upload-status" id="us-'+field+'" role="status" aria-live="polite"></div></div>'}
 function gt(i,l){return'<div class="form-group"><label>'+l+'</label><textarea id="f-'+i+'"></textarea></div>'}
-function gf(t,i){let f='';if(t.startsWith('content')){f=g('title','标题')+g('subtitle','副标题')+g('type','类型')+g('duration','时长(秒)')+g('audio_url','音频URL')+g('cover','封面URL')+gt('description','描述')+gt('scene_tags','场景标签(顿号分隔，如：睡前、放松)')+gt('form_tags','形式标签(顿号分隔，如：冥想、呼吸)')+gt('sections','章节(每行一条，格式：开始秒,名称，如：0,导入)')+'<label style="font-size:13px"><input type="checkbox" id="f-is_free" checked> 免费</label>'}else if(t.startsWith('healer')){f=g('name','姓名')+g('title','资质/流派')+g('intro','一句话')+g('avatar','头像URL')+gt('bio','简介')+gt('tags','标签(顿号分隔，如：正念、疗愈)')+gt('services','服务方式(顿号分隔，如：一对一、团体)')+'<label style="font-size:13px"><input type="checkbox" id="f-contracted"> 签约</label>'}else if(t.startsWith('event')){f=g('title','标题')+g('start','开始时间')+g('end','结束时间')+g('location','地点')+g('total','总名额')+g('remaining','剩余名额')+g('fee','费用(分)')+gt('desc','描述')+g('status','状态')+g('cover','封面URL')+gt('guide_text','参与指南')+g('latitude','纬度')+g('longitude','经度')+gt('refund_policy','退款政策')+gt('suitable_tags','适宜人群(顿号分隔，如：失眠人群、高压职场)')+'<label style="font-size:13px"><input type="checkbox" id="f-solar_flag"> 节气活动</label>'+g('solar_term','节气名')}else if(t.startsWith('quote')){f='<div class="form-group"><label>正文</label><textarea id="f-text"></textarea></div>'+g('source','来源')}else if(t.startsWith('crisis')){f=g('name','名称')+g('phone','电话')+g('desc','说明')+g('priority','优先级')}else if(t.startsWith('breathing')){f=g('name','名称')+g('inhale','吸气(s)')+g('hold_in','屏息(s)')+g('exhale','呼气(s)')+g('hold_out','屏息(s)')+g('cycles','循环')+gt('description','描述')}else if(t.startsWith('solar')){f=g('name','节气名')+g('date','日期')+gt('description','描述')}document.getElementById('modal-body').innerHTML=f;if(i){let k={content:'contents',healer:'healers',event:'events',quote:'quotes',crisis:'crisis',breathing:'breathing',solar:'solar'}[t.replace(/Edit$/,'')];let r=(D[k]||[]).find(x=>x.id===i);if(r)ff(t,r)}}
+function gf(t,i){let f='';if(t.startsWith('content')){f=g('title','标题')+g('subtitle','副标题')+g('type','类型')+g('duration','时长(秒)')+gu('audio_url','音频URL','.mp3,.m4a,.aac,audio/*','/uploads/audio/... 或 https://...')+gu('cover','封面URL','.jpg,.jpeg,.png,.webp,image/*','/uploads/images/... 或 https://...')+gt('description','描述')+gt('scene_tags','场景标签(顿号分隔，如：睡前、放松)')+gt('form_tags','形式标签(顿号分隔，如：冥想、呼吸)')+gt('sections','章节(每行一条，格式：开始秒,名称，如：0,导入)')+'<label style="font-size:13px"><input type="checkbox" id="f-is_free" checked> 免费</label>'}else if(t.startsWith('healer')){f=g('name','姓名')+g('title','资质/流派')+g('intro','一句话')+g('avatar','头像URL')+gt('bio','简介')+gt('tags','标签(顿号分隔，如：正念、疗愈)')+gt('services','服务方式(顿号分隔，如：一对一、团体)')+'<label style="font-size:13px"><input type="checkbox" id="f-contracted"> 签约</label>'}else if(t.startsWith('event')){f=g('title','标题')+g('start','开始时间')+g('end','结束时间')+g('location','地点')+g('total','总名额')+g('remaining','剩余名额')+g('fee','费用(分)')+gt('desc','描述')+g('status','状态')+g('cover','封面URL')+gt('guide_text','参与指南')+g('latitude','纬度')+g('longitude','经度')+gt('refund_policy','退款政策')+gt('suitable_tags','适宜人群(顿号分隔，如：失眠人群、高压职场)')+'<label style="font-size:13px"><input type="checkbox" id="f-solar_flag"> 节气活动</label>'+g('solar_term','节气名')}else if(t.startsWith('quote')){f='<div class="form-group"><label>正文</label><textarea id="f-text"></textarea></div>'+g('source','来源')}else if(t.startsWith('crisis')){f=g('name','名称')+g('phone','电话')+g('desc','说明')+g('priority','优先级')}else if(t.startsWith('breathing')){f=g('name','名称')+g('inhale','吸气(s)')+g('hold_in','屏息(s)')+g('exhale','呼气(s)')+g('hold_out','屏息(s)')+g('cycles','循环')+gt('description','描述')}else if(t.startsWith('solar')){f=g('name','节气名')+g('date','日期')+gt('description','描述')}document.getElementById('modal-body').innerHTML=f;if(t.startsWith('content'))upInit();if(i){let k={content:'contents',healer:'healers',event:'events',quote:'quotes',crisis:'crisis',breathing:'breathing',solar:'solar'}[t.replace(/Edit$/,'')];let r=(D[k]||[]).find(x=>x.id===i);if(r)ff(t,r)}}
 function ff(t,r){let v=(id,val)=>{let el=document.getElementById('f-'+id);if(el)el.value=val==null?'':val};let ck=(id,val)=>{let el=document.getElementById('f-'+id);if(el)el.checked=!!val};let jv=(id,val)=>{let el=document.getElementById('f-'+id);if(el)el.value=val==null?'':JSON.stringify(val)};let tv=(id,val)=>{let el=document.getElementById('f-'+id);if(el)el.value=(val||[]).join('、')};let sv=(id,val)=>{let el=document.getElementById('f-'+id);if(el)el.value=(val||[]).map(s=>s.start+','+s.label).join('\n')};if(t.startsWith('content')){v('title',r.title);v('subtitle',r.subtitle);v('type',r.type);v('duration',r.duration);v('audio_url',r.audio_url);v('cover',r.cover);v('description',r.description);tv('scene_tags',r.scene_tags);tv('form_tags',r.form_tags);sv('sections',r.sections);ck('is_free',r.is_free)}else if(t.startsWith('healer')){v('name',r.name);v('title',r.title);v('intro',r.intro);v('avatar',r.avatar);v('bio',r.bio);tv('tags',r.tags);tv('services',r.services);ck('contracted',r.is_contracted)}else if(t.startsWith('event')){v('title',r.title);v('start',r.start_time);v('end',r.end_time);v('location',r.location);v('total',r.total_slots);v('remaining',r.remaining_slots);v('fee',r.fee);v('desc',r.description);v('status',r.status);v('cover',r.cover);v('guide_text',r.guide_text);v('latitude',r.latitude);v('longitude',r.longitude);v('refund_policy',r.refund_policy);tv('suitable_tags',r.suitable_tags);ck('solar_flag',r.is_solar_term);v('solar_term',r.solar_term)}else if(t.startsWith('quote')){v('text',r.text);v('source',r.source)}else if(t.startsWith('crisis')){v('name',r.name);v('phone',r.phone);v('desc',r.description);v('priority',r.priority)}else if(t.startsWith('breathing')){v('name',r.name);v('inhale',r.inhale);v('hold_in',r.hold_in);v('exhale',r.exhale);v('hold_out',r.hold_out);v('cycles',r.cycles);v('description',r.description)}else if(t.startsWith('solar')){v('name',r.name);v('date',r.date);v('description',r.description)}}
 // 标签分隔输入解析：顿号/逗号分隔纯文本 → 数组（空串→[]，规避后端 P3-1 空串口径）
 function pt(id){let s=(document.getElementById('f-'+id)?.value||'').trim();if(s==='')return[];return s.split(/[、,，]/).map(x=>x.trim()).filter(Boolean)}
@@ -238,6 +256,77 @@ async function sm(){let gv=id=>document.getElementById('f-'+id)?.value||'';let o
 function di(t,i){if(!confirm('确定删除？'))return;let m={content:'/contents/',healer:'/healers/',event:'/events/',signup:'/signups/',quote:'/quotes/',crisis:'/crisis/',breathing:'/breathing-patterns/',solar:'/solar/'};let p=m[t]||'';if(p)sd(()=>ad(p+i),()=>sw(cp))}
 function ec(i){openModal('contentEdit',i)}function eh(i){openModal('healerEdit',i)}function ee(i){openModal('eventEdit',i)}
 function eq(i){openModal('quoteEdit',i)}function ecr(i){openModal('crisisEdit',i)}function eb(i){openModal('breathingEdit',i)}function es(i){openModal('solarEdit',i)}
+// ---------------- 上传双通道（方案03批2，设计说明「5. 接线要点」） ----------------
+// ⚠️ 引号嵌套防回归（841f4ad）：状态行文案一律常量字符串 + textContent 写入，
+// 文件名等用户可控值只进 textContent，绝不进 innerHTML/模板串。
+const UP_FIELD={audio_url:{max:50*1024*1024,ext:['mp3','m4a','aac'],limitMsg:'50MB',label:'音频'},cover:{max:5*1024*1024,ext:['jpg','jpeg','png','webp'],limitMsg:'5MB',label:'封面'}};
+const UP_MSG={
+  idle:{audio_url:'支持 mp3/m4a/aac，不超过 50MB',cover:'支持 jpg/png/webp，不超过 5MB'},
+  type:{audio_url:'文件类型不允许：请选择 mp3/m4a/aac',cover:'文件类型不允许：请选择 jpg/png/webp'},
+  net:{audio_url:'上传失败：网络异常，请重试',cover:'上传失败：网络异常，请重试'},
+  auth401:{audio_url:'上传失败：登录已过期，请重新登录',cover:'上传失败：登录已过期，请重新登录'},
+  auth403:{audio_url:'上传失败：无权限，请联系管理员',cover:'上传失败：无权限，请联系管理员'},
+  copied:{audio_url:'已复制',cover:'已复制'},
+  ok:{audio_url:'已上传：',cover:'已上传：'},
+};
+const UP_OK_SUB='已回填，点「保存」生效';
+function upFmtSize(n){return n>=1024*1024?(n/1024/1024).toFixed(1)+'MB':Math.max(1,Math.round(n/1024))+'KB'}
+function upHasPending(){if(!E.up)return false;return ['audio_url','cover'].some(f=>E.up.pending[f]&&E.up.base[f]!==undefined&&(document.getElementById('f-'+f)||{}).value!==E.up.base[f])}
+function upCancelAll(){['audio_url','cover'].forEach(f=>{if(E.up&&E.up.xhr[f]){try{E.up.xhr[f].abort()}catch(e){}E.up.xhr[f]=null}})}
+// openModal/gf 渲染 content 表单后调用：记录 base 快照、清 pending/xhr、绑事件、回默认文案
+function upInit(){
+  E.up={base:{},pending:{},xhr:{}};
+  ['audio_url','cover'].forEach(f=>{
+    let inp=document.getElementById('f-'+f);if(!inp)return;
+    E.up.base[f]=inp.value;
+    let fi=document.getElementById('fu-'+f),btn=document.getElementById('bu-'+f);
+    btn.addEventListener('click',()=>fi.click());
+    fi.addEventListener('change',()=>{if(fi.files&&fi.files[0])upUpload(f,fi.files[0]);fi.value=''});
+    inp.addEventListener('input',()=>upSetState(f,'idle'));
+    upSetState(f,'idle');
+  });
+}
+// 状态行：文本走 textContent（常量串或纯文本），结构元素（缩略图/spinner/进度条）单独建 DOM
+function upSetState(f,state,extra){
+  let st=document.getElementById('us-'+f);if(!st)return;
+  st.className='upload-status';st.innerHTML='';
+  if(state==='idle'){st.textContent=UP_MSG.idle[f];return}
+  if(state==='type'){st.className+=' is-error';st.textContent=UP_MSG.type[f];return}
+  if(state==='size'){st.className+=' is-error';st.textContent='文件超过大小限制：当前 '+upFmtSize(extra)+'，最大 '+UP_FIELD[f].limitMsg;return}
+  let main=document.createElement('span');main.className='us-main';
+  if(state==='progress'){let sp=document.createElement('span');sp.className='spinner';main.appendChild(sp);main.appendChild(document.createTextNode('上传中 '+extra+'%…'));let tr=document.createElement('span');tr.className='upload-track';let fill=document.createElement('span');fill.className='upload-fill';fill.style.width=extra+'%';tr.appendChild(fill);main.appendChild(tr);st.appendChild(main);return}
+  if(state==='ok'){st.className+=' is-ok';if(f==='cover'&&extra&&extra.url){let img=document.createElement('img');img.className='cover-thumb';img.alt='封面预览';img.src=extra.url;img.onerror=function(){img.style.display='none'};main.appendChild(img)}main.appendChild(document.createTextNode(UP_MSG.ok[f]+(extra?extra.name:'')+'（'+upFmtSize(extra?extra.size:0)+'）'));st.appendChild(main);let sub=document.createElement('span');sub.className='us-sub';sub.textContent=UP_OK_SUB;st.appendChild(sub);let cb=document.createElement('button');cb.type='button';cb.className='btn-ghost';cb.textContent='复制 URL';cb.addEventListener('click',()=>upCopy(document.getElementById('f-'+f).value,cb));st.appendChild(cb);return}
+  if(state==='net'||state==='auth401'||state==='auth403'){st.className+=' is-error';st.textContent=UP_MSG[state][f];return}
+  if(state==='srv'){st.className+=' is-error';st.textContent='上传失败：'+extra;return}
+  st.textContent=UP_MSG.idle[f];
+}
+function upCopy(text,btn){let done=()=>{btn.textContent=UP_MSG.copied.audio_url;setTimeout(()=>{btn.textContent='复制 URL'},1600)};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done).catch(()=>{upCopyFallback(text);done()})}else{upCopyFallback(text);done()}}
+function upCopyFallback(text){let ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(ta)}
+function upUpload(f,file){
+  let cfg=UP_FIELD[f],btn=document.getElementById('bu-'+f),inp=document.getElementById('f-'+f);
+  // 本地预检：类型/大小不过不发请求
+  let ext=(file.name.split('.').pop()||'').toLowerCase();
+  if(!cfg.ext.includes(ext)||(file.type&&!file.type.startsWith(f==='audio_url'?'audio/':'image/'))){upSetState(f,'type');return}
+  if(file.size>cfg.max){upSetState(f,'size',file.size);return}
+  btn.disabled=true;btn.textContent='上传中…';
+  let fd=new FormData();fd.append('file',file);
+  let xhr=new XMLHttpRequest();E.up.xhr[f]=xhr;
+  xhr.open('POST',API+'/admin/upload');
+  if(tk)xhr.setRequestHeader('Authorization','Bearer '+tk); // 不用 ah()：其 Content-Type 会破坏 multipart boundary
+  xhr.timeout=30000;
+  xhr.upload.onprogress=e=>{if(e.lengthComputable)upSetState(f,'progress',Math.round(e.loaded/e.total*100))};
+  xhr.onload=()=>{
+    btn.disabled=false;btn.textContent='上传'+cfg.label;E.up.xhr[f]=null;
+    let d=null;try{d=JSON.parse(xhr.responseText)}catch(e){}
+    if(xhr.status===401){upSetState(f,'auth401');showLogin();return} // modal 不关，重登后可重传
+    if(xhr.status===403){upSetState(f,'auth403');return}
+    if(!d){upSetState(f,'net');return}
+    if(d.code===0&&d.data&&d.data.url){inp.value=d.data.url;E.up.pending[f]=true;document.getElementById('modal-footer').querySelector('.btn-primary')?.classList.add('has-pending');upSetState(f,'ok',{name:file.name,size:file.size,url:d.data.url})}
+    else upSetState(f,'srv',(d&&d.message)||'请求失败('+d.code+')');
+  };
+  xhr.onerror=xhr.ontimeout=()=>{btn.disabled=false;btn.textContent='上传'+cfg.label;E.up.xhr[f]=null;upSetState(f,'net')};
+  xhr.send(fd);
+}
 boot()
 </script>
 </body>
