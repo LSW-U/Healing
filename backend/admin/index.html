@@ -274,10 +274,11 @@ async function rsl(){let list=await safeLoad('rsl',()=>ag('/solar'));if(list===n
 let ei=null,mt='',D={},E={up:null,map:null}; // E.up：上传双通道状态；E.map：地址搜索状态（批3b）
 // HTML 静态 onchange/oninput 引用的公开别名（审查 P1-1/P2-1：render*/switchSettingsTab 均须可寻址）
 const renderContents=rc,renderEvents=re,renderSignups=rs,renderUsers=ru,switchSettingsTab=sts;
-function openModal(t,i){mt=t;ei=i;document.getElementById('modal-overlay').classList.add('show');document.getElementById('modal-title').textContent={content:'新增内容',contentEdit:'编辑内容',healer:'新增疗愈师',healerEdit:'编辑疗愈师',event:'新增活动',eventEdit:'编辑活动',quote:'新增每日一语',quoteEdit:'编辑每日一语',crisis:'新增危机热线',crisisEdit:'编辑危机热线',breathing:'新增呼吸法',breathingEdit:'编辑呼吸法',solar:'新增节气',solarEdit:'编辑节气'}[t]||'';gf(t,i);document.getElementById('modal-footer').innerHTML='<button class="btn btn-outline" onclick="closeModal()">取消</button><button class="btn btn-primary" onclick="sm()">保存</button>'}
+function openModal(t,i){mt=t;ei=i;document.getElementById('modal-overlay').classList.add('show');document.getElementById('modal-title').textContent={content:'新增内容',contentEdit:'编辑内容',healer:'新增疗愈师',healerEdit:'编辑疗愈师',event:'新增活动',eventEdit:'编辑活动',quote:'新增每日一语',quoteEdit:'编辑每日一语',crisis:'新增危机热线',crisisEdit:'编辑危机热线',breathing:'新增呼吸法',breathingEdit:'编辑呼吸法',solar:'新增节气',solarEdit:'编辑节气'}[t]||'';gf(t,i);if(t.startsWith('event')){bindEventTimeFields();updateEventStatusHint()}document.getElementById('modal-footer').innerHTML='<button class="btn btn-outline" onclick="closeModal()">取消</button><button class="btn btn-primary" onclick="sm()">保存</button>'}
 function addrChanged(){return !!(E.map&&E.map.changed&&mt&&mt.startsWith('event')&&(document.getElementById('f-location')||{}).value!==(E.map.baseLoc===undefined?'':E.map.baseLoc))}
 function closeModal(){if(upHasPending()&&!confirm('音频或封面已上传但未保存，关闭将丢失，确定关闭？'))return;if(addrChanged()&&!confirm('地址已用搜索选择但未保存，关闭将丢失，确定关闭？'))return;if(E.map)E.map.changed=false;upCancelAll();document.getElementById('modal-overlay').classList.remove('show')}
 function g(i,l){return'<div class="form-group"><label>'+l+'</label><input id="f-'+i+'"></div>'}
+function gdt(i,l){return'<div class="form-group"><label>'+l+'</label><input id="f-'+i+'" type="datetime-local"></div>'}
 function row(a,b){return'<div class="form-row">'+a+b+'</div>'}
 // 上传双通道字段（方案03批2）：文本框 + 行内上传按钮 + 状态行；保留 f-<field> id，ff()/sm() 无需改动
 function gu(field,label,accept,hint){return'<div class="form-group upload-group" data-field="'+field+'"><label>'+label+'</label><div class="upload-row"><input id="f-'+field+'" placeholder="'+hint+'"><div class="upload-actions"><input type="file" id="fu-'+field+'" accept="'+accept+'" hidden><button type="button" class="btn btn-outline" id="bu-'+field+'" data-field="'+field+'">上传'+(UP_FIELD[field]?UP_FIELD[field].btn:'文件')+'</button></div></div><div class="upload-status" id="us-'+field+'" role="status" aria-live="polite"></div></div>'}
@@ -430,6 +431,18 @@ function loadTMap(){
   return E.mapSdk;
 }
 let addrDebounce=null,addrSeq=0;
+// 服务实例模块级单例（随 SDK 生命周期缓存）：GL 1.x 服务对象重复构造可能抛错（用户实测 P1），
+// open/close 只清状态不销毁实例；SDK 失败重试时随 E.mapSdk 一并清空重建
+function addrSuggest(){
+  E.svc=E.svc||{};
+  if(!E.svc.suggestion)E.svc.suggestion=new TMap.service.Suggestion({pageSize:8,region:'全国'});
+  return E.svc.suggestion;
+}
+function addrGeocoder(){
+  E.svc=E.svc||{};
+  if(!E.svc.geocoder)E.svc.geocoder=new TMap.service.Geocoder();
+  return E.svc.geocoder;
+}
 function setResult(cls,text){
   // 结果面板统一写入口（对齐设计稿 .addr-result 三态：默认 / has-value / is-error）
   let res=document.getElementById('addr-result');if(!res)return;
@@ -466,12 +479,13 @@ document.addEventListener('click',function(e){
   let box=document.getElementById('addr-suggest');
   if(box&&!box.hidden&&!box.contains(e.target)&&e.target!==document.getElementById('addr-query'))box.hidden=true;
 });
-function closeAddrModal(){
-  // 关闭销毁：建议 DOM 清空 + 实例引用释放（§10 连续开关防内存残留）
+function closeAddrModal(keepSel){
+  // 关闭清理：DOM/输入/seq/selected 状态；服务实例为模块级单例不销毁。
+  // keepSel=true（「添加为新地点」路径）：sel 已承载本次结果，不重置，供 useAddr 之外的语义（主表单已直写，仅防 changed 判定混乱）
   clearTimeout(addrDebounce);addrSeq++;
   document.getElementById('addr-suggest').innerHTML='';
   document.getElementById('addr-suggest').hidden=true;
-  if(E.map){E.map.suggest=null;E.map.geocoder=null;E.map.sel=null}
+  if(E.map&&!keepSel)E.map.sel=null;
   document.getElementById('map-overlay').classList.remove('show');
   addrLoading(false); // 复位输入与结果面板（下次打开从干净态开始）
 }
@@ -480,8 +494,7 @@ function runSuggest(kw,seq){
   if(!kw){box.hidden=true;box.innerHTML='';setResult('',ADDR_MSG.open);return}
   setResult('',ADDR_MSG.searching);
   try{
-    E.map.suggest=E.map.suggest||new TMap.service.Suggestion({pageSize:8,region:'全国'});
-    E.map.suggest.getSuggestions(kw,{
+    addrSuggest().getSuggestions(kw,{
       onComplete:r=>{
         if(seq!==addrSeq)return; // 旧请求丢弃
         renderSuggest(r&&r.data?r.data:[],kw);
@@ -492,7 +505,10 @@ function runSuggest(kw,seq){
         renderNoResult(kw);
       }
     });
-  }catch(e){renderNoResult(kw)}
+  }catch(e){
+    // 不再静默吞成「未找到」：服务异常可见（GL 1.x 服务对象构造/调用抛错时用户可感知并上报）
+    setResult('is-error','搜索服务异常：'+(e&&e.message?e.message:'未知错误'));
+  }
 }
 function renderSuggest(list,kw){
   let box=document.getElementById('addr-suggest');
@@ -524,7 +540,7 @@ function renderNoResult(kw){
     E.map.sel={title:kw,manual:true};E.map.changed=true;
     setResult('has-value','将添加为新地点：'+kw);
     addrSetState('ok');
-    closeAddrModal();
+    closeAddrModal(true); // keepSel：sel 承载本次结果，不重置（修复 P1 时序矛盾）
   });
   wrap.appendChild(pick);
   res.appendChild(wrap);
@@ -537,8 +553,7 @@ function pickSuggest(item,div){
   setResult('has-value','已选中：'+(item.title||'')); // textContent 纪律
   // Geocoder 静默反查坐标（§8）；失败地址仍可用，坐标留空
   try{
-    E.map.geocoder=E.map.geocoder||new TMap.service.Geocoder();
-    E.map.geocoder.getLocation({address:item.title||''},{
+    addrGeocoder().getLocation({address:item.title||''},{
       onComplete:r=>{
         let p=r&&r.result&&r.result.location;
         if(p){document.getElementById('f-latitude').value=p.lat;document.getElementById('f-longitude').value=p.lng}
