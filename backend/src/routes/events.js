@@ -6,22 +6,51 @@ const { ok, parseJson } = require('../utils/response');
 
 const router = new Router();
 
+function eventTimeMs(value) {
+  if (value === null || value === undefined || value === '') return null;
+  const time = new Date(value);
+  return Number.isNaN(time.getTime()) ? null : time.getTime();
+}
+
+// 活动状态懒推进：cancelled/ended 手动锁定，其余按当前时间自动流转。
+function resolveEventStatus(row, now = new Date()) {
+  if (!row) return 'open';
+  if (row.status === 'cancelled' || row.status === 'ended') return row.status;
+  const current = now instanceof Date ? now.getTime() : new Date(now).getTime();
+  const end = eventTimeMs(row.end_time);
+  const start = eventTimeMs(row.start_time);
+  if (end !== null && current >= end) return 'ended';
+  if (start !== null && current >= start) return 'ongoing';
+  return 'open';
+}
+
+function refreshEvent(row, now = new Date()) {
+  const next = resolveEventStatus(row, now);
+  if (next !== row.status) {
+    db.prepare('UPDATE events SET status = ? WHERE id = ?').run(next, row.id);
+    row.status = next;
+  }
+  return row;
+}
+
 // 活动列表（可按月份/状态筛选：?month=2026-09&status=ended）
 router.get('/api/events', async (ctx) => {
   const { month, status } = ctx.query;
   const where = [];
   const params = [];
   if (month) { where.push("strftime('%Y-%m', start_time) = ?"); params.push(month); }
-  if (status) { where.push('status = ?'); params.push(status); }
   let sql = 'SELECT * FROM events';
   if (where.length) sql += ' WHERE ' + where.join(' AND ');
   sql += ' ORDER BY start_time';
-  ok(ctx, db.prepare(sql).all(...params).map((r) => parseJson(r, ['suitable_tags'])));
+  let rows = db.prepare(sql).all(...params);
+  rows = rows.map((r) => refreshEvent(r));
+  if (status) rows = rows.filter((r) => r.status === status);
+  ok(ctx, rows.map((r) => parseJson(r, ['suitable_tags'])));
 });
 
 // 活动详情
 router.get('/api/events/:id', async (ctx) => {
-  const e = db.prepare('SELECT * FROM events WHERE id = ?').get(ctx.params.id);
+  const e = refreshEvent(db.prepare('SELECT * FROM events WHERE id = ?').get(ctx.params.id));
   if (!e) ctx.throw(404, '活动不存在');
   ok(ctx, parseJson(e, ['suitable_tags']));
 });
@@ -32,7 +61,7 @@ router.get('/api/events/:id', async (ctx) => {
 //   前端 wx.requestPayment 调起支付，支付结果在 /api/pay/notify 回调里更新 signups.status。
 //   详见《搭建步骤.md》"微信支付接入"一节。
 router.post('/api/events/:id/signup', auth, async (ctx) => {
-  const event = db.prepare('SELECT * FROM events WHERE id = ?').get(ctx.params.id);
+  const event = refreshEvent(db.prepare('SELECT * FROM events WHERE id = ?').get(ctx.params.id));
   if (!event) ctx.throw(404, '活动不存在');
   if (event.status !== 'open') ctx.throw(400, '活动已截止报名');
   if (event.remaining_slots <= 0) ctx.throw(400, '名额已满，潮将满');
@@ -157,3 +186,4 @@ router.get('/api/signups/all', auth, requireAdmin, async (ctx) => {
 });
 
 module.exports = router;
+module.exports.resolveEventStatus = resolveEventStatus;
