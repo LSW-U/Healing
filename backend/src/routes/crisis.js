@@ -43,4 +43,34 @@ router.delete('/:id', auth, requireAdmin, async (ctx) => {
   ok(ctx, { deleted: true });
 });
 
+// ---- 高危词表（仅 admin，词表不暴露 C 端防绕过探测；04-D3）----
+
+router.get('/keywords', auth, requireAdmin, async (ctx) => {
+  ok(ctx, db.prepare('SELECT * FROM crisis_keywords ORDER BY id').all());
+});
+
+router.post('/keywords', auth, requireAdmin, async (ctx) => {
+  const { word } = ctx.request.body || {};
+  if (!word || !String(word).trim()) ctx.throw(400, '关键词不能为空');
+  const r = db.prepare('INSERT INTO crisis_keywords (word) VALUES (?)').run(String(word).trim());
+  ok(ctx, db.prepare('SELECT * FROM crisis_keywords WHERE id = ?').get(r.lastInsertRowid));
+});
+
+router.put('/keywords/:id', auth, requireAdmin, async (ctx) => {
+  const k = db.prepare('SELECT * FROM crisis_keywords WHERE id = ?').get(ctx.params.id);
+  if (!k) ctx.throw(404, '关键词不存在');
+  const b = ctx.request.body || {};
+  const word = b.word !== undefined ? String(b.word).trim() : k.word;
+  if (!word) ctx.throw(400, '关键词不能为空');
+  db.prepare('UPDATE crisis_keywords SET word = ? WHERE id = ?').run(word, k.id);
+  ok(ctx, db.prepare('SELECT * FROM crisis_keywords WHERE id = ?').get(k.id));
+});
+
+router.delete('/keywords/:id', auth, requireAdmin, async (ctx) => {
+  const k = db.prepare('SELECT * FROM crisis_keywords WHERE id = ?').get(ctx.params.id);
+  if (!k) ctx.throw(404, '关键词不存在');
+  db.prepare('DELETE FROM crisis_keywords WHERE id = ?').run(k.id);
+  ok(ctx, { deleted: true });
+});
+
 module.exports = router;

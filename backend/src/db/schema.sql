@@ -219,6 +219,13 @@ CREATE TABLE IF NOT EXISTS crisis_resources (
   priority    INTEGER DEFAULT 0
 );
 
+-- 危机高危词（UGC 扫描用，词表不暴露 C 端，仅 admin 维护；04-D3）
+CREATE TABLE IF NOT EXISTS crisis_keywords (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  word       TEXT NOT NULL,
+  created_at TEXT DEFAULT (datetime('now'))
+);
+
 -- 每日一语
 CREATE TABLE IF NOT EXISTS quotes (
   id     INTEGER PRIMARY KEY AUTOINCREMENT,

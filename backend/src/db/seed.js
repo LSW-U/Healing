@@ -17,6 +17,17 @@ const seed = db.transaction(() => {
     console.log('· 已写入危机援助资源');
   }
 
+  // ---------------- 危机高危词（词表初稿） ----------------
+  // 按《危机干预与情绪急救箱.docx》红/黄信号派生（04-D3），详见方案 v2 附录 A；宁滥勿缺，误报不拦截（04-D7）
+  if (count('crisis_keywords') === 0) {
+    const insert = db.prepare('INSERT INTO crisis_keywords (word) VALUES (?)');
+    [
+      '自杀', '自伤', '自残', '结束生命', '不想活', '想死', '轻生', '伤害自己',
+      '伤人', '撑不下去', '没有希望', '解离', '幻觉', '割腕', '安眠药'
+    ].forEach((w) => insert.run(w));
+    console.log('· 已写入危机高危词 15 条');
+  }
+
   // ---------------- 呼吸法配置 ----------------
   if (count('breathing_patterns') === 0) {
     const insert = db.prepare(
