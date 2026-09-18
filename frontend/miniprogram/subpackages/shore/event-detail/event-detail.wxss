@@ -6,6 +6,8 @@
 .ed-guide{font-size:24rpx;color:var(--smoke);margin-top:12rpx;letter-spacing:2rpx;font-family:"Songti SC",serif}
 .ed-info{margin-top:32rpx;display:flex;flex-direction:column;gap:20rpx}
 .ei-item{display:flex;justify-content:space-between;padding:20rpx 0;border-bottom:2rpx solid var(--mist);font-size:26rpx;color:var(--ink)}
+.ei-loc{display:flex;flex-direction:column;align-items:flex-end;gap:8rpx}
+.ei-maplink{font-size:24rpx;color:var(--tidal)}
 .ei-label{font-family:"Songti SC",serif;color:var(--smoke);letter-spacing:2rpx;font-size:24rpx}
 .ed-desc{font-size:26rpx;color:var(--ink);line-height:1.85;margin-top:36rpx;letter-spacing:1rpx}
 .ed-desc view{margin-bottom:20rpx}

@@ -5,7 +5,7 @@
     <view class="ed-guide">{{event.guide}}</view>
     <view class="ed-info">
       <view class="ei-item"><text class="ei-label">时 间</text><text>{{event.time}}</text></view>
-      <view class="ei-item"><text class="ei-label">地 点</text><text>{{event.location}}</text></view>
+      <view class="ei-item"><text class="ei-label">地 点</text><view class="ei-loc"><text>{{event.location}}</text><text wx:if="{{hasLocation}}" class="ei-maplink" bindtap="onOpenLocation">查看位置 ›</text></view></view>
       <view class="ei-item"><text class="ei-label">名 额</text><text>余 {{event.remaining}} / {{event.total}}</text></view>
       <view class="ei-item"><text class="ei-label">费 用</text><text>{{event.fee}}</text></view>
     </view>
