@@ -26,6 +26,7 @@ const api = {
   checkinTide: '/api/checkins/tide',
   feelings: '/api/feelings',
   journals: '/api/journals',
+  journalItem: (id) => `/api/journals/${id}`,
 
   // 用户
   userStats: '/api/users/stats',
@@ -51,6 +52,7 @@ const api = {
 
   // 其他（misc 路由）
   crisis: '/api/crisis',
+  crisisKeywords: '/api/crisis/keywords',  // 仅 admin，词表不暴露 C 端
   dailyGreeting: '/api/daily-greeting',
   breathingPatterns: '/api/breathing-patterns',
   search: '/api/search'

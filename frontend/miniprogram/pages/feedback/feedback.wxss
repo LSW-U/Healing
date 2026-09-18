@@ -24,3 +24,4 @@
   font-size:26rpx;letter-spacing:4rpx}
 .fb-done{flex:1.5;background:var(--tidal);color:#fff;border:none;padding:26rpx;border-radius:48rpx;
   font-size:26rpx;letter-spacing:4rpx}
+.fb-feel{margin-top:20rpx;text-align:center;font-size:24rpx;color:var(--tide,#4A6B7A);letter-spacing:2rpx}

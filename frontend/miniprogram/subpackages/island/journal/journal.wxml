@@ -3,6 +3,7 @@
   <view class="jr-month-bar">
     <text class="jr-arr" bindtap="onPrev">‹</text>
     <view class="jr-m">{{month}}<text class="jr-term">{{solarTerms}}</text></view>
+    <text class="jr-arr" bindtap="onNext">›</text>
     <view class="jr-toggle" bindtap="onToggle">{{viewMode === 'cal' ? '列 表' : '日 历'}}</view>
   </view>
   <view class="jr-week"><text wx:for="{{weeks}}" wx:key="*this">{{item}}</text></view>
@@ -12,8 +13,8 @@
       <view class="jr-dot" wx:if="{{item.has}}"></view>
     </view>
   </view>
-  <scroll-view class="jr-list" wx:else scroll-y enhanced show-scrollbar="{{false}}">
-    <view class="jr-item" wx:for="{{entries}}" wx:key="id">
+  <scroll-view class="jr-list" wx:else scroll-y enhanced show-scrollbar="{{false}}" scroll-into-view="{{scrollInto}}">
+    <view class="jr-item" wx:for="{{entries}}" wx:key="id" id="jr-{{item.id}}" data-id="{{item.id}}" bindlongpress="onDelete">
       <view class="jri-top"><view class="jri-date">{{item.date}}</view><text class="jri-moon" wx:if="{{item.moon}}">{{item.moon}}</text></view>
       <view class="jri-mood">{{item.mood}}</view>
       <view class="jri-txt">{{item.text}}</view>

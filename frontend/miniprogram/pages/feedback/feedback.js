@@ -7,7 +7,9 @@ Page({
     duration: '8 分钟',
     moodIndex: 2,
     moods: ['起 伏', '沉 静', '微 光', '澄 澈', '温 暖'],
-    note: ''
+    note: '',
+    done: false,
+    doneCid: ''
   },
 
   onLoad (options) {
@@ -31,6 +33,11 @@ Page({
     wx.navigateBack()
   },
 
+  // 记下此刻感受 → 感受编辑器（cid 透传）
+  onFeel () {
+    wx.navigateTo({ url: '/subpackages/phase3/feeling-editor/feeling-editor?cid=' + (this.data.doneCid || '') })
+  },
+
   onDone () {
     const { moodIndex, moods, note } = this.data
     const cid = parseInt(this._cid) || 1
@@ -38,8 +45,9 @@ Page({
       method: 'POST',
       data: { content_id: cid, mood: moods[moodIndex], note }
     }).then(() => {
+      // 成功后展示「记下此刻感受」入口（不自动跳走，用户可自行选择）
+      this.setData({ done: true, doneCid: cid })
       wx.showToast({ title: '已记下', icon: 'none' })
-      setTimeout(() => { wx.switchTab({ url: '/pages/discover/discover' }) }, 800)
     }).catch((err) => {
       // 失败停留 + 提示，不再假装成功跳走
       wx.showToast({ title: (err && err.message) || '提交失败，请重试', icon: 'none' })

@@ -38,6 +38,7 @@
   </view>
 
   <view class="fb-related">关联练习：<text class="fb-rel-name">{{exerciseName}}</text></view>
+  <view class="fb-feel" wx:if="{{done}}" bindtap="onFeel">记下此刻感受 ›</view>
 
   <view class="fb-actions">
     <button class="fb-again" bindtap="onAgain">再 练 一 次</button>

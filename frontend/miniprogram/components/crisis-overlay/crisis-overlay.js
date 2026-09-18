@@ -1,11 +1,12 @@
-// 危机援助浮层（全局组件）：打开时拉取 GET /api/crisis 渲染热线列表
+// 危机援助浮层（全局组件）：优先用外部注入的 crisis 列表（高危词告警场景，避免二次请求），无注入时拉取 GET /api/crisis
 // 顶部固定 120/110 紧急入口，底部固定合规声明（04-D1/D3/D15）
 const { request } = require('../../utils/request')
 const { api } = require('../../utils/api')
 
 Component({
   properties: {
-    show: { type: Boolean, value: false }
+    show: { type: Boolean, value: false },
+    crisis: { type: Array, value: null }  // 可选：外部注入的热线列表
   },
   data: {
     loading: false,
@@ -14,7 +15,12 @@ Component({
   },
   observers: {
     show (v) {
-      if (v) this.fetchList()
+      if (!v) return
+      if (this.data.crisis && this.data.crisis.length) {
+        this.setData({ loading: false, error: '', list: this.data.crisis })
+      } else {
+        this.fetchList()
+      }
     }
   },
   methods: {

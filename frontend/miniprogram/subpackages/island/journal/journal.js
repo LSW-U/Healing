@@ -1,46 +1,107 @@
+// 疗愈日记（接真 GET /api/journals?month=YYYY-MM；长按删除）
+const { request } = require('../../utils/request')
+const { api } = require('../../utils/api')
+
+const monthNames = ['一 月', '二 月', '三 月', '四 月', '五 月', '六 月', '七 月', '八 月', '九 月', '十 月', '十一月', '十二月']
+
 Page({
   data: {
     viewMode: 'list',
-    month: '八 月',
-    solarTerms: '立 秋 · 处 暑',
+    month: '',
+    solarTerms: '',
     weeks: ['日', '一', '二', '三', '四', '五', '六'],
     cells: [],
-    entries: [
-      { id: 1, date: '8.7 周四', mood: '微 光', text: '今晨的呼吸很慢，海好像也停了一下…', rel: '海的呼吸 · 颂钵引导', moon: '满月' },
-      { id: 2, date: '8.5 周二', mood: '沉 静', text: '雨声里写了几行字，今天不用说话', rel: '雨声·檐下的午后' },
-      { id: 3, date: '8.3 周日', mood: '温 暖', text: '第一次尝试呼吸练习，眼眶有点湿', rel: '冥想初级·呼吸锚定' }
-    ]
+    entries: []
   },
 
-  onLoad () { this.buildCal() },
+  onLoad () {
+    const now = new Date()
+    this._y = now.getFullYear()
+    this._m = now.getMonth() + 1
+    this.loadMonth()
+  },
+
+  // 拉当月记录并渲染日历 + 列表
+  loadMonth () {
+    const ym = `${this._y}-${String(this._m).padStart(2, '0')}`
+    this.setData({ month: `${this._y} 年 ${monthNames[this._m - 1]}`, loading: true })
+    request(api.journals + '?month=' + ym, { method: 'GET' }).then((list) => {
+      const entries = (list || []).map((e) => ({
+        id: e.id,
+        date: e.date,          // YYYY-MM-DD，展示与标记都用它
+        mood: e.mood || '',
+        text: e.text || ''
+        // weather/rel/moon：接口暂无数据源，不显示
+      }))
+      this.setData({ entries, loading: false })
+      this.buildCal()
+    }).catch((err) => {
+      this.setData({ loading: false })
+      wx.showToast({ title: (err && err.message) || '加载失败', icon: 'none' })
+    })
+  },
 
   buildCal () {
-    // 用当前真实月份生成日历（不再写死 d=31/f=5/today=7）
-    const now = new Date()
-    const y = now.getFullYear()
-    const m = now.getMonth() + 1
+    const y = this._y
+    const m = this._m
     const days = new Date(y, m, 0).getDate()
     const first = new Date(y, m - 1, 1).getDay()
-    const today = now.getDate()
-    // 有日记的日期：当前写死 8 月（待接 /api/journals 按月拉取）
-    const hasDays = (m === 8) ? [3, 5, 7] : []
-    const monthNames = ['一 月', '二 月', '三 月', '四 月', '五 月', '六 月', '七 月', '八 月', '九 月', '十 月', '十一月', '十二月']
+    const today = new Date()
+    const isThisMonth = today.getFullYear() === y && today.getMonth() + 1 === m
+    const todayDate = today.getDate()
+    // hasDays 由当月真实记录派生（替换写死）
+    const hasDays = this.data.entries.map((e) => parseInt(String(e.date).slice(8, 10), 10))
     const cells = []
     for (let i = 0; i < first; i++) cells.push({ empty: true })
-    for (let i = 1; i <= days; i++) cells.push({ day: i, has: hasDays.includes(i), today: i === today, empty: false })
-    this.setData({ cells, month: monthNames[m - 1] })
+    for (let i = 1; i <= days; i++) {
+      cells.push({ day: i, has: hasDays.includes(i), today: isThisMonth && i === todayDate, empty: false })
+    }
+    this.setData({ cells })
   },
 
   onToggle () { this.setData({ viewMode: this.data.viewMode === 'cal' ? 'list' : 'cal' }) },
 
-  // 危机援助浮层（04-D9 常驻入口）
-  onCrisis () { this.setData({ crisisShow: true }) },
-  onCrisisClose () { this.setData({ crisisShow: false }) },
+  onPrev () {
+    this._m--
+    if (this._m === 0) { this._m = 12; this._y-- }
+    this.loadMonth()
+  },
+  onNext () {
+    this._m++
+    if (this._m === 13) { this._m = 1; this._y++ }
+    this.loadMonth()
+  },
 
-  onPrev () { wx.showToast({ title: '上月（待接日记 API）', icon: 'none' }) },
   onDay (e) {
     const c = this.data.cells[e.currentTarget.dataset.idx]
-    if (!c.empty && c.has) wx.showToast({ title: c.day + '日已记', icon: 'none' })
+    if (c.empty || !c.has) return
+    // 简单实现：切到列表视图并 scroll-into-view 到该日记录
+    const day = String(c.day).padStart(2, '0')
+    const entry = this.data.entries.find((en) => String(en.date).slice(8, 10) === day)
+    if (!entry) return
+    this.setData({ viewMode: 'list', scrollInto: 'jr-' + entry.id })
   },
-  onAdd () { wx.showToast({ title: '写日记（三期实现）', icon: 'none' }) }
+
+  // 长按删除：二次确认后 DELETE 再刷新当月
+  onDelete (e) {
+    const id = e.currentTarget.dataset.id
+    wx.showModal({
+      title: '删除这篇日记？',
+      content: '删除后不可恢复',
+      confirmText: '删除',
+      confirmColor: '#B0533A',
+      success: (res) => {
+        if (!res.confirm) return
+        request(api.journalItem(id), { method: 'DELETE' })
+          .then(() => { wx.showToast({ title: '已删除', icon: 'none' }); this.loadMonth() })
+          .catch((err) => wx.showToast({ title: (err && err.message) || '删除失败', icon: 'none' }))
+      }
+    })
+  },
+
+  onAdd () { wx.navigateTo({ url: '/subpackages/phase3/feeling-editor/feeling-editor?mode=journal' }) },
+
+  // 危机援助浮层（04-D9 常驻入口）
+  onCrisis () { this.setData({ crisisShow: true }) },
+  onCrisisClose () { this.setData({ crisisShow: false }) }
 })
