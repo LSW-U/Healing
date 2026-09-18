@@ -113,7 +113,6 @@ td .actions{display:flex;gap:4px}
 .map-suggest .sg-item .sg-title{font-weight:500;display:block}
 .map-suggest .sg-item .sg-addr{font-size:12px;color:var(--text-light);display:block;margin-top:2px}
 .suggest-empty{padding:10px 12px;font-size:13px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;color:var(--text)}
-.addr-spinner{width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--sidebar-active);border-radius:50%;animation:spin .8s linear infinite}
 .addr-result{margin-top:12px;min-height:120px;border:1px dashed var(--border);border-radius:8px;background:#FAF8F4;color:var(--text-light);font-size:13px;display:flex;align-items:center;justify-content:center;padding:16px;text-align:center}
 .addr-result.has-value{color:var(--text);background:#FFFDF8;border-color:var(--accent)}
 .addr-result.is-error{color:var(--danger);border-color:var(--danger)}
@@ -425,29 +424,7 @@ function addrInit(){
   });
 }
 // SDK 懒加载（§8）：Promise 缓存不重复注入；失败可重试（清缓存）
-function loadTMap(){
-  E.mapSdk=E.mapSdk||new Promise((res,rej)=>{
-    let sc=document.createElement('script');
-    sc.src='https://map.qq.com/api/gljs?v=1.exp&key='+encodeURIComponent(E.mapKey);
-    sc.onload=()=>res();
-    sc.onerror=()=>{sc.remove();E.mapSdk=null;rej(new Error('SDK_LOAD_FAIL'))};
-    document.head.appendChild(sc);
-  });
-  return E.mapSdk;
-}
 let addrDebounce=null,addrSeq=0;
-// 服务实例模块级单例（随 SDK 生命周期缓存）：GL 1.x 服务对象重复构造可能抛错（用户实测 P1），
-// open/close 只清状态不销毁实例；SDK 失败重试时随 E.mapSdk 一并清空重建
-function addrSuggest(){
-  E.svc=E.svc||{};
-  if(!E.svc.suggestion)E.svc.suggestion=new TMap.service.Suggestion({pageSize:8,region:'全国'});
-  return E.svc.suggestion;
-}
-function addrGeocoder(){
-  E.svc=E.svc||{};
-  if(!E.svc.geocoder)E.svc.geocoder=new TMap.service.Geocoder();
-  return E.svc.geocoder;
-}
 function setResult(cls,text){
   // 结果面板统一写入口（对齐设计稿 .addr-result 三态：默认 / has-value / is-error）
   let res=document.getElementById('addr-result');if(!res)return;
@@ -455,9 +432,8 @@ function setResult(cls,text){
   res.textContent=text;
 }
 function addrLoading(on){
-  // 地址服务加载中/失败分支（设计稿 open-loading / open-fail）：禁用输入 + 面板态
+  // 面板态（批3b-fix2 弃用 JS SDK 后无 SDK loading 态）：open 即可用，仅 fail 需禁用输入兜底
   let q=document.getElementById('addr-query');if(!q)return;
-  if(on==='loading'){q.disabled=true;let res=document.getElementById('addr-result');res.className='addr-result';res.innerHTML='';let sp=document.createElement('span');sp.className='addr-spinner';res.appendChild(sp);let tx=document.createElement('span');tx.textContent='搜索服务加载中…';tx.style.marginLeft='8px';res.appendChild(tx);return}
   if(on==='fail'){q.disabled=true;setResult('is-error','地址服务加载失败，请检查网络或 MAP_KEY 配置，可直接手输地址');return}
   q.disabled=false;setResult('','搜索联想结果将显示在这里');
 }
@@ -476,8 +452,7 @@ function openAddrModal(){
     // Enter 选第一条联想（设计稿交互）
     if(e.key==='Enter'){let first=document.querySelector('.map-suggest .sg-item');if(first)first.click();e.preventDefault()}
   };
-  addrLoading('loading');
-  loadTMap().then(()=>{addrLoading(false)}).catch(()=>{addrLoading('fail')});
+  addrLoading(false); // WebService 代理即时可用，无 SDK 加载态
 }
 document.addEventListener('click',function(e){
   // 点击弹窗外部区域收起联想下拉（设计稿交互）
@@ -494,24 +469,18 @@ function closeAddrModal(keepSel){
   document.getElementById('map-overlay').classList.remove('show');
   addrLoading(false); // 复位输入与结果面板（下次打开从干净态开始）
 }
-function runSuggest(kw,seq){
+// WebService 代理搜索（批3b-fix2）：后端 /api/map/suggest 统一 {code,data}，is-error 可见化
+async function runSuggest(kw,seq){
   let box=document.getElementById('addr-suggest'),res=document.getElementById('addr-result');
   if(!kw){box.hidden=true;box.innerHTML='';setResult('',ADDR_MSG.open);return}
   setResult('',ADDR_MSG.searching);
   try{
-    addrSuggest().getSuggestions(kw,{
-      onComplete:r=>{
-        if(seq!==addrSeq)return; // 旧请求丢弃
-        renderSuggest(r&&r.data?r.data:[],kw);
-      },
-      onError:()=>{
-        if(seq!==addrSeq)return;
-        box.hidden=true;box.innerHTML='';
-        renderNoResult(kw);
-      }
-    });
+    let list=await ag('/map/suggest?kw='+encodeURIComponent(kw));
+    if(seq!==addrSeq)return; // 旧请求丢弃
+    renderSuggest(list||[],kw);
   }catch(e){
-    // 不再静默吞成「未找到」：服务异常可见（GL 1.x 服务对象构造/调用抛错时用户可感知并上报）
+    if(seq!==addrSeq)return;
+    box.hidden=true;box.innerHTML='';
     setResult('is-error','搜索服务异常：'+(e&&e.message?e.message:'未知错误'));
   }
 }
@@ -556,16 +525,18 @@ function pickSuggest(item,div){
   document.getElementById('addr-query').value=item.title||'';
   E.map.sel={title:item.title||'',loc:item.location||null};
   setResult('has-value','已选中：'+(item.title||'')); // textContent 纪律
-  // Geocoder 静默反查坐标（§8）；失败地址仍可用，坐标留空
-  try{
-    addrGeocoder().getLocation({address:item.title||''},{
-      onComplete:r=>{
-        let p=r&&r.result&&r.result.location;
-        if(p){document.getElementById('f-latitude').value=p.lat;document.getElementById('f-longitude').value=p.lng}
-      },
-      onError:()=>{}
-    });
-  }catch(e){}
+  // 坐标反查（批3b-fix2 走后端代理）：suggest 已带 location 直接写；无坐标再调 /map/geocode，失败地址仍可用
+  if(item.location&&item.location.lat!=null&&item.location.lng!=null){
+    document.getElementById('f-latitude').value=item.location.lat;
+    document.getElementById('f-longitude').value=item.location.lng;
+    return;
+  }
+  (async()=>{
+    try{
+      let d=await ag('/map/geocode?addr='+encodeURIComponent(item.title||''));
+      if(d&&d.lat!=null){document.getElementById('f-latitude').value=d.lat;document.getElementById('f-longitude').value=d.lng}
+    }catch(e){/* 静默：地址仍可用，坐标留空 */}
+  })();
 }
 // 「使用该地址」：统一回填（§11 useAddr）——选中建议时 Geocoder 已写 hidden，手动添加清空坐标
 function useAddr(){
