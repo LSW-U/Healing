@@ -1,4 +1,5 @@
 <view class="jr-page">
+  <view class="jr-help" bindtap="onCrisis">需要帮助？点击查看危机援助资源 ›</view>
   <view class="jr-month-bar">
     <text class="jr-arr" bindtap="onPrev">‹</text>
     <view class="jr-m">{{month}}<text class="jr-term">{{solarTerms}}</text></view>
@@ -21,3 +22,4 @@
   </scroll-view>
   <button class="jr-add" bindtap="onAdd">+</button>
 </view>
+<crisis-overlay show="{{crisisShow}}" bind:close="onCrisisClose"/>

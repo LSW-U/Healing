@@ -21,9 +21,10 @@
         <view class="hs-price">{{item.price}}</view>
       </view>
     </view>
-    <view class="hd-notice">本服务为陪伴与放松用途，不替代专业医疗或心理治疗。如有严重情绪困扰，请联系专业机构或拨打心理援助热线 010-82951332。</view>
+    <view class="hd-notice">本服务为陪伴与放松用途，不替代专业医疗或心理治疗。如有严重情绪困扰，可<text class="hd-notice-link" bindtap="onCrisis">点击查看危机援助资源</text>。</view>
   </view>
 </scroll-view>
 <view class="hd-actions">
   <button class="hd-btn" bindtap="onBook">预 约 咨 询</button>
 </view>
+<crisis-overlay show="{{crisisShow}}" bind:close="onCrisisClose"/>

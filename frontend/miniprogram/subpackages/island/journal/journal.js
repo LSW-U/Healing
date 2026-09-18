@@ -32,6 +32,11 @@ Page({
   },
 
   onToggle () { this.setData({ viewMode: this.data.viewMode === 'cal' ? 'list' : 'cal' }) },
+
+  // 危机援助浮层（04-D9 常驻入口）
+  onCrisis () { this.setData({ crisisShow: true }) },
+  onCrisisClose () { this.setData({ crisisShow: false }) },
+
   onPrev () { wx.showToast({ title: '上月（待接日记 API）', icon: 'none' }) },
   onDay (e) {
     const c = this.data.cells[e.currentTarget.dataset.idx]

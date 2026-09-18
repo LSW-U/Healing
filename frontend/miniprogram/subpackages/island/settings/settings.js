@@ -62,14 +62,8 @@ Page({
     })
   },
 
-  onCrisis () {
-    wx.showModal({
-      title: '心理援助热线',
-      content: '北京心理危机研究与干预中心\n010-82951332\n\n全国心理援助热线\n12356',
-      showCancel: false,
-      confirmText: '我知道了'
-    })
-  },
+  onCrisis () { this.setData({ crisisShow: true }) },
+  onCrisisClose () { this.setData({ crisisShow: false }) },
 
   onAbout () { wx.navigateTo({ url: '/subpackages/island/about/about' }) }
 })

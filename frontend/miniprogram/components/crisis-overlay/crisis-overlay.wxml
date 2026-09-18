@@ -1,0 +1,32 @@
+<view class="co-mask" wx:if="{{show}}" bindtap="onMask"></view>
+<view class="co-panel {{show ? 'co-show' : ''}}">
+  <view class="co-head">
+    <view class="co-title">危机援助资源</view>
+    <view class="co-close" bindtap="close">✕</view>
+  </view>
+  <scroll-view class="co-body" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="co-tip">如处紧急情况，请立即拨打：</view>
+    <view class="co-item co-emergency" bindtap="onCall" data-phone="120">
+      <view class="co-left"><view class="co-name">120</view><view class="co-desc">紧急医疗</view></view>
+      <view class="co-call">拨打</view>
+    </view>
+    <view class="co-item co-emergency" bindtap="onCall" data-phone="110">
+      <view class="co-left"><view class="co-name">110</view><view class="co-desc">紧急警务</view></view>
+      <view class="co-call">拨打</view>
+    </view>
+    <view class="co-tip">心理援助热线：</view>
+    <view class="co-loading" wx:if="{{loading}}">加载中…</view>
+    <view class="co-loading" wx:elif="{{error}}">{{error}} <text class="co-retry" bindtap="fetchList">重试</text></view>
+    <block wx:else>
+      <view class="co-item" wx:for="{{list}}" wx:key="id" bindtap="onCall" data-phone="{{item.phone}}">
+        <view class="co-left">
+          <view class="co-name">{{item.name}}</view>
+          <view class="co-desc" wx:if="{{item.description}}">{{item.description}}</view>
+          <view class="co-phone">{{item.phone}}</view>
+        </view>
+        <view class="co-call">拨打</view>
+      </view>
+    </block>
+  </scroll-view>
+  <view class="co-notice">本产品提供身心放松内容，非医疗诊断、非心理治疗。如处生命安全风险请立即拨打 120 或 110。</view>
+</view>

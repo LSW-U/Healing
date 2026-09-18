@@ -10,5 +10,8 @@ Page({
     ]
     this.setData({ healer: all.find(h => h.id === id) || all[0] })
   },
-  onBook () { wx.showToast({ title: '预约咨询（二期实现）', icon: 'none' }) }
+  onBook () { wx.showToast({ title: '预约咨询（二期实现）', icon: 'none' }) },
+  // 危机援助浮层（号码来自 GET /api/crisis，不再写死）
+  onCrisis () { this.setData({ crisisShow: true }) },
+  onCrisisClose () { this.setData({ crisisShow: false }) }
 })

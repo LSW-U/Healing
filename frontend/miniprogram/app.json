@@ -2,7 +2,8 @@
   "usingComponents": {
     "player-bar": "components/player-bar/player-bar",
     "content-card": "components/content-card/content-card",
-    "bottom-sheet": "components/bottom-sheet/bottom-sheet"
+    "bottom-sheet": "components/bottom-sheet/bottom-sheet",
+    "crisis-overlay": "components/crisis-overlay/crisis-overlay"
   },
   "pages": [
     "pages/greet/greet",

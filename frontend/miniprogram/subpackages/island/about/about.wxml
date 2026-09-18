@@ -13,5 +13,6 @@
     <view class="ab-lab">联 系</view>
     <view class="ab-txt" bindtap="onCopy">公众号：共时海</view>
   </view>
-  <view class="ab-notice">本产品提供身心放松与艺术表达内容，不替代专业医疗诊断与心理治疗。如有需要，请拨打心理援助热线 010-82951332。</view>
+  <view class="ab-notice">本产品提供身心放松与艺术表达内容，不替代专业医疗诊断与心理治疗。如有需要，可<text class="ab-notice-link" bindtap="onCrisis">点击查看危机援助资源</text>。</view>
 </view>
+<crisis-overlay show="{{crisisShow}}" bind:close="onCrisisClose"/>
