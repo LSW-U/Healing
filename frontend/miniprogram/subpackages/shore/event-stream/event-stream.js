@@ -1,5 +1,6 @@
 const { request } = require('../../../utils/request')
 const { api } = require('../../../utils/api')
+const { formatEventDate } = require('../../../utils/util')
 
 Page({
   data: {
@@ -24,14 +25,15 @@ Page({
   loadFromApi () {
     request(api.events, { auth: false }).then((list) => {
       if (list && list.length) {
+        // 字段映射对齐后端（方案 05 批3）：total_slots/remaining_slots/category 派生；date 走 formatEventDate
         this._all = list.map(e => ({
           id: e.id,
-          tag: e.category || e.type || '',
+          tag: e.category || '',
           title: e.title || '',
-          date: e.start_time || '',
+          date: formatEventDate(e.start_time),
           location: e.location || '',
-          total: e.capacity || 0,
-          remaining: e.remaining || 0,
+          total: e.total_slots || 0,
+          remaining: e.remaining_slots || 0,
           bg: 'linear-gradient(135deg,#5B7B8A,#3F5E5A)'
         }))
         this.applyFilter()
@@ -39,11 +41,11 @@ Page({
     }).catch(() => {})
   },
 
-  // 按 catIdx 过滤后重新分左右两列
+  // 按 catIdx 过滤后重新分左右两列（tab 用派生 category 包含匹配，决策 2）
   applyFilter () {
     const { catIdx, cats } = this.data
     const cat = cats[catIdx].replace(/ /g, '')
-    const filtered = catIdx === 0 ? this._all : this._all.filter(e => (e.tag || '').replace(/ /g, '').indexOf(cat) > -1)
+    const filtered = catIdx === 0 ? this._all : this._all.filter(e => (e.tag || '').indexOf(cat) > -1)
     this.setData({
       leftCol: filtered.filter((_, i) => i % 2 === 0),
       rightCol: filtered.filter((_, i) => i % 2 === 1)
