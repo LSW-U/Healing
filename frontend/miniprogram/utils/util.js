@@ -77,4 +77,15 @@ function formatDate (str) {
   return str.slice(0, 10)
 }
 
-module.exports = { getSolarTerm, getGreetingTime, getGreetingByTime, formatTideLevel, getMoonPhase, formatDuration, formatTime, formatDate }
+// 活动时间格式化（'2026-09-23T15:00:00' → '9.23 周三 15:00'；方案 05 批 2）
+function formatEventDate (str) {
+  if (!str) return ''
+  const d = new Date(str.replace(' ', 'T'))
+  if (Number.isNaN(d.getTime())) return String(str)
+  const week = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
+  const hh = String(d.getHours()).padStart(2, '0')
+  const mi = String(d.getMinutes()).padStart(2, '0')
+  return `${d.getMonth() + 1}.${d.getDate()} ${week[d.getDay()]} ${hh}:${mi}`
+}
+
+module.exports = { getSolarTerm, getGreetingTime, getGreetingByTime, formatTideLevel, getMoonPhase, formatDuration, formatTime, formatDate, formatEventDate }

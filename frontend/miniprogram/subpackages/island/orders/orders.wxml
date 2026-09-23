@@ -3,6 +3,10 @@
     <view class="od-top"><text class="od-title">{{item.title}}</text><text class="od-status {{item.status}}">{{item.statusText}}</text></view>
     <view class="od-meta">{{item.date}} · {{item.location}}</view>
     <view class="od-price">{{item.price}}</view>
+    <view class="od-cancel" wx:if="{{item.canCancel}}" bindtap="onCancel" data-id="{{item.id}}">取消报名</view>
   </view>
-  <view class="od-empty" wx:if="{{orders.length===0}}">暂无报名记录</view>
+  <view class="od-empty" wx:if="{{!loading && orders.length===0}}">
+    <view>暂无报名，去逛逛活动</view>
+    <view class="od-empty-link" bindtap="onGoStream">去看看 ›</view>
+  </view>
 </view>

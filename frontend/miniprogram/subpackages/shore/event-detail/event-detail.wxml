@@ -14,5 +14,36 @@
   </view>
 </scroll-view>
 <view class="ed-actions">
-  <button class="ed-btn" bindtap="onSignup">立 即 报 名</button>
+  <button class="ed-btn {{btn.disabled ? 'ed-btn-disabled' : ''}}" bindtap="onSignup">{{btn.text}}</button>
+</view>
+
+<!-- 报名半屏弹层（方案 05 批 2） -->
+<view class="ed-mask" wx:if="{{showSignup}}" bindtap="onCloseSignup">
+  <view class="ed-sheet" catchtap="noop">
+    <view class="es-bar"></view>
+    <view class="es-title">报 名 信 息</view>
+    <view class="es-field">
+      <text class="es-label">姓 名</text>
+      <input class="es-input" placeholder="请填写姓名" value="{{form.name}}" bindinput="onNameInput" />
+    </view>
+    <view class="es-field">
+      <text class="es-label">手 机 号</text>
+      <input class="es-input" type="number" maxlength="11" placeholder="请填写手机号" value="{{form.phone}}" bindinput="onPhoneInput" />
+    </view>
+    <view class="es-agree" bindtap="onToggleAgree">
+      <view class="es-check {{agree ? 'es-check-on' : ''}}"></view>
+      <text>我已知晓并同意</text><text class="es-policy" catchtap="onShowPolicy">活动安排（含取消规则）</text>
+    </view>
+    <button class="es-submit" bindtap="onSubmitSignup">{{submitting ? '提 交 中 …' : '确 认 报 名'}}</button>
+  </view>
+</view>
+
+<!-- 取消规则半屏弹层 -->
+<view class="ed-mask" wx:if="{{showPolicy}}" bindtap="onClosePolicy">
+  <view class="ed-sheet" catchtap="noop">
+    <view class="es-bar"></view>
+    <view class="es-title">活 动 安 排 · 取 消 规 则</view>
+    <view class="es-policy-body">{{event.refund || '报名后如需取消，请联系主办方。'}}</view>
+    <button class="es-submit" bindtap="onClosePolicy">我 知 道 了</button>
+  </view>
 </view>

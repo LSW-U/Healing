@@ -14,3 +14,18 @@
 .ed-notice{margin-top:36rpx;padding:24rpx 28rpx;background:rgba(201,181,154,.12);border-radius:16rpx;font-size:22rpx;color:var(--wood);line-height:1.7}
 .ed-actions{position:fixed;bottom:0;left:0;right:0;background:rgba(245,243,239,.96);backdrop-filter:blur(20rpx);-webkit-backdrop-filter:blur(20rpx);border-top:2rpx solid var(--mist);padding:24rpx 44rpx;padding-bottom:calc(24rpx + env(safe-area-inset-bottom))}
 .ed-btn{width:100%;background:var(--tidal);color:#fff;border:none;padding:28rpx;border-radius:48rpx;font-size:28rpx;letter-spacing:4rpx}
+.ed-btn-disabled{background:var(--mist);color:var(--smoke)}
+/* 报名半屏弹层（批2） */
+.ed-mask{position:fixed;inset:0;background:rgba(24,34,32,.45);z-index:99;display:flex;align-items:flex-end}
+.ed-sheet{width:100%;background:var(--moonwhite);border-radius:36rpx 36rpx 0 0;padding:20rpx 44rpx;padding-bottom:calc(36rpx + env(safe-area-inset-bottom))}
+.es-bar{width:72rpx;height:6rpx;border-radius:6rpx;background:var(--mist);margin:0 auto 28rpx}
+.es-title{font-family:"Songti SC",serif;font-size:30rpx;color:var(--ink);letter-spacing:3rpx;text-align:center;margin-bottom:32rpx}
+.es-field{display:flex;align-items:center;gap:20rpx;padding:24rpx 0;border-bottom:2rpx solid var(--mist)}
+.es-label{font-family:"Songti SC",serif;font-size:24rpx;color:var(--smoke);letter-spacing:2rpx;flex-shrink:0}
+.es-input{flex:1;font-size:28rpx;color:var(--ink)}
+.es-agree{display:flex;align-items:center;gap:12rpx;margin:28rpx 0 32rpx;font-size:22rpx;color:var(--smoke)}
+.es-check{width:30rpx;height:30rpx;border-radius:50%;border:2rpx solid var(--smoke);flex-shrink:0}
+.es-check-on{background:var(--tidal);border-color:var(--tidal)}
+.es-policy{color:var(--tidal)}
+.es-policy-body{font-size:24rpx;color:var(--ink);line-height:1.8;margin-bottom:32rpx}
+.es-submit{width:100%;background:var(--tidal);color:#fff;border:none;padding:26rpx;border-radius:48rpx;font-size:28rpx;letter-spacing:4rpx}
