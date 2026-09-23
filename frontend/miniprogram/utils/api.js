@@ -19,6 +19,7 @@ const api = {
   events: '/api/events',
   eventDetail: (id) => `/api/events/${id}`,
   signup: (id) => `/api/events/${id}/signup`,
+  signupCancel: (id) => `/api/signups/${id}/cancel`,
   signups: '/api/signups',
 
   // 打卡 / 感受 / 日记

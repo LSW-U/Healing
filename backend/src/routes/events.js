@@ -6,6 +6,25 @@ const { ok, parseJson } = require('../utils/response');
 
 const router = new Router();
 
+// 分类派生（05-D-A）：title 关键词映射，键值与 event-stream cats tab 文案对齐；未命中回落「活动」
+const CATEGORY_RULES = [
+  ['茶会', '节气茶会'],
+  ['冥想', '月相共修/冥想'],
+  ['共修', '月相共修/冥想'],
+  ['颂钵', '颂钵沙龙'],
+  ['音疗', '颂钵沙龙'],
+  ['徒步', '正念徒步'],
+  ['行走', '正念徒步'],
+  ['绘画', '艺术疗愈'],
+  ['艺术', '艺术疗愈'],
+];
+function deriveCategory(title) {
+  for (const [key, cat] of CATEGORY_RULES) {
+    if (title && title.includes(key)) return cat;
+  }
+  return '活动';
+}
+
 function eventTimeMs(value) {
   if (value === null || value === undefined || value === '') return null;
   const time = new Date(value);
@@ -45,14 +64,14 @@ router.get('/api/events', async (ctx) => {
   let rows = db.prepare(sql).all(...params);
   rows = rows.map((r) => refreshEvent(r));
   if (status) rows = rows.filter((r) => r.status === status);
-  ok(ctx, rows.map((r) => parseJson(r, ['suitable_tags'])));
+  ok(ctx, rows.map((r) => ({ ...parseJson(r, ['suitable_tags']), category: deriveCategory(r.title) })));
 });
 
 // 活动详情
 router.get('/api/events/:id', async (ctx) => {
   const e = refreshEvent(db.prepare('SELECT * FROM events WHERE id = ?').get(ctx.params.id));
   if (!e) ctx.throw(404, '活动不存在');
-  ok(ctx, parseJson(e, ['suitable_tags']));
+  ok(ctx, { ...parseJson(e, ['suitable_tags']), category: deriveCategory(e.title) });
 });
 
 // 活动报名 + 支付
@@ -64,31 +83,91 @@ router.post('/api/events/:id/signup', auth, async (ctx) => {
   const event = refreshEvent(db.prepare('SELECT * FROM events WHERE id = ?').get(ctx.params.id));
   if (!event) ctx.throw(404, '活动不存在');
   if (event.status !== 'open') ctx.throw(400, '活动已截止报名');
-  if (event.remaining_slots <= 0) ctx.throw(400, '名额已满，潮将满');
+  // 一期不接微信支付：付费活动直接拦截（闸门，方案 14 二期放开）
+  if (event.fee > 0) ctx.throw(400, '该活动不支持线上支付');
   const { name, phone } = ctx.request.body || {};
   if (!name || !phone) ctx.throw(400, '请填写姓名和手机号');
 
+  const uid = ctx.state.user.uid;
   const amount = event.fee;
-  const info = db
-    .prepare(
-      `INSERT INTO signups (user_id, event_id, name, phone, amount, status, wx_order_id, paid_at)
-       VALUES (?,?,?,?,?,?,?,?)`
-    )
-    .run(
-      ctx.state.user.uid,
-      event.id,
-      name,
-      phone,
-      amount,
-      'paid',
-      'MOCK_' + Date.now(),
-      amount > 0 ? new Date().toISOString() : null
-    );
-  db.prepare('UPDATE events SET remaining_slots = remaining_slots - 1 WHERE id = ?').run(event.id);
+  const now = new Date().toISOString();
+  const existing = db
+    .prepare('SELECT * FROM signups WHERE user_id = ? AND event_id = ?')
+    .get(uid, event.id);
+  if (existing) {
+    if (existing.status === 'paid') ctx.throw(400, '你已报名');
+    // 复活边界（批3 G2）：满员事件取消后他人可占位，原用户复活会超卖 → 先查名额
+    const slot = db
+      .prepare('SELECT remaining_slots FROM events WHERE id = ?')
+      .get(event.id);
+    if (!slot || slot.remaining_slots <= 0) ctx.throw(400, '名额已满，潮将满');
+    // cancelled → 事务内复活复用（id 不变），WHERE status='cancelled' 防并发双击
+    const revive = db
+      .prepare(
+        `UPDATE signups SET status='paid', paid_at=?, wx_order_id=null, amount=?, name=?, phone=?
+         WHERE id=? AND status='cancelled'`
+      )
+      .run(now, amount, name, phone, existing.id);
+    if (revive.changes === 0) ctx.throw(400, '报名处理中，请勿重复提交');
+    // 复活同样占一个名额：事务内原子条件扣减（与取消的 +1 对称，防并发超卖）
+    let revived = false;
+    const txn = db.transaction(() => {
+      const dec = db
+        .prepare('UPDATE events SET remaining_slots = remaining_slots - 1 WHERE id = ? AND remaining_slots > 0')
+        .run(event.id);
+      if (dec.changes === 0) ctx.throw(400, '名额已满，潮将满');
+      revived = true;
+    });
+    txn();
+    db.prepare("INSERT INTO messages (user_id, type, title, content) VALUES (?, 'signup', '报名成功', ?)")
+      .run(uid, `你已成功报名「${event.title}」，记得来`);
+    return ok(ctx, { signupId: existing.id, status: 'paid', amount });
+  }
+
+  // 事务内：原子条件扣减 → INSERT（防超卖）
+  let signupId;
+  const txn = db.transaction(() => {
+    const dec = db
+      .prepare('UPDATE events SET remaining_slots = remaining_slots - 1 WHERE id = ? AND remaining_slots > 0')
+      .run(event.id);
+    if (dec.changes === 0) {
+      ctx.throw(400, '名额已满，潮将满');
+    }
+    const info = db
+      .prepare(
+        `INSERT INTO signups (user_id, event_id, name, phone, amount, status, wx_order_id, paid_at)
+         VALUES (?,?,?,?,?,?,?,?)`
+      )
+      .run(uid, event.id, name, phone, amount, 'paid', null, amount > 0 ? now : null);
+    signupId = info.lastInsertRowid;
+  });
+  txn();
   // 报名成功消息
   db.prepare("INSERT INTO messages (user_id, type, title, content) VALUES (?, 'signup', '报名成功', ?)")
-    .run(ctx.state.user.uid, `你已成功报名「${event.title}」，记得来`);
-  ok(ctx, { signupId: info.lastInsertRowid, status: 'paid', amount });
+    .run(uid, `你已成功报名「${event.title}」，记得来`);
+  ok(ctx, { signupId, status: 'paid', amount });
+});
+
+// 取消报名（本人）：仅 paid 可取消，返还名额
+router.post('/api/signups/:id/cancel', auth, async (ctx) => {
+  const s = db.prepare('SELECT * FROM signups WHERE id = ?').get(ctx.params.id);
+  if (!s || s.user_id !== ctx.state.user.uid) ctx.throw(404, '报名记录不存在');
+  if (s.status !== 'paid') ctx.throw(400, '该报名无法取消');
+  const event = db.prepare('SELECT * FROM events WHERE id = ?').get(s.event_id);
+  if (!event) ctx.throw(404, '报名记录不存在');
+  const start = eventTimeMs(event.start_time);
+  if (start !== null && Date.now() >= start) ctx.throw(400, '活动已开始，无法取消');
+
+  const txn = db.transaction(() => {
+    const upd = db
+      .prepare("UPDATE signups SET status='cancelled' WHERE id = ? AND status='paid'")
+      .run(s.id);
+    if (upd.changes === 0) ctx.throw(400, '该报名无法取消');
+    db.prepare('UPDATE events SET remaining_slots = remaining_slots + 1 WHERE id = ? AND remaining_slots < total_slots')
+      .run(event.id);
+  });
+  txn();
+  ok(ctx, db.prepare('SELECT * FROM signups WHERE id = ?').get(s.id));
 });
 
 // 我的报名 / 订单

@@ -105,6 +105,9 @@ CREATE TABLE IF NOT EXISTS signups (
   paid_at    TEXT,
   created_at TEXT DEFAULT (datetime('now'))
 );
+-- 部分唯一索引：同一用户同一活动仅一条有效报名（cancelled 除外，可复活复用）
+CREATE UNIQUE INDEX IF NOT EXISTS idx_signups_user_event
+  ON signups(user_id, event_id) WHERE status != 'cancelled';
 
 -- 潮汐打卡（打卡行为在「练习完成反馈页」触发）
 CREATE TABLE IF NOT EXISTS checkins (
