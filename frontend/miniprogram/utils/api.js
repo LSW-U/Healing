@@ -8,6 +8,7 @@ const api = {
   contents: '/api/contents',
   recommendToday: '/api/contents/recommend/today',
   contentDetail: (id) => `/api/contents/${id}`,
+  contentPlay: (id) => `/api/contents/${id}/play`,  // 播放上报（同用户同内容同日计一次）
   columns: '/api/columns',
   columnDetail: (id) => `/api/columns/${id}`,
 
@@ -25,6 +26,7 @@ const api = {
   // 打卡 / 感受 / 日记
   checkins: '/api/checkins',
   checkinTide: '/api/checkins/tide',
+  practiceLogs: '/api/practice-logs',  // 练习上报（流水+打卡两条写）
   feelings: '/api/feelings',
   journals: '/api/journals',
   journalItem: (id) => `/api/journals/${id}`,
@@ -44,12 +46,14 @@ const api = {
 
   // 收藏 / 消息 / 提醒
   favorites: '/api/favorites',
+  favoriteCheck: '/api/favorites',          // 存在性查询：?target_type=&target_id= → { favorited }
   favoriteDelete: (id) => `/api/favorites/${id}`,
+  favoriteDeleteByTarget: '/api/favorites', // 按 target 删：?target_type=&target_id=
   messages: '/api/messages',
   messagesUnread: '/api/messages/unread-count',
   messageRead: (id) => `/api/messages/${id}/read`,
+  messagesReadAll: '/api/messages/read-all',
   reminders: '/api/reminders',
-  reminderItem: (id) => `/api/reminders/${id}`,
 
   // 其他（misc 路由）
   crisis: '/api/crisis',

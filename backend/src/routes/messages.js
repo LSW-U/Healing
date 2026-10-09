@@ -22,4 +22,10 @@ router.put('/:id/read', auth, async (ctx) => {
   ok(ctx, { read: true });
 });
 
+// 一键全部已读
+router.put('/read-all', auth, async (ctx) => {
+  const { changes } = db.prepare('UPDATE messages SET read = 1 WHERE user_id = ? AND read = 0').run(ctx.state.user.uid);
+  ok(ctx, { updated: changes });
+});
+
 module.exports = router;
